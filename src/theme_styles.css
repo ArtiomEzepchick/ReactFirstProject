@@ -1,0 +1,38 @@
+.dark {
+    background-color: #1d1d1d;
+}
+
+.dark,
+.nav-panel.dark .links-container .action,
+.site-layout.dark * {
+    color: #ffffff;
+}
+
+.site-layout.dark input,
+.site-layout.dark textarea,
+.site-layout.dark select,
+.site-layout.dark .counter-actions,
+.layout-header.dark .toggle-btn,
+.site-layout.dark .reset-button {
+    background-color: #1d1d1d;
+    border: 1px solid #ffffff;
+}
+
+.site-layout.dark .counter-actions *{
+    background-color: #1d1d1d;
+}
+
+.nav-panel.dark .links-container .action {
+    background: #141414;
+}
+
+.site-layout.dark,
+.site-layout.dark * {
+    background-color: #090909;
+}
+
+.site-layout.dark input,
+.site-layout.dark textarea,
+.site-layout.dark select {
+    border: 1px solid #ffffff;
+}
