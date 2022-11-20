@@ -53,6 +53,10 @@ h2 {
   background: #ffffff;
 }
 
+.ant-layout-content {
+  position: relative;
+}
+
 .action {
   display: flex;
   justify-content: center;
