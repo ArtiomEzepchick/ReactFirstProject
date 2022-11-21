@@ -7,13 +7,45 @@
   box-sizing: border-box;
 }
 
-
 #root {
   display: flex;
   flex: auto;
   flex-direction: column;
   background: #f0f2f5;
   min-height: 100vh;
+}
+
+.modal-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  width: 40rem;
+  height: 20rem;
+  border-radius: 2rem;
+  background-color: #56a7dd;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 1rem;
+}
+
+.modal-container div:first-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.modal-container .modal-actions {
+  margin-left: auto;
+  width: 8rem;
+  height: 3rem;
+}
+
+.modal-container .modal-actions button {
+  display: block;
 }
 
 .site-layout.vertical,

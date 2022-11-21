@@ -1,8 +1,8 @@
 import React from "react"
+import classNames from "classnames"
 import { Link } from "../Link/Link"
 import links from "../../pages/helpers/links/links"
-import classNames from "classnames"
-import "./NavPanel.css"
+import "./styles.css"
 
 const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrientation }) => {
     return (

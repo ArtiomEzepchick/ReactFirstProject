@@ -1,10 +1,10 @@
-import { Layout } from 'antd'
 import React, { useContext } from "react";
+import classNames from "classnames";
+import { Layout } from 'antd'
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { OrientationContext } from '../../contexts/OrientationContext';
 import { REDUCER_TYPES } from "../../reducers/reducers";
 import NavPanel from "../NavPanel/NavPanel";
-import classNames from "classnames"
 
 const { Content, Footer } = Layout
 

@@ -1,14 +1,18 @@
 import React, { useState, useEffect, useCallback } from 'react'
+import * as ReactDOM from 'react-dom';
 import { data, updatedData } from "../../data/data"
 import UpdateBtn from "../UpdateBtn/UpdateBtn"
 import UserList from "../UserList/UserList"
 import Loader from "../Loader/Loader"
+import { AlertModal } from "../AlertModal/AlertModal"
 
 const Users = () => {
     const [users, setUsers] = useState([])
+    const [isModalVisible, setIsModalVisible] = useState(false)
     const [isUpdated, setIsUpdated] = useState(false)
     const [lastUpdateTime, setLastUpdateTime] = useState(new Date().toLocaleTimeString())
     const [loading, setLoading] = useState(false)
+    const modalNode = document.querySelector('#modal')
 
     const imitateFetchingUsers = data => {
         return new Promise(res => {
@@ -53,8 +57,9 @@ const Users = () => {
                 <React.Fragment>
                     <h1>This is the <span className='color-green'>Users</span> page</h1>
                     <UserList users={users}>
-                        <UpdateBtn onBtnClick={handleClick} />
+                        <UpdateBtn onBtnClick={() => setIsModalVisible(true)} />
                         <h2>Last updated: {lastUpdateTime}</h2>
+                        {isModalVisible && ReactDOM.createPortal(<AlertModal handleCloseModal={() => setIsModalVisible(false)} text='Vadim Hui'/>, modalNode)}
                     </UserList>
                 </React.Fragment>
             )}
