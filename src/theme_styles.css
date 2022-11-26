@@ -8,6 +8,10 @@
     color: #ffffff;
 }
 
+.nav-panel.vertical.dark {
+    background-color: #1d1d1d;
+}
+
 .site-layout.dark input,
 .site-layout.dark textarea,
 .site-layout.dark select,

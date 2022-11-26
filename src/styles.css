@@ -203,6 +203,12 @@ h2 {
   color: #3498db;
 }
 
+.clock {
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+}
+
 @keyframes rotate {
   0% {
     transform: rotate(0deg);

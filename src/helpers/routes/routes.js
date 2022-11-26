@@ -1,7 +1,9 @@
 import paths from "../paths/paths";
-import HomePage from "../../Home/HomePage";
-import ProductsPage from "../../Products/ProductsPage";
-import UsersPage from "../../Users/UsersPage";
+import HomePage from "../../pages/Home/HomePage";
+import ProductsPage from "../../pages/Products/ProductsPage";
+import UsersPage from "../../pages/Users/UsersPage";
+import AboutPage from "../../pages/About/AboutPage";
+
 
 const routes = [
     {
@@ -15,6 +17,10 @@ const routes = [
     {
         path: paths.users,
         component: <UsersPage />
+    },
+    {
+        path: paths.about,
+        component: <AboutPage />
     }
 ]
 

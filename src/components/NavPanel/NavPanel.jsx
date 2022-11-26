@@ -1,7 +1,7 @@
 import React from "react"
 import classNames from "classnames"
 import { Link } from "../Link/Link"
-import links from "../../pages/helpers/links/links"
+import links from "../../helpers/links/links"
 import "./styles.css"
 
 const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrientation }) => {

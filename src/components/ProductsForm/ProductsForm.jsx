@@ -1,6 +1,6 @@
 import React from "react"
 
-function Form(props) {
+function ProductsForm(props) {
     return(
         <form className={props.className}>
             {props.children}
@@ -8,4 +8,4 @@ function Form(props) {
     )
 }
 
-export default Form
+export default ProductsForm

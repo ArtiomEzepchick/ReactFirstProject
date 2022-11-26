@@ -12,6 +12,10 @@ const links = [
     {
         label: "Users", 
         href: paths.users
+    },
+    {
+        label: "About",
+        href: paths.about
     }
 ]
 

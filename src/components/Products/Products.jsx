@@ -1,6 +1,6 @@
 import React, { useReducer, useEffect, useRef, useMemo } from 'react'
-import { formReducer, initialValues } from '../../components/Form/formReducer'
-import Form from '../Form/Form'
+import { formReducer, initialValues } from '../../components/ProductsForm/formReducer'
+import ProductsForm from '../ProductsForm/ProductsForm'
 import Input from '../Input/Input'
 import Button from '../Button/Button'
 import TextArea from '../TextArea/TextArea'
@@ -9,12 +9,8 @@ import ResultsData from '../ResultsData/ResultsData'
 
 const Products = () => {
     const [state, dispatch] = useReducer(formReducer, initialValues)
-    const userRef = useRef(null)
     const countRef = useRef(0)
-
-    const getRefCount = (ref) => ref.current
-
-    const memoCount = useMemo(() => getRefCount(countRef), [state.count])
+    const memoCount = useMemo(() => countRef.current, [state.count])
 
     useEffect(() => {
         countRef.current = state.count
@@ -24,7 +20,7 @@ const Products = () => {
         <div className='products-layout'>
             <h1>This is the <span className='color-red'>Products</span> page</h1>
             <div className='products-container'>
-                <Form className='products-form'>
+                <ProductsForm className='products-form'>
                     <Input
                         id='name'
                         type='text'
@@ -91,9 +87,9 @@ const Products = () => {
                             handleClick={() => dispatch({ type: 'decrement' })}
                         />
                     </div>
-                </Form>
+                </ProductsForm>
 
-                <ResultsData values={state} userRef={userRef.current} countRef={memoCount}/>
+                <ResultsData values={state} memoCount={memoCount}/>
 
                 <Button
                     className='reset-button'

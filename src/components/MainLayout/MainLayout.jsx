@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { Layout } from 'antd'
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { OrientationContext } from '../../contexts/OrientationContext';
-import { REDUCER_TYPES } from "../../reducers/reducers";
+import { REDUCER_TYPES } from "../../reducers/contextReducer/contextReducers";
 import NavPanel from "../NavPanel/NavPanel";
 
 const { Content, Footer } = Layout

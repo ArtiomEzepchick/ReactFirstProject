@@ -1,8 +1,7 @@
 import React from "react"
 
-function Input(props) {
-    const { value, id, labelText, type } = props
-    const handleChange = e => props.handleChange(e)
+const Input = ({ value, id, labelText, type, handleChange }) => {
+    const handleInputChange = e => handleChange(e)
 
     return (
         <div className="input-container">
@@ -11,7 +10,7 @@ function Input(props) {
                 value={value}
                 id={id}
                 type={type}
-                onChange={handleChange} 
+                onChange={handleInputChange} 
             />
         </div>
     )

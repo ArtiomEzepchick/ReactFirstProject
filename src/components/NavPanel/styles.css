@@ -1,7 +1,3 @@
-.nav-panel {
-    background-color: #f0f2f5;
-}
-
 .layout-header {
     height: 5rem;
     width: 100%;
@@ -15,6 +11,10 @@
     justify-content: space-between;
     padding-right: 1rem;
     transition: none;
+}
+
+.nav-panel.vertical {
+    background-color: #f0f2f5;
 }
 
 .links-container,

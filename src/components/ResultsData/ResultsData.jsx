@@ -1,6 +1,6 @@
 import React from "react"
 
-function ResultsData({ countRef, values }) {
+function ResultsData({ memoCount, values }) {
     const data = Object.entries(values)
 
     return (
@@ -11,7 +11,7 @@ function ResultsData({ countRef, values }) {
                     {item[1]}
                 </p>
             ))}
-            <p>Previous count is {countRef}</p>
+            <p>Previous count is {memoCount}</p>
         </div>
     )
 }

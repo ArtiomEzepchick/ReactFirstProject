@@ -1,0 +1,6 @@
+const FORM_INITIAL_VALUES = {
+    NAME_VALUE: '',
+    SURNAME_VALUE: ''
+}
+
+export default FORM_INITIAL_VALUES
