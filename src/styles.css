@@ -13,6 +13,29 @@
   flex-direction: column;
   background: #f0f2f5;
   min-height: 100vh;
+  transition: all 0.5s ease-in-out;
+}
+
+#root.disabled * {
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.3;
+}
+
+#modal {
+  position: fixed;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  transition: all 0.5s ease-in-out;
+  opacity: 0;
+}
+
+#modal.show {
+  opacity: 1;
 }
 
 .modal-container {
@@ -24,28 +47,40 @@
   width: 40rem;
   height: 20rem;
   border-radius: 2rem;
-  background-color: #56a7dd;
+  background-color: #9edaff;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
   padding: 1rem;
+  z-index: 1;
+  opacity: 1;
+  transition: all 0.5s ease-in-out;
+  box-shadow: 24px 19px 8px 0px rgba(34, 60, 80, 0.2);
+}
+
+.modal-container.hidden {
+  display: none;
+  opacity: 0;
 }
 
 .modal-container div:first-child {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   flex: 1;
 }
 
 .modal-container .modal-actions {
-  margin-left: auto;
-  width: 8rem;
-  height: 3rem;
+  width: 20rem;
+  height: 2rem;
+  display: flex;
+  justify-content: space-evenly;
 }
 
 .modal-container .modal-actions button {
   display: block;
+  width: 8rem;
 }
 
 .site-layout.vertical,
