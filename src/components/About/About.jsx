@@ -1,19 +1,20 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import * as ReactDOM from 'react-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { nameChange, surnameChange, clearForm, asyncSubmit } from './formSlice'
 import AlertModal from '../AlertModal/AlertModal'
+import MODAL_TYPES from '../AlertModal/modalTypes'
 
 const AboutForm = () => {
   const formSelector = useSelector((state) => state.form)
   const [isOpen, setIsOpen] = useState(false)
   const dispatch = useDispatch()
 
-  // const searchInput = useRef(null)
+  const searchInput = useRef(null)
 
-  // const handleFocus = () => {
-  //   searchInput.current.focus()
-  // }
+  const handleFocus = () => {
+    searchInput.current.focus()
+  }
 
   const showCurrentFieldValue = (field, fieldName) => {
     return field ? `${fieldName} to submit is ${field}` : `Your ${fieldName} field is empty, nothing to submit`
@@ -34,7 +35,12 @@ const AboutForm = () => {
     return emptyFields
   }
 
-  const emptyFields = Object.keys(checkAreEmptyFields(formSelector))
+  const emptyFieldsKeys = Object.keys(checkAreEmptyFields(formSelector))
+
+  const handleReturn = () => {
+    setIsOpen(!isOpen)
+    handleFocus()
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -55,7 +61,7 @@ const AboutForm = () => {
         <label>
           Name:
           <input
-
+            ref={searchInput}
             value={formSelector.name}
             onChange={e => dispatch(nameChange(e.target.value))}
           />
@@ -63,6 +69,7 @@ const AboutForm = () => {
         <label>
           Surname:
           <input
+            ref={searchInput}
             value={formSelector.surname}
             onChange={e => dispatch(surnameChange(e.target.value))}
           />
@@ -73,25 +80,33 @@ const AboutForm = () => {
           <p>{showCurrentFieldValue(formSelector.surname, 'Surname')}</p>
         </div>
       </form>
-      {emptyFields.length === 2 ?
+      {emptyFieldsKeys.length === 2 ?
         ReactDOM.createPortal(
           <AlertModal
-            headerText='You have both empty fields'
+            modalType={MODAL_TYPES.ALERT}
+            headerText={`You have both ${emptyFieldsKeys.map((item, index) => index === 1 ? ' ' + item : item)} empty fields`}
             contentText='Please check you inputs'
             isOpen={isOpen}
             handleCloseModal={handleCloseModal}
-          />, document.getElementById('modal')) :
-        emptyFields.length === 1 ?
+            handleReturn={handleReturn}
+          />, document.getElementById('modal'))
+        :
+        emptyFieldsKeys.length === 1 ?
           ReactDOM.createPortal(
             <AlertModal
-              headerText={`You have one empty field`}
-              contentText='Please check your inputs'
+              modalType={MODAL_TYPES.ALERT}
+              headerText={`Your ${emptyFieldsKeys[0]} field is empty`}
+              contentText='Please check your input'
               isOpen={isOpen}
               handleCloseModal={handleCloseModal}
-            />, document.getElementById('modal')) :
+              handleReturn={handleReturn}
+            />, document.getElementById('modal'))
+          :
           ReactDOM.createPortal(
             <AlertModal
-              headerText='Success'
+              modalType={MODAL_TYPES.SUCCESS}
+              clearForm={() => dispatch(clearForm())}
+              headerText='Great!'
               contentText='You have submitted your data'
               isOpen={isOpen}
               handleCloseModal={handleCloseModal}
