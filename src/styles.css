@@ -219,9 +219,20 @@ h2 {
   padding: 0.5rem;
 }
 
+.form-input {
+  display: flex;
+  margin-bottom: 1rem;
+  border: 1px solid black;
+  margin: 0 0 16px;
+  width: 160px;
+  height: 26px;
+  border-radius: 2px;
+  padding: 0.1rem;
+}
+
 .submit-button {
   width: 7rem;
-  height: 4rem;
+  height: 2rem;
   background-color: rgba(0, 255, 255, 0.318);
   border: 1px solid black;
   border-radius: 10px;

@@ -7,8 +7,8 @@ import MODAL_TYPES from '../AlertModal/modalTypes'
 
 const AboutForm = () => {
   const formSelector = useSelector((state) => state.form)
-  const [isOpen, setIsOpen] = useState(false)
   const dispatch = useDispatch()
+  const [isOpen, setIsOpen] = useState(false)
   const nameRef = useRef(null)
   const surnameRef = useRef(null)
 
@@ -33,12 +33,23 @@ const AboutForm = () => {
 
   const emptyFieldsKeys = Object.keys(checkAreEmptyFields(formSelector))
 
-  const handleReturn = () => {
-    setIsOpen(!isOpen)
-    handleFocus()
+  const focusInputWhenReturn = () => {
+    const highlighFocusedInput = input => {
+      input.current.focus()
+      input.current.style.backgroundColor = '#ff3b3b98'
+
+      setTimeout(() => {
+        input.current.style.backgroundColor = '#ffffff'
+      }, 1000)
+    }
+
+    emptyFieldsKeys[0] === 'name' ? highlighFocusedInput(nameRef) : highlighFocusedInput(surnameRef)
   }
 
-  const handleFocus = () => emptyFieldsKeys[0] === 'name' ? nameRef.current.focus() : surnameRef.current.focus()
+  const handleReturn = () => {
+    setIsOpen(!isOpen)
+    focusInputWhenReturn()
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -59,6 +70,7 @@ const AboutForm = () => {
         <label>
           Name:
           <input
+            className='form-input'
             ref={nameRef}
             value={formSelector.name}
             onChange={e => dispatch(nameChange(e.target.value))}
@@ -67,17 +79,19 @@ const AboutForm = () => {
         <label>
           Surname:
           <input
+            className='form-input'
             ref={surnameRef}
             value={formSelector.surname}
             onChange={e => dispatch(surnameChange(e.target.value))}
           />
         </label>
-        <button id='submit-btn' type='submit' onClick={handleSubmit}>Submit</button>
+        <button type='submit' onClick={handleSubmit} style={{ padding: '0.2rem 2rem' }}>Submit</button>
         <div style={{ marginTop: '2rem' }}>
           <p>{showCurrentFieldValue(formSelector.name, 'Name')}</p>
           <p>{showCurrentFieldValue(formSelector.surname, 'Surname')}</p>
         </div>
       </form>
+
       {emptyFieldsKeys.length === 2 ?
         ReactDOM.createPortal(
           <AlertModal
