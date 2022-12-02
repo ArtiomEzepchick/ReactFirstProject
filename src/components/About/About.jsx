@@ -9,12 +9,8 @@ const AboutForm = () => {
   const formSelector = useSelector((state) => state.form)
   const [isOpen, setIsOpen] = useState(false)
   const dispatch = useDispatch()
-
-  const searchInput = useRef(null)
-
-  const handleFocus = () => {
-    searchInput.current.focus()
-  }
+  const nameRef = useRef(null)
+  const surnameRef = useRef(null)
 
   const showCurrentFieldValue = (field, fieldName) => {
     return field ? `${fieldName} to submit is ${field}` : `Your ${fieldName} field is empty, nothing to submit`
@@ -42,6 +38,8 @@ const AboutForm = () => {
     handleFocus()
   }
 
+  const handleFocus = () => emptyFieldsKeys[0] === 'name' ? nameRef.current.focus() : surnameRef.current.focus()
+
   const handleSubmit = (e) => {
     e.preventDefault()
 
@@ -61,7 +59,7 @@ const AboutForm = () => {
         <label>
           Name:
           <input
-            ref={searchInput}
+            ref={nameRef}
             value={formSelector.name}
             onChange={e => dispatch(nameChange(e.target.value))}
           />
@@ -69,7 +67,7 @@ const AboutForm = () => {
         <label>
           Surname:
           <input
-            ref={searchInput}
+            ref={surnameRef}
             value={formSelector.surname}
             onChange={e => dispatch(surnameChange(e.target.value))}
           />
