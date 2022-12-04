@@ -1,22 +1,20 @@
 import React, { useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom"
 import classNames from "classnames"
 import MODAL_TYPES from "./modalTypes";
 
 const AlertModal = ({
     headerText,
     contentText,
-    handleCloseModal,
     isOpen,
-    handleReturn,
     modalType,
-    clearForm
+    handleReturn,
+    handleCloseModal,
+    handleCloseSuccessModal
 }) => {
     const root = document.getElementById('root')
     const modal = document.getElementById('modal')
     const body = document.querySelector('body')
     const modalRef = useRef(null);
-    const navigate = useNavigate()
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -28,15 +26,7 @@ const AlertModal = ({
         document.addEventListener('click', handleClickOutside);
 
         return () => document.removeEventListener('click', handleClickOutside)
-    }, [modalRef, handleCloseModal, modalType, clearForm])
-
-    const handleCloseSuccessModal = () => {
-        root.classList.remove('disabled')
-        modal.classList.remove('show')
-        clearForm()
-
-        return navigate('/users')
-    }
+    }, [modalRef, handleCloseModal])
 
     if (isOpen) {
         body.classList.add('disabled')
@@ -56,7 +46,7 @@ const AlertModal = ({
             </div>
             <div className={"modal-actions"}>
                 <button onClick={modalType === MODAL_TYPES.SUCCESS ? handleCloseSuccessModal : handleCloseModal}>Ok</button>
-                {handleReturn && <button onClick={handleReturn}>Return to edit</button>}
+                {modalType !== MODAL_TYPES.SUCCESS && <button onClick={handleReturn}>Return to edit</button>}
             </div>
         </div>
     )
