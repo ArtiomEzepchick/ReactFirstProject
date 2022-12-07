@@ -46,7 +46,8 @@ export const options = [{
     label: 'Mercedes'
 }]
 
-export const generateResultData = (values, prevCount) => {
+export const generateResultData = (values, additionalData) => {
+    const { width, height, prevCount } = additionalData
     const entries = Object.entries(values)
     const data = entries.map(item => ({
           label: item[0],
@@ -54,5 +55,10 @@ export const generateResultData = (values, prevCount) => {
         })
     )
 
-    return [...data, { label: 'Previous counter is', value: prevCount }]
+    return [
+        ...data, 
+        { label: 'Previous count is', value: prevCount }, 
+        { label: 'Current screen width', value: width }, 
+        { label: 'Current screen height', value: height }
+    ]
 }

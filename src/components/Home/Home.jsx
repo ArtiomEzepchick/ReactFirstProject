@@ -5,6 +5,7 @@ import Button from '../Button/Button'
 import TextArea from '../TextArea/TextArea'
 import Select from '../Select/Select'
 import ResultsData from '../ResultsData/ResultsData'
+import { useWindowSize } from '../../hooks/useWindowSize'
 import { standardFormReducer, initialValues } from '../StandardForm/standardFormReducer'
 import { STANDARD_FORM_ACTION_TYPES } from '../StandardForm/standardFormActionTypes'
 import { inputs, options, generateResultData } from './helpers'
@@ -14,7 +15,8 @@ const { INCREMENT_COUNTER, DECREMENT_COUNTER, CHANGE_VALUE, RESET } = STANDARD_F
 const Home = () => {
     const [state, dispatch] = useReducer(standardFormReducer, initialValues)
     const prevCountRef = useRef(0)
-    const resultData = generateResultData(state, prevCountRef.current)
+    const { width, height } = useWindowSize()
+    const resultData = generateResultData(state, { width, height, prevCount: prevCountRef.current })
 
     useEffect(() => {
         prevCountRef.current = state.count
@@ -65,7 +67,7 @@ const Home = () => {
                     </div>
                 </HomeForm>
 
-                <ResultsData data={resultData} />
+                <ResultsData data={resultData} counterValue={state.count} />
 
                 <Button
                     className='reset-button'
