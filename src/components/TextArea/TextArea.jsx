@@ -1,11 +1,8 @@
 import React from "react"
 
-function TextArea(props) {
-    const value = props.value
-    const handleChange = e => props.handleChange(e)
-
+const TextArea = ({ value, handleChange, name }) => {
     return (
-        <textarea value={value} onChange={handleChange}></textarea>
+        <textarea name={name} className='form-textarea' value={value} onChange={handleChange}></textarea>
     )
 }
 

@@ -29,10 +29,7 @@ const MainLayout = ({ children }) => {
             />
 
             <Content className={classNames("site-layout", !isHorizontal && 'vertical', darkMode && 'dark' )} >
-                <div
-                    style={{ padding: '1.2rem 1.2rem 2rem', minHeight: 550 }}>
-                    {children}
-                </div>
+                {children}
             </Content>
 
             <Footer

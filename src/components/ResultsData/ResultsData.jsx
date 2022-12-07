@@ -1,19 +1,24 @@
 import React from "react"
 
-function ResultsData({ memoCount, values }) {
-    const data = Object.entries(values)
+const areEqual = (prevProps, nextProps) => {
+    const prevCountValue = prevProps.data.find(item => item.label === 'count')
+    const nextCountValue = nextProps.data.find(item => item.label === 'count')
 
+    return prevCountValue.value === nextCountValue.value
+}
+
+const ResultsData = React.memo(({ data }) => {
     return (
         <div className='results-container'>
-            {data.map(item => (
-                <p key={item[0]}>
-                    <span style={{ fontWeight: 'bold' }}>{item[0]}: </span>
-                    {item[1]}
+            <h2>Results</h2>
+            {data.map(({ label, value }) => (
+                <p key={label}>
+                    <span style={{ fontWeight: 'bold' }}>{label}: </span>
+                    {value}
                 </p>
             ))}
-            <p>Previous count is {memoCount}</p>
         </div>
     )
-}
+}, areEqual)
 
 export default ResultsData

@@ -1,9 +1,6 @@
 import React from "react"
 
-function Select(props) {
-    const { name, value, children } = props
-    const handleChange = (e) => props.handleChange(e)
-
+const Select = ({ name, value, children, handleChange }) => {
     return (
         <select
             name={name}
