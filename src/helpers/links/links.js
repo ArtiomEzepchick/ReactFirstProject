@@ -6,10 +6,6 @@ const links = [
         href: paths.home
     },
     {
-        label: "Products", 
-        href: paths.products
-    },
-    {
         label: "Users", 
         href: paths.users
     },

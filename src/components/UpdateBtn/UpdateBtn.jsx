@@ -4,8 +4,8 @@ function UpdateBtn(props) {
     const handleClick = () => props.onBtnClick()
 
     return (
-        <div className="updateBtn-container">
-            <button className="updateBtn" onClick={handleClick}>Update list</button>
+        <div className="update-button-container">
+            <button className="update-button" onClick={handleClick}>Update list</button>
         </div>
     )
 }
