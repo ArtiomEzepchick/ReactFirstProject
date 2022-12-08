@@ -1,6 +1,6 @@
 Greetings.
 
-This is my first project about using the full React functionality: hooks (useState, useEffect, useReducer, useContext, useRef, useMemo, useCallback, etc.), HOCs, Portals, Redux toolkit and more.
+This is my first project (remade of previous homeworks) about using the full React functionality: hooks (useState, useEffect, useReducer, useContext, useRef, useMemo, useCallback, etc.), HOCs, Portals, Redux toolkit and more.
 
 In the project directory, you can run:
 
