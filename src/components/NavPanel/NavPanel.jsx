@@ -2,12 +2,11 @@ import React from "react"
 import classNames from "classnames"
 import { Link } from "../Link/Link"
 import links from "../../helpers/links/links"
-import "./styles.css"
 
 const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrientation }) => {
     return (
         <header className={classNames('layout-header', !isHorizontal && 'vertical', darkMode && 'dark')}>
-            <nav className={classNames('nav-panel', !isHorizontal && 'vertical', darkMode && 'dark')}>
+            <nav className={classNames('nav-panel', 'flex-all-centered', !isHorizontal && 'vertical', darkMode && 'dark')}>
                 <div className={classNames('links-container', !isHorizontal && 'vertical')}>
                     {links.map(({ label, href }, index) => {
                         return (

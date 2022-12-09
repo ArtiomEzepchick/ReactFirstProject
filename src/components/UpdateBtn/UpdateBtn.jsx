@@ -1,6 +1,6 @@
 import React from "react"
 
-function UpdateBtn(props) {
+const UpdateBtn = (props) => {
     const handleClick = () => props.onBtnClick()
 
     return (

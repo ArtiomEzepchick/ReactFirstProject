@@ -39,7 +39,7 @@ const AlertModal = ({
     }
 
     return (
-        <div data-type={modalType} className={classNames("modal-container", !isOpen && 'hidden')} ref={modalRef}>
+        <div data-type={modalType} className={classNames("modal-container", "flex-all-centered", !isOpen && 'hidden')} ref={modalRef}>
             <div>
                 <h1>{headerText}</h1>
                 <p>{contentText}</p>

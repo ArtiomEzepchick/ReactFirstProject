@@ -8,7 +8,8 @@
     color: #ffffff;
 }
 
-.nav-panel.vertical.dark {
+.nav-panel.vertical.dark,
+.site-layout.dark .counter-actions * {
     background-color: #1d1d1d;
 }
 
@@ -17,13 +18,10 @@
 .site-layout.dark select,
 .site-layout.dark .counter-actions,
 .layout-header.dark .toggle-btn,
-.site-layout.dark .reset-button {
+.site-layout.dark .reset-button,
+.site-layout.dark .value {
     background-color: #1d1d1d;
     border: 1px solid #ffffff;
-}
-
-.site-layout.dark .counter-actions *{
-    background-color: #1d1d1d;
 }
 
 .nav-panel.dark .links-container .action {
