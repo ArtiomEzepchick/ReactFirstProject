@@ -1,19 +1,14 @@
 import React from "react"
 
-function Button(props) {
-    const handleClick = (e) => {
-        e.preventDefault()
-        return props.handleClick()
-    }
-
+const Button = ({ className, type, innerText, handleClick }) => {
     return (
         <>
             <button
-                className={props.className}
+                className={className}
                 onClick={handleClick}
-                type={props.type}
+                type={type}
             >
-                {props.innerText}
+                {innerText}
             </button>
         </>
     )

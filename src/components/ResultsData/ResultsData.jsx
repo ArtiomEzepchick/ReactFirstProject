@@ -8,15 +8,20 @@ const areEqual = (prevProps, nextProps) => {
 }
 
 const Paragraph = React.memo(({ value, label }) => {
+    const upperCasedLabel = label[0].toUpperCase() + label.slice(1)
+
     return (
         <p>
-            <span style={{ fontWeight: 'bold' }}>{label}: </span>
-            {value}
+            <span>{upperCasedLabel}:
+                <span className="value">
+                    {value}
+                </span>
+            </span>
         </p>
     )
 }, areEqual)
 
-const ResultsData = ({ data, counterValue }) => {
+const ResultsData = ({ data, counterValue}) => {
     return (
         <div className='results-container'>
             <h2>Results</h2>
