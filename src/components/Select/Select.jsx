@@ -1,4 +1,5 @@
 import React from "react"
+import PropTypes from 'prop-types'
 
 const Select = ({ name, value, children, handleChange }) => {
     return (
@@ -11,6 +12,12 @@ const Select = ({ name, value, children, handleChange }) => {
             {children}
         </select>
     )
+}
+
+Select.propTypes = {
+    name: PropTypes.string,
+    value: PropTypes.string.isRequired,
+    handleChange: PropTypes.func
 }
 
 export default Select

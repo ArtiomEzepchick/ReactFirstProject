@@ -22,7 +22,7 @@ export const accordionHomePageData = [
 export const accordionReduxPageData = [
     {
         title: `What's on this page?`,
-        content: ``
+        content: `This page represents the same form as on Home page but fully using Redux and Redux Toolkit.`
     },
     {
         title: 'What React features were used here?',

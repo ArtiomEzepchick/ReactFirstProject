@@ -1,6 +1,7 @@
 import React from "react"
 import { Button } from "antd";
 import { NavLink } from "react-router-dom";
+import PropTypes from 'prop-types'
 
 export const Link = ({ href, label }) => {
     return (
@@ -15,4 +16,9 @@ export const Link = ({ href, label }) => {
             </Button>
         </React.Fragment>
     )
+}
+
+Link.propTypes = {
+    href: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired
 }

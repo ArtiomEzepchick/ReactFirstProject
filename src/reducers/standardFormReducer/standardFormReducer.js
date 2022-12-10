@@ -33,6 +33,7 @@ export const standardFormReducer = (state, action) => {
                 count: state.count - 1
             }
         case CHANGE_VALUE:
+            console.log(action.payload.name)
             return {
                 ...state,
                 [action.payload.name]: action.payload.value
