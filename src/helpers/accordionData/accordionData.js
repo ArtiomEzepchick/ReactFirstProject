@@ -1,16 +1,31 @@
 export const accordionHomePageData = [
     {
         title: `What's on this page?`,
-        content: 'This page rep'
+        content: `This page represents standard form with different inputs and areas.
+        You can use all fields after submitting too. Your data will be processed in real time. 
+        This is done for the visibility of the state's work.`
     },
     {
-        title: 'What React features were used?',
-        content: 'This page is completely built on functional components.'
+        title: 'What React features were used here?',
+        content: `This page is completely built on functional components. Used different hooks: useState - to use state of the component. 
+        useReducer - to manage complex form state logic. useRef (in addition with React.memo and useEffect hook) - 
+        to memoize previous counter value. Custom hook useWindowSize - to get width/height window properties.`
     },
     {
-        title: 'Section 3',
-        content: `Sapiente expedita hic obcaecati, laboriosam similique omnis architecto ducimus magnam accusantium corrupti
-      quam sint dolore pariatur perspiciatis, necessitatibus rem vel dignissimos
-      dolor ut sequi minus iste? Quas?`
+        title: 'What else about this project?',
+        content: `All pages support theme change and navigation panel reorientation. 
+        This is done using useContext and useReducer (to manage orientation and theme states in one place) hooks. Used dynamic
+        imports (with React.lazy, React.Suspense functions and Loader-component) to simulate code-splitting`
+    }
+]
+
+export const accordionReduxPageData = [
+    {
+        title: `What's on this page?`,
+        content: ``
+    },
+    {
+        title: 'What React features were used here?',
+        content: ``
     }
 ]

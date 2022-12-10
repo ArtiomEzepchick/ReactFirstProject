@@ -1,6 +1,6 @@
 import React from "react"
 
-const StandardForm = ({ className, children, handleSubmit }) => {
+const Form = ({ className, children, handleSubmit }) => {
     return(
         <form className={className} onSubmit={handleSubmit}>
             {children}
@@ -8,4 +8,4 @@ const StandardForm = ({ className, children, handleSubmit }) => {
     )
 }
 
-export default StandardForm
+export default Form

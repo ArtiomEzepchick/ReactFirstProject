@@ -275,7 +275,7 @@ body.disabled {
   max-height: 20rem;
 }
 
-.standard-form-container {
+.form-container {
   padding: 1rem;
   display: grid;
   grid-template-areas:
@@ -285,7 +285,7 @@ body.disabled {
   gap: 1rem;
 }
 
-.standard-form,
+.form,
 .results-container {
   display: flex;
   align-items: center;
