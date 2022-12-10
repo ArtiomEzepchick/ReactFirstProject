@@ -1,6 +1,6 @@
 import paths from "../paths/paths";
 import HomePage from "../../pages/Home/HomePage";
-import UsersPage from "../../pages/Users/UsersPage";
+import ReduxPage from "../../pages/Redux/ReduxPage";
 import AboutPage from "../../pages/About/AboutPage";
 
 
@@ -10,8 +10,8 @@ const routes = [
         component: <HomePage />
     },
     {
-        path: paths.users,
-        component: <UsersPage />
+        path: paths.redux,
+        component: <ReduxPage />
     },
     {
         path: paths.about,

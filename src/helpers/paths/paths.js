@@ -1,6 +1,6 @@
 const paths = {
     home: '/',
-    users: '/users',
+    redux: '/redux',
     about: '/about'
 }
 

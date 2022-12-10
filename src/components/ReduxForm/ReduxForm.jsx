@@ -11,7 +11,7 @@ import { useWindowSize } from '../../hooks/useWindowSize'
 import { standardFormReducer, initialValues } from '../../reducers/standardFormReducer/standardFormReducer'
 import { STANDARD_FORM_ACTION_TYPES } from '../../reducers/standardFormReducer/standardFormActionTypes'
 import { inputs, options, generateResultData } from '../../helpers/formData/formData'
-import { accordionHomePageData } from '../../helpers/accordionData/accordionData'
+import { accordionReduxPageData } from '../../helpers/accordionData/accordionData'
 
 const {
     INCREMENT_COUNTER,
@@ -21,7 +21,7 @@ const {
     RESET
 } = STANDARD_FORM_ACTION_TYPES
 
-const Home = () => {
+const ReduxForm = () => {
     const [state, dispatch] = useReducer(standardFormReducer, initialValues)
     const [isLoading, setIsLoading] = useState(false)
     const [isLoaded, setIsLoaded] = useState(false)
@@ -102,7 +102,7 @@ const Home = () => {
             </h1>
             <hr />
             <div className="accordion">
-                {accordionHomePageData.map(({ title, content }) => (
+                {accordionReduxPageData.map(({ title, content }) => (
                     <Accordion
                         key={title}
                         title={title}
@@ -160,4 +160,4 @@ const Home = () => {
     )
 }
 
-export default Home
+export default ReduxForm

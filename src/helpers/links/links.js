@@ -6,8 +6,8 @@ const links = [
         href: paths.home
     },
     {
-        label: "Users", 
-        href: paths.users
+        label: "Redux", 
+        href: paths.redux
     },
     {
         label: "About",
