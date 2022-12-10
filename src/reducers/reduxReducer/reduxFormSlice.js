@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { fetchForm } from './reduxFormAPI'
+import { submitForm } from './reduxFormAPI'
 
 export const initialState = {
   name: '',
@@ -11,17 +11,15 @@ export const initialState = {
   carBrands: 'mitsubishi',
   commentsField: 'Comment here...',
   count: 0,
+  status: 'idle',
+  isLoaded: false,
 }
 
 export const asyncSubmit = createAsyncThunk(
-  'form/fetchForm',
-  async (fields) => {
-    try {
-      const response = await fetchForm(fields)
-      return response.data
-    } catch (error) {
-      throw new Error(error.message)
-    }
+  'form/submitForm',
+  async () => {
+    const response = await submitForm()
+    return response
   }
 )
 
@@ -32,7 +30,7 @@ export const formSlice = createSlice({
     incrementCounter: (state, action) => {
       state.count += 1
     },
-    decrementCounter: (state) => {
+    decrementCounter: (state, action) => {
       state.count -= 1
     },
     changeName: (state, action) => {
@@ -59,18 +57,35 @@ export const formSlice = createSlice({
     changeCommentsField: (state, action) => {
       state.commentsField = action.payload
     },
-    focusTextArea: (state) => {
+    focusTextArea: (state, action) => {
       state.commentsField = ''
     },
     clearForm: () => {
       return initialState
-    }
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(asyncSubmit.pending, (state, action) => {
+        console.log('loading')
+        state.isLoaded = false
+        state.status = "loading";
+      })
+      .addCase(asyncSubmit.fulfilled, (state, action) => {
+        console.log('idle')
+        state.status = "idle";
+        state.isLoaded = true
+      })
+      .addCase(asyncSubmit.rejected, (state, action) => {
+        console.log('rejected')
+        state.status = "rejected";
+      })
   },
 })
 
-export const { 
-  incrementCounter, 
-  decrementCounter, 
+export const {
+  incrementCounter,
+  decrementCounter,
   changeName,
   changeSurname,
   changePassword,
@@ -79,8 +94,8 @@ export const {
   changeAge,
   changeCarBrands,
   changeCommentsField,
-  focusTextArea, 
-  clearForm 
+  focusTextArea,
+  clearForm
 } = formSlice.actions
 
 export default formSlice.reducer

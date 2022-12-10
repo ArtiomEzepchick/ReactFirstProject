@@ -30,7 +30,7 @@ const ResultsData = ({ data, counterValue }) => {
                 return (
                     <Paragraph
                         key={label}
-                        value={value}
+                        value={String(value)}
                         label={label}
                         counterValue={counterValue}
                     />

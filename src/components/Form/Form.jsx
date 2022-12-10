@@ -7,6 +7,7 @@ import { inputs, options } from '../../helpers/formData/formData'
 import PropTypes from 'prop-types'
 
 const Form = ({
+    dispatch,
     formType,
     state,
     isLoaded,
@@ -16,7 +17,8 @@ const Form = ({
     handleChange,
     handleFocusTextArea,
     handleIncreaseCounter,
-    handleDecreaseCounter
+    handleDecreaseCounter,
+    handleAsyncSubmit
 }) => {
     useEffect(() => {
         prevCountRef.current = state.count
@@ -37,8 +39,24 @@ const Form = ({
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        if (!isLoaded) {
+        if (formType === 'standard') {
+            setIsLoaded(false)
             imitateSubmitting()
+        }
+
+        if (formType === 'redux') {
+            if (state.status === 'idle') {
+                dispatch(handleAsyncSubmit())
+            }
+        }
+    }
+
+    const handleChangeField = (name) => {
+        if (formType === 'standard') {
+            return handleChange
+        }
+        if (formType === 'redux') {
+            return (e) => handleChange(name, e.target.value)
         }
     }
 
@@ -49,11 +67,17 @@ const Form = ({
                     <h3>Change Counter</h3>
                     <Button
                         innerText='Increase'
-                        handleClick={handleIncreaseCounter}
+                        handleClick={(e) => {
+                            e.preventDefault()
+                            handleIncreaseCounter()
+                        }}
                     />
                     <Button
                         innerText='Decrease'
-                        handleClick={handleDecreaseCounter}
+                        handleClick={(e) => {
+                            e.preventDefault()
+                            handleDecreaseCounter()
+                        }}
                     />
                 </div>
             )
@@ -64,15 +88,6 @@ const Form = ({
                 <h3>This is a Change Counter Block. Will be able after submitting</h3>
             </div>
         )
-    }
-
-    const handleChangeField = (name) => {
-        if (formType === 'standard') {
-            return handleChange
-        }
-        if (formType === 'redux') {
-            return (e) => handleChange(name, e.target.value)
-        }
     }
 
     return (
@@ -122,14 +137,15 @@ Form.defaultProps = {
 Form.propTypes = {
     formType: PropTypes.string,
     state: PropTypes.object.isRequired,
-    isLoaded: PropTypes.bool.isRequired,
-    setIsLoading: PropTypes.func.isRequired,
-    setIsLoaded: PropTypes.func.isRequired,
+    isLoaded: PropTypes.bool,
+    setIsLoading: PropTypes.func,
+    setIsLoaded: PropTypes.func,
     prevCountRef: PropTypes.object.isRequired,
     handleChange: PropTypes.func,
     handleFocusTextArea: PropTypes.func,
     handleIncreaseCounter: PropTypes.func,
-    handleDecreaseCounter: PropTypes.func
+    handleDecreaseCounter: PropTypes.func,
+    handleAsyncSubmit: PropTypes.func
 }
 
 export default Form
