@@ -5,13 +5,13 @@ import routes from "./helpers/routes/routes";
 import { initialState, reducers } from "./reducers/contextReducer/contextReducer";
 import { ThemeContext } from "./contexts/ThemeContext";
 import { OrientationContext } from "./contexts/OrientationContext";
-import { aboutStore } from './stores/aboutStore';
+import { store } from './stores/store';
 
 const App = () => {
     const [state, dispatch] = useReducer(reducers, initialState)
 
     return (
-        <Provider store={aboutStore}>
+        <Provider store={store}>
             <Router>
                 <Routes>
                     {routes.map(({ path, component }) => (

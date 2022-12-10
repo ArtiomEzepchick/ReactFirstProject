@@ -1,6 +1,7 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect } from "react"
 import classNames from "classnames"
-import MODAL_TYPES from "./modalTypes";
+import MODAL_TYPES from "./modalTypes"
+import PropTypes from 'prop-types'
 
 const AlertModal = ({
     headerText,
@@ -50,6 +51,16 @@ const AlertModal = ({
             </div>
         </div>
     )
+}
+
+AlertModal.propTypes = {
+    headerText: PropTypes.string,
+    contentText: PropTypes.string,
+    isOpen: PropTypes.bool.isRequired,
+    modalType: PropTypes.string,
+    handleReturn: PropTypes.func,
+    handleCloseModal: PropTypes.func,
+    handleCloseSuccessModal: PropTypes.func
 }
 
 export default AlertModal

@@ -30,19 +30,19 @@ export const inputs = [{
 }]
 
 export const options = [{
-    value: 'mitsubishi',
+    value: 'Mitsubishi',
     label: 'Mitsubishi'
 },
 {
-    value: 'nissan',
+    value: 'Nissan',
     label: 'Nissan'
 },
 {
-    value: 'bmw',
+    value: 'BMW',
     label: 'BMW'
 },
 {
-    value: 'mercedes',
+    value: 'Mercedes',
     label: 'Mercedes'
 }]
 

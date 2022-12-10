@@ -2,6 +2,7 @@ import React from "react"
 import classNames from "classnames"
 import { Link } from "../Link/Link"
 import links from "../../helpers/links/links"
+import PropTypes from 'prop-types'
 
 const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrientation }) => {
     return (
@@ -30,6 +31,13 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
             </nav>
         </header>
     )
+}
+
+NavPanel.propTypes = {
+    darkMode: PropTypes.bool,
+    isHorizontal: PropTypes.bool,
+    handleChangeTheme: PropTypes.func,
+    handleChangeOrientation: PropTypes.func
 }
 
 export default NavPanel

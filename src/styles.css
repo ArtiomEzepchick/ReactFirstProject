@@ -352,6 +352,7 @@ body.disabled {
 }
 
 .counter-actions {
+  height: 8rem;
   padding: 1rem;
   border: 1px solid #141414;
   gap: 0.5rem;
@@ -360,17 +361,6 @@ body.disabled {
 .counter-actions button {
   height: 2rem;
   width: 10rem;
-}
-
-.update-button-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-.update-button {
-  margin: 2rem 0;
-  padding: 0.5rem;
 }
 
 .form-input {
@@ -407,12 +397,6 @@ body.disabled {
 .submit-button:hover {
   border: 1px solid #3498db;
   color: #3498db;
-}
-
-.clock {
-  font-size: 1.2rem;
-  font-weight: bold;
-  text-align: center;
 }
 
 @keyframes rotate {

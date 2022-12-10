@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import PropTypes from 'prop-types'
 
 const Accordion = ({ title, content }) => {
   const [isActive, setIsActive] = useState(false)
@@ -25,5 +26,10 @@ const Accordion = ({ title, content }) => {
     </div>
   );
 };
+
+Accordion.propTypes = {
+  title: PropTypes.string,
+  content: PropTypes.string
+}
 
 export default Accordion

@@ -1,4 +1,5 @@
 import React from "react"
+import PropTypes from 'prop-types'
 
 const areEqual = (prevProps, nextProps) => {
     const prevCountValue = prevProps.counterValue
@@ -21,7 +22,7 @@ const Paragraph = React.memo(({ value, label }) => {
     )
 }, areEqual)
 
-const ResultsData = ({ data, counterValue}) => {
+const ResultsData = ({ data, counterValue }) => {
     return (
         <div className='results-container'>
             <h2>Results</h2>
@@ -37,6 +38,12 @@ const ResultsData = ({ data, counterValue}) => {
             })}
         </div>
     )
+}
+
+ResultsData.propTypes = {
+    value: PropTypes.string,
+    label: PropTypes.string,
+    counterValue: PropTypes.number.isRequired
 }
 
 export default ResultsData
