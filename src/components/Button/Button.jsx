@@ -3,15 +3,13 @@ import PropTypes from 'prop-types'
 
 const Button = ({ className, type, innerText, handleClick }) => {
     return (
-        <>
-            <button
-                className={className}
-                onClick={handleClick}
-                type={type}
-            >
-                {innerText}
-            </button>
-        </>
+        <button
+            className={className}
+            onClick={handleClick}
+            type={type}
+        >
+            {innerText}
+        </button>
     )
 }
 

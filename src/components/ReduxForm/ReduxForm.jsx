@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import Accordion from '../Accordion/Accordion'
 import Form from '../Form/Form'
@@ -8,6 +8,7 @@ import Loader from '../Loader/Loader'
 import { useWindowSize } from '../../hooks/useWindowSize'
 import {
     initialState,
+    asyncSubmit,
     incrementCounter,
     decrementCounter,
     focusTextArea,
@@ -20,8 +21,6 @@ import { chooseReduxAction } from '../../helpers/chooseReduxAction/chooseReduxAc
 const ReduxForm = () => {
     const dispatch = useDispatch()
     const formSelector = useSelector((state) => state.form)
-    const [isLoading, setIsLoading] = useState(false)
-    const [isLoaded, setIsLoaded] = useState(false)
     const prevCountRef = useRef(0)
     const { width, height } = useWindowSize()
     const resultData = generateResultData(formSelector, { width, height, prevCount: prevCountRef.current })
@@ -30,25 +29,19 @@ const ReduxForm = () => {
         prevCountRef.current = formSelector.count
     }, [formSelector.count])
 
-    const handleFocusTextArea = (e) => {
-        if (e.target.value === initialState.commentsField) return dispatch(focusTextArea())
-    }
+    const handleFocusTextArea = e => (e.target.value === initialState.commentsField) && dispatch(focusTextArea())
 
-    const handleChange = (e, name) => {
-        dispatch(chooseReduxAction(e, name))
-    }
+    const handleChange = (e, name) => dispatch(chooseReduxAction(e, name))
 
     const handleIncreaseCounter = () => dispatch(incrementCounter())
-    const handleDeacreaseCounter = () => dispatch(decrementCounter())
 
-    const handleReset = () => {
-        setIsLoaded(false)
-        dispatch(clearForm())
-    }
+    const handleDecreaseCounter = () => dispatch(decrementCounter())
+
+    const handleReset = () => dispatch(clearForm())
 
     const showResultsBlock = () => {
-        if (isLoading) return <Loader />
-        if (isLoaded) return <ResultsData data={resultData} counterValue={formSelector.count} />
+        if (formSelector.status === 'loading') return <Loader />
+        if (formSelector.isLoaded) return <ResultsData data={resultData} counterValue={formSelector.count} />
     }
 
     return (
@@ -72,15 +65,13 @@ const ReduxForm = () => {
                     formType='redux'
                     state={formSelector}
                     prevCountRef={prevCountRef}
-                    isLoading={isLoading}
-                    setIsLoading={setIsLoading}
-                    isLoaded={isLoaded}
-                    setIsLoaded={setIsLoaded}
+                    isLoaded={formSelector.isLoaded}
                     dispatch={dispatch}
                     handleFocusTextArea={handleFocusTextArea}
                     handleChange={handleChange}
                     handleIncreaseCounter={handleIncreaseCounter}
-                    handleDeacreaseCounter={handleDeacreaseCounter}
+                    handleDecreaseCounter={handleDecreaseCounter}
+                    handleAsyncSubmit={asyncSubmit}
                 />
 
                 {showResultsBlock()}

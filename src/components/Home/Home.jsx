@@ -47,6 +47,7 @@ const Home = () => {
     }
 
     const handleIncreaseCounter = () => dispatch({ type: INCREMENT_COUNTER })
+    
     const handleDecreaseCounter = () => dispatch({ type: DECREMENT_COUNTER })
 
     return (

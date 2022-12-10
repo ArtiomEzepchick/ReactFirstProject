@@ -1,5 +1,5 @@
-export const fetchForm = (fields) => {
-  return new Promise((resolve) =>
-    setTimeout(() => resolve(fields), 500)
+export const submitForm = () => {
+  return new Promise((res) =>
+    setTimeout(() => res(), 3000)
   )
 }
