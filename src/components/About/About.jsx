@@ -7,7 +7,7 @@ import AlertModal from '../AlertModal/AlertModal'
 import MODAL_TYPES from '../AlertModal/modalTypes'
 
 const AboutForm = () => {
-  const formSelector = useSelector((state) => state.form)
+  const formSelector = useSelector((state) => state.aboutForm)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [isOpen, setIsOpen] = useState(false)

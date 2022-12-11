@@ -7,7 +7,6 @@ import { inputs, options } from '../../helpers/formData/formData'
 import PropTypes from 'prop-types'
 
 const Form = ({
-    dispatch,
     formType,
     state,
     isLoaded,
@@ -46,7 +45,7 @@ const Form = ({
 
         if (formType === 'redux') {
             if (state.status === 'idle') {
-                dispatch(handleAsyncSubmit())
+                handleAsyncSubmit()
             }
         }
     }

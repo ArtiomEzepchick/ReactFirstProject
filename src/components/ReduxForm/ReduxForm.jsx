@@ -39,6 +39,8 @@ const ReduxForm = () => {
 
     const handleReset = () => dispatch(clearForm())
 
+    const handleAsyncSubmit = () => dispatch(asyncSubmit())
+
     const showResultsBlock = () => {
         if (formSelector.status === 'loading') return <Loader />
         if (formSelector.isLoaded) return <ResultsData data={resultData} counterValue={formSelector.count} />
@@ -66,12 +68,11 @@ const ReduxForm = () => {
                     state={formSelector}
                     prevCountRef={prevCountRef}
                     isLoaded={formSelector.isLoaded}
-                    dispatch={dispatch}
                     handleFocusTextArea={handleFocusTextArea}
                     handleChange={handleChange}
                     handleIncreaseCounter={handleIncreaseCounter}
                     handleDecreaseCounter={handleDecreaseCounter}
-                    handleAsyncSubmit={asyncSubmit}
+                    handleAsyncSubmit={handleAsyncSubmit}
                 />
 
                 {showResultsBlock()}

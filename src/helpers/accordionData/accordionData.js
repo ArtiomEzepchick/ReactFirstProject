@@ -22,10 +22,11 @@ export const accordionHomePageData = [
 export const accordionReduxPageData = [
     {
         title: `What's on this page?`,
-        content: `This page represents the same form as on Home page but fully using Redux and Redux Toolkit.`
+        content: `This page represents the same form as on Home page but fully using Redux Toolkit.`
     },
     {
         title: 'What Redux features were used here?',
-        content: ``
+        content: `Such functions as configureStore (to set up store), createSlice (combination of createAction and createReducer), 
+        createAsyncThunk (used to async submit), useSelector and useDispatch hooks.`
     }
 ]
