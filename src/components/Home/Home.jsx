@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect, useRef, useState } from 'react'
+import React, { useReducer, useEffect, useRef } from 'react'
 import Accordion from '../Accordion/Accordion'
 import Form from '../Form/Form'
 import Button from '../Button/Button'
@@ -14,14 +14,13 @@ const {
     INCREMENT_COUNTER,
     DECREMENT_COUNTER,
     CHANGE_VALUE,
-    FOCUS_TEXTAREA,
+    SET_LOADING,
+    SET_LOADED,
     RESET
 } = STANDARD_FORM_ACTION_TYPES
 
 const Home = () => {
     const [state, dispatch] = useReducer(standardFormReducer, initialValues)
-    const [isLoading, setIsLoading] = useState(false)
-    const [isLoaded, setIsLoaded] = useState(false)
     const prevCountRef = useRef(0)
     const { width, height } = useWindowSize()
     const resultData = generateResultData(state, { width, height, prevCount: prevCountRef.current })
@@ -30,25 +29,35 @@ const Home = () => {
         prevCountRef.current = state.count
     }, [state.count])
 
-    const handleFocusTextArea = (e) => {
-        if (e.target.value === initialValues.commentsField) return dispatch({ type: FOCUS_TEXTAREA, payload: e.target })
-    }
-
     const handleChange = (e) => dispatch({ type: CHANGE_VALUE, payload: e.target })
 
     const handleReset = () => {
-        setIsLoaded(false)
+        dispatch({ type: SET_LOADING, payload: false })
         dispatch({ type: RESET })
     }
 
-    const showResultsBlock = () => {
-        if (isLoading) return <Loader />
-        if (isLoaded) return <ResultsData data={resultData} counterValue={state.count} />
+    const handleIncreaseCounter = () => dispatch({ type: INCREMENT_COUNTER })
+
+    const handleDecreaseCounter = () => dispatch({ type: DECREMENT_COUNTER })
+
+    const imitateSubmitting = () => {
+        dispatch({ type: SET_LOADING, payload: true })
+
+        new Promise(res => {
+            setTimeout(() => {
+                dispatch({ type: SET_LOADING, payload: false })
+                dispatch({ type: SET_LOADED, payload: true })
+                res()
+            }, 2000)
+        })
     }
 
-    const handleIncreaseCounter = () => dispatch({ type: INCREMENT_COUNTER })
-    
-    const handleDecreaseCounter = () => dispatch({ type: DECREMENT_COUNTER })
+    const handleSubmit = (e) => {
+        e.preventDefault()
+
+        dispatch({ type: SET_LOADING, payload: false })
+        imitateSubmitting()
+    }
 
     return (
         <div>
@@ -70,17 +79,22 @@ const Home = () => {
                 <Form
                     state={state}
                     prevCountRef={prevCountRef}
-                    isLoading={isLoading}
-                    isLoaded={isLoaded}
-                    setIsLoading={setIsLoading}
-                    setIsLoaded={setIsLoaded}
+                    isLoading={state.isLoading}
+                    isLoaded={state.isLoaded}
+                    handleSubmit={handleSubmit}
                     handleChange={handleChange}
-                    handleFocusTextArea={handleFocusTextArea}
                     handleIncreaseCounter={handleIncreaseCounter}
                     handleDecreaseCounter={handleDecreaseCounter}
                 />
 
-                {showResultsBlock()}
+                {state.isLoading ?
+                    <Loader /> :
+                    <ResultsData
+                        isLoaded={state.isLoaded}
+                        data={resultData}
+                        counterValue={state.count}
+                    />
+                }
 
                 <Button
                     className='reset-button'

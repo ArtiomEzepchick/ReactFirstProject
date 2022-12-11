@@ -1,16 +1,21 @@
 import React from "react"
 import PropTypes from 'prop-types'
 
-const TextArea = ({ value, name, handleFocusTextArea, handleChange }) => {
+const TextArea = ({ value, name, handleChange }) => {
     return (
-        <textarea name={name} className='form-textarea' value={value} onChange={handleChange} onFocus={handleFocusTextArea}></textarea>
+        <textarea
+            name={name}
+            className='form-textarea'
+            value={value}
+            onChange={handleChange}
+            placeholder='Comment here...'
+        />
     )
 }
 
 TextArea.propTypes = {
     name: PropTypes.string,
     value: PropTypes.string.isRequired,
-    handleFocusTextArea: PropTypes.func,
     handleChange: PropTypes.func
 }
 

@@ -9,9 +9,10 @@ export const initialState = {
   tel: '+',
   age: 0,
   carBrands: 'mitsubishi',
-  commentsField: 'Comment here...',
+  commentsField: '',
   count: 0,
   status: 'idle',
+  isLoading: false,
   isLoaded: false,
 }
 
@@ -27,38 +28,14 @@ export const formSlice = createSlice({
   name: 'form',
   initialState,
   reducers: {
-    incrementCounter: (state, action) => {
+    incrementCounter: (state) => {
       state.count += 1
     },
-    decrementCounter: (state, action) => {
+    decrementCounter: (state) => {
       state.count -= 1
     },
-    changeName: (state, action) => {
-      state.name = action.payload
-    },
-    changeSurname: (state, action) => {
-      state.surname = action.payload
-    },
-    changePassword: (state, action) => {
-      state.password = action.payload
-    },
-    changeEmail: (state, action) => {
-      state.email = action.payload
-    },
-    changeTel: (state, action) => {
-      state.tel = action.payload
-    },
-    changeAge: (state, action) => {
-      state.age = action.payload
-    },
-    changeCarBrands: (state, action) => {
-      state.carBrands = action.payload
-    },
-    changeCommentsField: (state, action) => {
-      state.commentsField = action.payload
-    },
-    focusTextArea: (state, action) => {
-      state.commentsField = ''
+    changeFormValue: (state, action) => {
+      state[action.payload.name] = action.payload.value
     },
     clearForm: () => {
       return initialState
@@ -66,20 +43,20 @@ export const formSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(asyncSubmit.pending, (state, action) => {
+      .addCase(asyncSubmit.pending, (state) => {
         console.log('loading')
         state.isLoaded = false
-        state.status = "loading";
+        state.isLoading = true
       })
-      .addCase(asyncSubmit.fulfilled, (state, action) => {
-        console.log('idle')
-        state.status = "idle";
+      .addCase(asyncSubmit.fulfilled, (state) => {
+        console.log('fulfilled')
+        state.isLoading = false
         state.isLoaded = true
       })
-      .addCase(asyncSubmit.rejected, (state, action) => {
+      .addCase(asyncSubmit.rejected, (state) => {
         console.log('rejected')
         state.isLoaded = false
-        state.status = "rejected";
+        state.isLoading = false
       })
   },
 })
@@ -87,15 +64,7 @@ export const formSlice = createSlice({
 export const {
   incrementCounter,
   decrementCounter,
-  changeName,
-  changeSurname,
-  changePassword,
-  changeEmail,
-  changeTel,
-  changeAge,
-  changeCarBrands,
-  changeCommentsField,
-  focusTextArea,
+  changeFormValue,
   clearForm
 } = formSlice.actions
 
