@@ -1,13 +1,14 @@
 import { STANDARD_FORM_ACTION_TYPES } from "./standardFormActionTypes"
 
-const { 
-    INCREMENT_COUNTER, 
-    DECREMENT_COUNTER, 
-    CHANGE_VALUE, 
-    FOCUS_TEXTAREA, 
-    RESET 
+const {
+    INCREMENT_COUNTER,
+    DECREMENT_COUNTER,
+    CHANGE_VALUE,
+    SET_LOADING,
+    SET_LOADED,
+    RESET
 } = STANDARD_FORM_ACTION_TYPES
- 
+
 export const initialValues = {
     name: '',
     surname: '',
@@ -16,8 +17,10 @@ export const initialValues = {
     tel: '+',
     age: 0,
     carBrands: 'mitsubishi',
-    commentsField: 'Comment here...',
+    commentsField: '',
     count: 0,
+    isLoading: false,
+    isLoaded: false,
 }
 
 export const standardFormReducer = (state, action) => {
@@ -37,10 +40,15 @@ export const standardFormReducer = (state, action) => {
                 ...state,
                 [action.payload.name]: action.payload.value
             }
-        case FOCUS_TEXTAREA:
+        case SET_LOADING:
             return {
                 ...state,
-                [action.payload.name]: ''
+                isLoading: action.payload
+            }
+        case SET_LOADED:
+            return {
+                ...state,
+                isLoaded: action.payload
             }
         case RESET:
             return initialValues

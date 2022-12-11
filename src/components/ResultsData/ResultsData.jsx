@@ -22,7 +22,14 @@ const Paragraph = React.memo(({ value, label }) => {
     )
 }, areEqual)
 
-const ResultsData = ({ data, counterValue }) => {
+Paragraph.propTypes = {
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]).isRequired,
+    label: PropTypes.string.isRequired
+}
+
+const ResultsData = ({ data, counterValue, isLoaded }) => {
+    if (!isLoaded) return null
+
     return (
         <div className='results-container'>
             <h2>Results</h2>
@@ -41,9 +48,12 @@ const ResultsData = ({ data, counterValue }) => {
 }
 
 ResultsData.propTypes = {
-    value: PropTypes.string,
-    label: PropTypes.string,
-    counterValue: PropTypes.number.isRequired
+    counterValue: PropTypes.number.isRequired,
+    data: PropTypes.arrayOf(PropTypes.shape({
+        value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+        label: PropTypes.string
+    })).isRequired,
+    isLoaded: PropTypes.bool.isRequired
 }
 
 export default ResultsData
