@@ -8,7 +8,7 @@ const initialState = {
 }
 
 export const asyncSubmit = createAsyncThunk(
-  'form/fetchForm',
+  'aboutForm/fetchForm',
   async (fields) => {
     try {
       const response = await fetchForm(fields)
@@ -20,7 +20,7 @@ export const asyncSubmit = createAsyncThunk(
 )
 
 export const formSlice = createSlice({
-  name: 'form',
+  name: 'aboutForm',
   initialState,
   reducers: {
     nameChange: (state, action) => {

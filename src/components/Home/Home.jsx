@@ -71,12 +71,11 @@ const Home = () => {
                     state={state}
                     prevCountRef={prevCountRef}
                     isLoading={isLoading}
-                    setIsLoading={setIsLoading}
                     isLoaded={isLoaded}
+                    setIsLoading={setIsLoading}
                     setIsLoaded={setIsLoaded}
-                    dispatch={dispatch}
-                    handleFocusTextArea={handleFocusTextArea}
                     handleChange={handleChange}
+                    handleFocusTextArea={handleFocusTextArea}
                     handleIncreaseCounter={handleIncreaseCounter}
                     handleDecreaseCounter={handleDecreaseCounter}
                 />

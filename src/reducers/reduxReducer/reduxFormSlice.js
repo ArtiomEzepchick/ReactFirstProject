@@ -78,6 +78,7 @@ export const formSlice = createSlice({
       })
       .addCase(asyncSubmit.rejected, (state, action) => {
         console.log('rejected')
+        state.isLoaded = false
         state.status = "rejected";
       })
   },

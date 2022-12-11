@@ -13,24 +13,31 @@
     background-color: #1d1d1d;
 }
 
+.site-layout.dark,
+.site-layout.dark * {
+    background-color: #090909;
+}
+
 .site-layout.dark input,
 .site-layout.dark textarea,
 .site-layout.dark select,
 .site-layout.dark .counter-actions,
-.layout-header.dark .toggle-btn,
 .site-layout.dark .reset-button,
-.site-layout.dark .value {
+.site-layout.dark .submit-button,
+.site-layout.dark .value,
+.site-layout.dark .accordion-title,
+.site-layout.dark .accordion-content,
+.layout-header.dark .toggle-btn {
     background-color: #1d1d1d;
     border: 1px solid #ffffff;
 }
 
-.nav-panel.dark .links-container .action {
-    background: #141414;
+.site-layout.dark .accordion-title * {
+    background-color: #1d1d1d;
 }
 
-.site-layout.dark,
-.site-layout.dark * {
-    background-color: #090909;
+.nav-panel.dark .links-container .action {
+    background: #141414;
 }
 
 .site-layout.dark input,
