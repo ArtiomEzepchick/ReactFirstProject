@@ -1,15 +1,13 @@
-.dark {
-    background-color: #1d1d1d;
-}
-
 .dark,
 .nav-panel.dark .links-container .action,
 .site-layout.dark * {
     color: #ffffff;
 }
 
+.dark,
 .nav-panel.vertical.dark,
-.site-layout.dark .counter-actions * {
+.site-layout.dark .counter-actions *,
+.site-layout.dark .accordion-title * {
     background-color: #1d1d1d;
 }
 
@@ -30,10 +28,6 @@
 .layout-header.dark .toggle-btn {
     background-color: #1d1d1d;
     border: 1px solid #ffffff;
-}
-
-.site-layout.dark .accordion-title * {
-    background-color: #1d1d1d;
 }
 
 .nav-panel.dark .links-container .action {
