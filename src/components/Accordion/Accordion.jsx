@@ -23,14 +23,22 @@ const Accordion = ({ title, content }) => {
         <div>{title}</div>
         <div>{isActive ? '-' : '+'}</div>
       </div>
-      {isActive && <div className="accordion-content">{content}</div>}
+      {isActive && <div className="accordion-content">
+        <ul>
+        {content.map((item, index) => {
+          return <li key={index}>{item.text}</li>
+        })}
+        </ul>
+        </div>}
     </div>
   );
 };
 
 Accordion.propTypes = {
   title: PropTypes.string,
-  content: PropTypes.string
+  content: PropTypes.arrayOf(PropTypes.shape({
+    text: PropTypes.string.isRequired
+  })).isRequired
 }
 
 export default Accordion

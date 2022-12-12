@@ -7,7 +7,9 @@
 .dark,
 .nav-panel.vertical.dark,
 .site-layout.dark .counter-actions *,
-.site-layout.dark .accordion-title * {
+.site-layout.dark .accordion-title *,
+.site-layout.dark .form-counter-actions h3,
+.site-layout.dark .form-counter-actions p {
     background-color: #1d1d1d;
 }
 
@@ -25,12 +27,14 @@
 .site-layout.dark .value,
 .site-layout.dark .accordion-title,
 .site-layout.dark .accordion-content,
+.site-layout.dark .results-value,
+.site-layout.dark .form-counter-actions,
 .layout-header.dark .toggle-button {
     background-color: #1d1d1d;
     border: 1px solid #ffffff;
 }
 
-.nav-panel.dark .links-container .action-button {
+.nav-panel.dark .action-button {
     background: #141414;
 }
 

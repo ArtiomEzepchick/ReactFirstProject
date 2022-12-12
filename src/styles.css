@@ -10,6 +10,7 @@
 
 :root {
   --color-red: #ff0000;
+  --color-aqua: #3dbbd438;
 }
 
 #root {
@@ -33,7 +34,7 @@ h2 {
 
 hr {
   height: 1px;
-  background-color: #3dbbd438;
+  background-color: var(--color-aqua);
   border: none;
 }
 
