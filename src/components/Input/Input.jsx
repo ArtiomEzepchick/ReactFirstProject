@@ -1,9 +1,9 @@
 import React from "react"
 import PropTypes from 'prop-types'
 
-const Input = ({ name, value, labelText, type, handleChange }) => {
+const Input = ({ className, name, value, labelText, type, handleChange }) => {
     return (
-        <div className="input-container">
+        <div className={className}>
             <label>
                 {labelText}
                 <input
@@ -18,13 +18,14 @@ const Input = ({ name, value, labelText, type, handleChange }) => {
 }
 
 Input.propTypes = {
+    className: PropTypes.string,
+    labelText: PropTypes.string,
     name: PropTypes.string,
+    type: PropTypes.string.isRequired,
     value: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.number
     ]).isRequired,
-    labelText: PropTypes.string,
-    type: PropTypes.string.isRequired,
     handleChange: PropTypes.func.isRequired
 }
 

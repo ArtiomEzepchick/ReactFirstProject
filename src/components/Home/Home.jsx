@@ -9,6 +9,7 @@ import { standardFormReducer, initialValues } from '../../reducers/standardFormR
 import { STANDARD_FORM_ACTION_TYPES } from '../../reducers/standardFormReducer/standardFormActionTypes'
 import { generateResultData } from '../../helpers/formData/formData'
 import { accordionHomePageData } from '../../helpers/accordionData/accordionData'
+import './styles.css'
 
 const {
     INCREMENT_COUNTER,
@@ -65,7 +66,7 @@ const Home = () => {
                 Welcome to <span className='highlight-red'>Artsiom Ezepchik's</span> first React project
             </h1>
             <hr />
-            <div className="accordion">
+            <div className="accordion-container">
                 {accordionHomePageData.map(({ title, content }) => (
                     <Accordion
                         key={title}
@@ -75,12 +76,10 @@ const Home = () => {
                 ))}
             </div>
             <hr />
-            <div className='form-container'>
+            <main className='main-container'>
                 <Form
                     state={state}
                     prevCountRef={prevCountRef}
-                    isLoading={state.isLoading}
-                    isLoaded={state.isLoaded}
                     handleSubmit={handleSubmit}
                     handleChange={handleChange}
                     handleIncreaseCounter={handleIncreaseCounter}
@@ -101,7 +100,7 @@ const Home = () => {
                     innerText='Reset'
                     handleClick={handleReset}
                 />
-            </div>
+            </main>
         </div>
     )
 }

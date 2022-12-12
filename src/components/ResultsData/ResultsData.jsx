@@ -1,5 +1,6 @@
 import React from "react"
 import PropTypes from 'prop-types'
+import './styles.css'
 
 const areEqual = (prevProps, nextProps) => {
     const prevCountValue = prevProps.counterValue
@@ -14,7 +15,7 @@ const Paragraph = React.memo(({ value, label }) => {
     return (
         <p>
             <span>{upperCasedLabel}:
-                <span className="value">
+                <span className="results-value">
                     {value}
                 </span>
             </span>

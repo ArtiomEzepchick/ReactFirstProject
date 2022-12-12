@@ -5,10 +5,10 @@ import TextArea from "../TextArea/TextArea"
 import Select from "../Select/Select"
 import { inputs, options } from '../../helpers/formData/formData'
 import PropTypes from 'prop-types'
+import './styles.css'
 
 const Form = ({
     state,
-    isLoaded,
     prevCountRef,
     handleSubmit,
     handleChange,
@@ -19,32 +19,24 @@ const Form = ({
         prevCountRef.current = state.count
     }, [state.count, prevCountRef])
 
-    const showCounterBlock = () => {
-        if (isLoaded) {
-            return (
-                <div className='counter-actions'>
-                    <h3>Change Counter</h3>
-                    <Button
-                        innerText='Increase'
-                        handleClick={(e) => {
-                            e.preventDefault()
-                            handleIncreaseCounter()
-                        }}
-                    />
-                    <Button
-                        innerText='Decrease'
-                        handleClick={(e) => {
-                            e.preventDefault()
-                            handleDecreaseCounter()
-                        }}
-                    />
-                </div>
-            )
-        }
-
+    const CounterBlock = () => {
         return (
-            <div className='counter-actions' style={{ userSelect: 'none' }}>
-                <h3>This is a Change Counter Block. Will be able after submitting</h3>
+            <div className='form-counter-actions'>
+                <h3>Change Counter</h3>
+                <Button
+                    innerText='Increase'
+                    handleClick={(e) => {
+                        e.preventDefault()
+                        handleIncreaseCounter()
+                    }}
+                />
+                <Button
+                    innerText='Decrease'
+                    handleClick={(e) => {
+                        e.preventDefault()
+                        handleDecreaseCounter()
+                    }}
+                />
             </div>
         )
     }
@@ -54,6 +46,7 @@ const Form = ({
             <h2>Please enter some info here</h2>
             {inputs.map(({ type, labelText, name }, index) => {
                 return <Input
+                    className='form-input-container'
                     key={labelText + index}
                     type={type}
                     labelText={labelText}
@@ -63,6 +56,7 @@ const Form = ({
                 />
             })}
             <Select
+                className='form-select-container'
                 name='carBrands'
                 value={state.carBrands}
                 handleChange={handleChange}
@@ -72,12 +66,13 @@ const Form = ({
                 })}
             </Select>
             <TextArea
+                className='form-textarea'
                 name='commentsField'
                 value={state.commentsField}
                 handleChange={handleChange}
             />
 
-            {showCounterBlock()}
+            <CounterBlock />
 
             <Button
                 handleClick={handleSubmit}

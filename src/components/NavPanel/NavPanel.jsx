@@ -1,14 +1,16 @@
 import React from "react"
 import classNames from "classnames"
 import { Link } from "../Link/Link"
+import Button from "../Button/Button"
 import links from "../../helpers/links/links"
 import PropTypes from 'prop-types'
+import './styles.css'
 
 const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrientation }) => {
     return (
         <header className={classNames('layout-header', !isHorizontal && 'vertical', darkMode && 'dark')}>
-            <nav className={classNames('nav-panel', 'flex-all-centered', !isHorizontal && 'vertical', darkMode && 'dark')}>
-                <div className={classNames('links-container', !isHorizontal && 'vertical')}>
+            <nav className={classNames('nav-panel', !isHorizontal && 'vertical', darkMode && 'dark')}>
+                <div className={classNames('links-container', 'flex-all-centered', !isHorizontal && 'vertical')}>
                     {links.map(({ label, href }, index) => {
                         return (
                             <Link
@@ -20,13 +22,17 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
                     })}
                 </div>
 
-                <div className={classNames('toggle-buttons', !isHorizontal && 'vertical')}>
-                    <button className='toggle-btn' onClick={handleChangeOrientation}>
-                        Toggle Nav Panel Orientation
-                    </button>
-                    <button className='toggle-btn' onClick={handleChangeTheme}>
-                        Change Theme
-                    </button>
+                <div className={classNames('toggle-buttons-container', 'flex-all-centered', !isHorizontal && 'vertical')}>
+                    <Button
+                        innerText='Toggle Nav Panel Orientation'
+                        className='toggle-button'
+                        handleClick={handleChangeOrientation}
+                    />
+                    <Button
+                        innerText='Change Theme'
+                        className='toggle-button'
+                        handleClick={handleChangeTheme}
+                    />
                 </div>
             </nav>
         </header>

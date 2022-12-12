@@ -1,0 +1,10 @@
+.action {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.active-page {
+    border-bottom: 4px solid #3498db;
+    transition: border-bottom 0.5s ease;
+}

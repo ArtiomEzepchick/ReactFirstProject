@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import PropTypes from 'prop-types'
+import './styles.css'
 
 const Accordion = ({ title, content }) => {
   const [isActive, setIsActive] = useState(false)

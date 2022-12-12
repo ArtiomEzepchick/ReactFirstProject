@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
 import classNames from "classnames";
 import { Layout } from 'antd'
-import { ThemeContext } from "../../contexts/ThemeContext";
-import { OrientationContext } from '../../contexts/OrientationContext';
+import { ThemeContext } from "../../contexts/themeContext/ThemeContext";
+import { OrientationContext } from '../../contexts/orientationContext/OrientationContext';
 import { REDUCER_TYPES } from "../../reducers/contextReducer/contextReducer";
 import NavPanel from "../NavPanel/NavPanel";
+import './styles.css'
 
 const { Content, Footer } = Layout
 
@@ -35,7 +36,9 @@ const MainLayout = ({ children }) => {
             <Footer
                 className={classNames(!isHorizontal && 'vertical', darkMode && 'dark')}
                 style={{ textAlign: 'center' }}
-            >Made by Artsiom Ezepchik</Footer>
+            >
+                Made by Artsiom Ezepchik
+            </Footer>
         </React.Fragment>
     )
 }

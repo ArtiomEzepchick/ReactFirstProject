@@ -3,8 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Provider } from 'react-redux';
 import routes from "./helpers/routes/routes";
 import { initialState, reducers } from "./reducers/contextReducer/contextReducer";
-import { ThemeContext } from "./contexts/ThemeContext";
-import { OrientationContext } from "./contexts/OrientationContext";
+import { ThemeContext } from "./contexts/themeContext/ThemeContext";
+import { OrientationContext } from "./contexts/orientationContext/OrientationContext";
 import { store } from './stores/store';
 
 const App = () => {

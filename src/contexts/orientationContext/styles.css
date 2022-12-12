@@ -1,0 +1,31 @@
+.site-layout.vertical,
+.ant-layout-footer.vertical {
+    padding-left: 10rem;
+}
+
+.layout-header.vertical {
+    height: 0;
+}
+
+.nav-panel.vertical {
+    left: 0;
+    width: 10rem;
+    flex-direction: column;
+    position: fixed;
+    z-index: 10;
+    height: 100%;
+    padding-bottom: 2rem;
+    transition: none;
+    padding-right: 0;
+    background-color: #f0f2f5;
+}
+
+.links-container.vertical {
+    flex-direction: column;
+}
+
+.toggle-buttons-container.vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
