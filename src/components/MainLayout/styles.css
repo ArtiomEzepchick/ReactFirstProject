@@ -1,0 +1,9 @@
+.site-layout .site-layout-background,
+.ant-layout-content {
+    position: relative;
+}
+
+.site-layout .site-layout-background,
+.ant-layout-content {
+    background: #ffffff;
+}

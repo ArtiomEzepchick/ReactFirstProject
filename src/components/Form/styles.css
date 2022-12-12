@@ -1,0 +1,83 @@
+.form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 1rem;
+    grid-area: form;
+}
+
+.form-select,
+.form-textarea {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 16rem;
+}
+
+.form-textarea {
+    border: 1px solid #141414;
+    border-radius: 10px;
+    padding: 0.3rem;
+}
+
+.form-input-container,
+.form-counter-actions,
+.form-select-container,
+.form-textarea {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 16rem;
+}
+
+.form-select-container {
+    padding: 0.1rem;
+    height: 2rem;
+    border-radius: 10px;
+}
+
+.form-input-container label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 15rem;
+}
+
+.form-input-container input {
+  border: 1px solid #141414;
+  border-radius: 10px;
+  padding: 0.3rem;
+}
+
+.form-counter-actions {
+  height: 8rem;
+  padding: 1rem;
+  border: 1px solid #141414;
+  gap: 0.5rem;
+}
+
+.form-counter-actions button {
+  height: 2rem;
+  width: 10rem;
+}
+
+.reset-button {
+    grid-area: reset;
+    justify-self: center;
+}
+
+.reset-button,
+.submit-button {
+    width: 4rem;
+    height: 2.5rem;
+    border: 1px solid #14141441;
+    background-color: #fff;
+    cursor: pointer;
+    transition: 0.5s ease-in;
+}
+
+.reset-button:hover,
+.submit-button:hover {
+    border: 1px solid #3498db;
+    color: #3498db;
+}

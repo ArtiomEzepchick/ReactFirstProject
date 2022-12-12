@@ -2,6 +2,9 @@ import React, { useRef, useEffect } from "react"
 import classNames from "classnames"
 import MODAL_TYPES from "./modalTypes"
 import PropTypes from 'prop-types'
+import Overlay from "../Overlay/Overlay"
+import Button from "../Button/Button"
+import './styles.css'
 
 const AlertModal = ({
     headerText,
@@ -12,42 +15,35 @@ const AlertModal = ({
     handleCloseModal,
     handleCloseSuccessModal
 }) => {
-    const root = document.getElementById('root')
-    const modal = document.getElementById('modal')
-    const body = document.querySelector('body')
     const modalRef = useRef(null);
 
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (modalRef.current && !modalRef.current.contains(event.target)) {
-                handleCloseModal()
-            }
-        }
+    // useEffect(() => {
+    //     const handleClickOutside = (event) => {
+    //         if (modalRef.current && !modalRef.current.contains(event.target)) {
+    //             handleCloseModal()
+    //         }
+    //     }
 
-        document.addEventListener('click', handleClickOutside);
+    //     document.addEventListener('click', handleClickOutside);
 
-        return () => document.removeEventListener('click', handleClickOutside)
-    }, [modalRef, handleCloseModal])
-
-    if (isOpen) {
-        body.classList.add('disabled')
-        root.classList.add('disabled')
-        modal.classList.add('show')
-    } else {
-        root.classList.remove('disabled')
-        body.classList.remove('disabled')
-        modal.classList.remove('show')
-    }
+    //     return () => document.removeEventListener('click', handleClickOutside)
+    // }, [modalRef, handleCloseModal])
 
     return (
-        <div data-type={modalType} className={classNames("modal-container", "flex-all-centered", !isOpen && 'hidden')} ref={modalRef}>
-            <div>
-                <h1>{headerText}</h1>
-                <p>{contentText}</p>
-            </div>
-            <div className={"modal-actions"}>
-                <button onClick={modalType === MODAL_TYPES.SUCCESS ? handleCloseSuccessModal : handleCloseModal}>Ok</button>
-                {modalType !== MODAL_TYPES.SUCCESS && <button onClick={handleReturn}>Return to edit</button>}
+        <div className={classNames('modal-container', isOpen && 'show-modal')}>
+            <Overlay />
+            <div data-type={modalType} className={classNames("modal", "flex-all-centered")} ref={modalRef}>
+                <div>
+                    <h1>{headerText}</h1>
+                    <p>{contentText}</p>
+                </div>
+                <div className={"modal-actions"}>
+                    <Button
+                        innerText='Ok'
+                        handleClick={modalType === MODAL_TYPES.SUCCESS ? handleCloseSuccessModal : handleCloseModal}
+                    />
+                    {modalType !== MODAL_TYPES.SUCCESS && <Button innerText="Return to edit" handleClick={handleReturn} />}
+                </div>
             </div>
         </div>
     )

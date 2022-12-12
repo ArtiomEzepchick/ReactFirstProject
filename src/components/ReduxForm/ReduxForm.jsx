@@ -15,6 +15,7 @@ import {
 } from '../../reducers/reduxReducer/reduxFormSlice'
 import { generateResultData } from '../../helpers/formData/formData'
 import { accordionReduxPageData } from '../../helpers/accordionData/accordionData'
+import './styles.css'
 
 const ReduxForm = () => {
     const dispatch = useDispatch()
@@ -47,7 +48,7 @@ const ReduxForm = () => {
                 Form using <span className='highlight-red'>Redux Toolkit</span>
             </h1>
             <hr />
-            <div className="accordion">
+            <div className="accordion-container">
                 {accordionReduxPageData.map(({ title, content }) => (
                     <Accordion
                         key={title}
@@ -57,15 +58,14 @@ const ReduxForm = () => {
                 ))}
             </div>
             <hr />
-            <div className='form-container'>
+            <main className='main-container'>
                 <Form
                     state={formData}
                     prevCountRef={prevCountRef}
-                    isLoaded={formData.isLoaded}
                     handleChange={handleChange}
+                    handleSubmit={handleSubmit}
                     handleIncreaseCounter={handleIncreaseCounter}
                     handleDecreaseCounter={handleDecreaseCounter}
-                    handleSubmit={handleSubmit}
                 />
 
                 {isLoading ?
@@ -82,7 +82,7 @@ const ReduxForm = () => {
                     innerText='Reset'
                     handleClick={() => dispatch(clearForm())}
                 />
-            </div>
+            </main>
         </div>
     )
 }

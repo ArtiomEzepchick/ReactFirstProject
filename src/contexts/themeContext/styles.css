@@ -1,5 +1,5 @@
 .dark,
-.nav-panel.dark .links-container .action,
+.nav-panel.dark .links-container .action-button,
 .site-layout.dark * {
     color: #ffffff;
 }
@@ -25,12 +25,12 @@
 .site-layout.dark .value,
 .site-layout.dark .accordion-title,
 .site-layout.dark .accordion-content,
-.layout-header.dark .toggle-btn {
+.layout-header.dark .toggle-button {
     background-color: #1d1d1d;
     border: 1px solid #ffffff;
 }
 
-.nav-panel.dark .links-container .action {
+.nav-panel.dark .links-container .action-button {
     background: #141414;
 }
 

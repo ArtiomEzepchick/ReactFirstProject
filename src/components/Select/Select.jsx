@@ -1,10 +1,10 @@
 import React from "react"
 import PropTypes from 'prop-types'
 
-const Select = ({ name, value, children, handleChange }) => {
+const Select = ({ className, name, value, children, handleChange }) => {
     return (
         <select
-            className="form-select"
+            className={className}
             name={name}
             value={value}
             onChange={handleChange}
@@ -15,6 +15,7 @@ const Select = ({ name, value, children, handleChange }) => {
 }
 
 Select.propTypes = {
+    className: PropTypes.string,
     name: PropTypes.string,
     value: PropTypes.string.isRequired,
     handleChange: PropTypes.func

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 export const Link = ({ href, label }) => {
     return (
         <React.Fragment>
-            <Button className='action' size='large'>
+            <Button className='action-button' size='large'>
                 <NavLink
                     to={href}
                     className={({ isActive }) => isActive ? 'active-page' : ''}
