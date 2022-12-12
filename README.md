@@ -1,7 +1,9 @@
+IMPORTANT NOTICE!
+PROJECT STATUS: IN DEVELOPMENT (80% done)
+
 Greetings.
 
-This is my first project about using the full React functionality: hooks (useState, useEffect, useReducer, useContext, useRef, useMemo, useCallback, etc.), HOCs, Portals, custom hooks (as useSizeWindow), Redux toolkit and more.
-The app supports changing theme (light/dark) and orientation of the navigation bar.
+This is my first project about using the full React functionality: hooks (useState, useEffect, useReducer, useContext, useRef, useMemo, useCallback, etc.), HOCs, Portals and more. Additionaly used Redux toolkit.
 
 In the project directory, you can run:
 
