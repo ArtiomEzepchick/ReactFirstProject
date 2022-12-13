@@ -8,7 +8,11 @@ const links = [
     {
         label: "Redux", 
         href: paths.redux
-    }
+    },
+    {
+        label: "More", 
+        href: paths.more
+    },
 ]
 
 export default links
