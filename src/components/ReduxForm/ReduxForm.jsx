@@ -43,9 +43,9 @@ const ReduxForm = () => {
     }
 
     return (
-        <main>
+        <div>
             <h1 style={{ marginTop: '1rem' }}>
-                Form using <span className='highlight-red'>Redux Toolkit</span>
+                Form using <span className='highlight-turk'>Redux Toolkit</span>
             </h1>
             <hr />
             <div className="accordion-container">
@@ -83,7 +83,7 @@ const ReduxForm = () => {
                     handleClick={() => dispatch(clearForm())}
                 />
             </div>
-        </main>
+        </div>
     )
 }
 

@@ -1,6 +1,6 @@
 export const accordionHomePageData = [
     {
-        title: `What's on this page?`,
+        title: `What's here?`,
         content: [
             {
                 text: `This page represents standard form with different inputs and areas`
@@ -14,7 +14,7 @@ export const accordionHomePageData = [
         ]
     },
     {
-        title: 'What React features were used here?',
+        title: 'What React features were used on this page?',
         content: [
             {
                 text: `Made of functional components`
@@ -43,22 +43,25 @@ export const accordionHomePageData = [
             {
                 text: `Used dynamic imports (React.lazy, React.Suspense and Loader-component) to 
                 simulate code-splitting`
+            },
+            {
+                text: 'Consumed 3rd-party libraries as Ant.d, coolors, classNames, JSON server'
             }
-    ]
+        ]
     }
 ]
 
 export const accordionReduxPageData = [
     {
-        title: `What's on this page?`,
+        title: `What's here?`,
         content: [
             {
-               text: `This page is the same form as on Home page but fully using Redux Toolkit`
+                text: `This page is the same form as on Home page but fully using Redux Toolkit`
             }
         ]
     },
     {
-        title: 'What Redux Tooklit features were used here?',
+        title: 'What Redux Tooklit features were used on this page?',
         content: [
             {
                 text: `configureStore`
@@ -72,9 +75,40 @@ export const accordionReduxPageData = [
             {
                 text: `extraReducers builder`
             },
-            { 
+            {
                 text: `useDispatch and useSelector hooks`
             }
         ]
     },
+]
+
+export const accordionMorePageData = [
+    {
+        title: `What's here?`,
+        content: [
+            {
+                text: `This page consumes REST API and modal notifications`
+            }
+        ]
+    },
+    {
+        title: 'What features were used on this page?',
+        content: [
+            {
+                text: `fetch and GET, POST, DELETE methods`
+            },
+            {
+                text: `useLayoutEffect`
+            },
+            {
+                text: `useEffect`
+            },
+            {
+                text: `useState`
+            },
+            {
+                text: `useRef`
+            }
+        ]
+    }
 ]

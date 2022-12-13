@@ -61,9 +61,9 @@ const Home = () => {
     }
 
     return (
-        <main>
+        <div>
             <h1 style={{ marginTop: '1rem' }}>
-                Welcome to <span className='highlight-red'>Artsiom Ezepchik's</span> first React project
+                Welcome to <span className='highlight-blue'>Artsiom Ezepchik's</span> first React project
             </h1>
             <hr />
             <div className="accordion-container">
@@ -101,7 +101,7 @@ const Home = () => {
                     handleClick={handleReset}
                 />
             </div>
-        </main>
+        </div>
     )
 }
 

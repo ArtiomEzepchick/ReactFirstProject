@@ -25,7 +25,6 @@ const Form = ({
                 <h3>Change Counter</h3>
                 <p>Current value: {state.count}</p>
                 <Button
-                    className='change-counter-button'
                     innerText='Increase'
                     handleClick={(e) => {
                         e.preventDefault()
@@ -33,7 +32,6 @@ const Form = ({
                     }}
                 />
                 <Button
-                    className='change-counter-button'
                     innerText='Decrease'
                     handleClick={(e) => {
                         e.preventDefault()
@@ -80,7 +78,6 @@ const Form = ({
 
             <Button
                 handleClick={handleSubmit}
-                className='submit-button'
                 innerText='Submit'
             />
         </form>
