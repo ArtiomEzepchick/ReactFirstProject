@@ -65,21 +65,3 @@
   grid-area: reset;
   justify-self: center;
 }
-
-.reset-button,
-.submit-button,
-.change-counter-button {
-  width: 4rem;
-  height: 2.5rem;
-  border: 1px solid #14141441;
-  background-color: #fff;
-  cursor: pointer;
-  transition: 0.1s ease-in;
-}
-
-.reset-button:hover,
-.submit-button:hover,
-.change-counter-button:hover {
-  border: 1px solid #3498db;
-  color: #3498db;
-}

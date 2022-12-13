@@ -1,10 +1,12 @@
 import React from "react"
 import PropTypes from 'prop-types'
+import classNames from 'classnames'
+import './styles.css'
 
 const Button = ({ className, type, innerText, handleClick }) => {
     return (
         <button
-            className={className}
+            className={classNames('button', className)}
             onClick={handleClick}
             type={type}
         >

@@ -1,14 +1,38 @@
-.rest {
+.wrapper {
+    width: 100%;
+    height: 100%;
+}
+
+.accordion-container {
     display: flex;
     justify-content: center;
-    width: 100vw;
+    padding: 1rem;
+    width: 100%;
+    gap: 1rem;
+}
+
+.rest {
+    position: relative;
+    display: flex;
+    justify-content: center;
     min-height: 30vh;
+    gap: 4rem;
+    padding-top: 1rem;
 }
 
 .add-post-container {
+    top: 5%;
+    position: sticky;
     display: flex;
     flex-direction: column;
     padding: 1rem;
+}
+
+.add-post-container h3 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 3.5rem;
 }
 
 .add-post-container form {
@@ -20,13 +44,16 @@
 
 .add-post-container,
 .posts-container {
-    width: 100%;
-    height: 100%;
+    width: 25rem;
+    height: max-content;
+    border: 1px solid var(--color-blue);
+    border-radius: 12px;
 }
 
 .input-container {
     display: flex;
     justify-content: center;
+    height: 4rem;
 }
 
 .input-container label {
@@ -47,7 +74,16 @@
 }
 
 .textarea-content {
-    width: 18rem;
+    width: 17rem;
     height: 5rem;
     padding: 0.5rem;
+}
+
+.posts-container.hidden {
+    border: none;
+}
+
+.post-user-name,
+.post-message {
+    word-wrap: break-word;
 }

@@ -2,12 +2,13 @@ import React from "react"
 import PropTypes from 'prop-types'
 
 const Input = ({ 
-    className, 
+    className,
+    labelText,
+    maxLength,  
     name, 
-    value, 
-    labelText, 
+    placeholder,
     type, 
-    placeholder, 
+    value, 
     handleChange, 
     handleFocus 
 }) => {
@@ -18,6 +19,7 @@ const Input = ({
                 <input
                     placeholder={placeholder}
                     name={name}
+                    maxLength={maxLength}
                     type={type}
                     value={value}
                     onChange={handleChange}
@@ -32,6 +34,7 @@ Input.propTypes = {
     className: PropTypes.string,
     labelText: PropTypes.string,
     name: PropTypes.string,
+    maxLength: PropTypes.string,
     placeholder: PropTypes.string,
     type: PropTypes.string,
     value: PropTypes.oneOfType([
