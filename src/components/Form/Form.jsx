@@ -71,6 +71,7 @@ const Form = ({
             <TextArea
                 className='form-textarea'
                 name='commentsField'
+                placeholder='Comment here...'
                 value={state.commentsField}
                 handleChange={handleChange}
             />

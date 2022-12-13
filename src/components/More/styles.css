@@ -1,0 +1,53 @@
+.rest {
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+    min-height: 30vh;
+}
+
+.add-post-container {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+}
+
+.add-post-container form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.add-post-container,
+.posts-container {
+    width: 100%;
+    height: 100%;
+}
+
+.input-container {
+    display: flex;
+    justify-content: center;
+}
+
+.input-container label {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.input-container label span {
+    padding-right: 1rem;
+}
+
+.input-container input {
+    padding: 0.3rem;
+    width: 16rem;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.textarea-content {
+    width: 18rem;
+    height: 5rem;
+    padding: 0.5rem;
+}

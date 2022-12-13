@@ -1,16 +1,27 @@
 import React from "react"
 import PropTypes from 'prop-types'
 
-const Input = ({ className, name, value, labelText, type, handleChange }) => {
+const Input = ({ 
+    className, 
+    name, 
+    value, 
+    labelText, 
+    type, 
+    placeholder, 
+    handleChange, 
+    handleFocus 
+}) => {
     return (
         <div className={className}>
             <label>
-                {labelText}
+                <span>{labelText}</span>
                 <input
+                    placeholder={placeholder}
                     name={name}
-                    value={value}
                     type={type}
+                    value={value}
                     onChange={handleChange}
+                    onFocus={handleFocus}
                 />
             </label>
         </div>
@@ -21,12 +32,14 @@ Input.propTypes = {
     className: PropTypes.string,
     labelText: PropTypes.string,
     name: PropTypes.string,
-    type: PropTypes.string.isRequired,
+    placeholder: PropTypes.string,
+    type: PropTypes.string,
     value: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.number
     ]).isRequired,
-    handleChange: PropTypes.func.isRequired
+    handleChange: PropTypes.func,
+    handleFocus: PropTypes.func
 }
 
 export default Input

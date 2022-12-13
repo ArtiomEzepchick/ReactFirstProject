@@ -43,7 +43,7 @@ const ReduxForm = () => {
     }
 
     return (
-        <div>
+        <main>
             <h1 style={{ marginTop: '1rem' }}>
                 Form using <span className='highlight-red'>Redux Toolkit</span>
             </h1>
@@ -58,7 +58,7 @@ const ReduxForm = () => {
                 ))}
             </div>
             <hr />
-            <main className='main-container'>
+            <div className='main-container'>
                 <Form
                     state={formData}
                     prevCountRef={prevCountRef}
@@ -82,8 +82,8 @@ const ReduxForm = () => {
                     innerText='Reset'
                     handleClick={() => dispatch(clearForm())}
                 />
-            </main>
-        </div>
+            </div>
+        </main>
     )
 }
 

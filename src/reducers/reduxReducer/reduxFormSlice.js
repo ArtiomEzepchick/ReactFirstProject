@@ -11,7 +11,6 @@ export const initialState = {
   carBrands: 'mitsubishi',
   commentsField: '',
   count: 0,
-  status: 'idle',
   isLoading: false,
   isLoaded: false,
 }

@@ -1,6 +1,7 @@
 import paths from "../paths/paths";
 import HomePage from "../../pages/Home/HomePage";
 import ReduxPage from "../../pages/Redux/ReduxPage";
+import MorePage from "../../pages/Rest/RestPage";
 
 const routes = [
     {
@@ -10,6 +11,10 @@ const routes = [
     {
         path: paths.redux,
         component: <ReduxPage />
+    },
+    {
+        path: paths.more,
+        component: <MorePage />
     }
 ]
 

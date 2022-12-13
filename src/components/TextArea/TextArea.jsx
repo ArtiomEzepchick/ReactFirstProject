@@ -1,21 +1,23 @@
 import React from "react"
 import PropTypes from 'prop-types'
 
-const TextArea = ({ value, name, handleChange }) => {
+const TextArea = ({ className, placeholder, value, name, handleChange }) => {
     return (
         <textarea
             name={name}
-            className='form-textarea'
+            className={className}
             value={value}
             onChange={handleChange}
-            placeholder='Comment here...'
+            placeholder={placeholder}
         />
     )
 }
 
 TextArea.propTypes = {
+    className: PropTypes.string,
     name: PropTypes.string,
-    value: PropTypes.string.isRequired,
+    placeholder: PropTypes.string,
+    value: PropTypes.string,
     handleChange: PropTypes.func
 }
 

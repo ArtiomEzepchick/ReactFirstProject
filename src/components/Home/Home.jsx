@@ -61,7 +61,7 @@ const Home = () => {
     }
 
     return (
-        <div>
+        <main>
             <h1 style={{ marginTop: '1rem' }}>
                 Welcome to <span className='highlight-red'>Artsiom Ezepchik's</span> first React project
             </h1>
@@ -76,7 +76,7 @@ const Home = () => {
                 ))}
             </div>
             <hr />
-            <main className='main-container'>
+            <div className='main-container'>
                 <Form
                     state={state}
                     prevCountRef={prevCountRef}
@@ -100,8 +100,8 @@ const Home = () => {
                     innerText='Reset'
                     handleClick={handleReset}
                 />
-            </main>
-        </div>
+            </div>
+        </main>
     )
 }
 
