@@ -1,7 +1,7 @@
-import React from "react"
+import React, { forwardRef } from "react"
 import PropTypes from 'prop-types'
 
-const Input = ({ 
+const Input = forwardRef(({ 
     className,
     labelText,
     maxLength,  
@@ -11,12 +11,13 @@ const Input = ({
     value, 
     handleChange, 
     handleFocus 
-}) => {
+}, ref) => {
     return (
         <div className={className}>
             <label>
                 <span>{labelText}</span>
                 <input
+                    ref={ref}
                     placeholder={placeholder}
                     name={name}
                     maxLength={maxLength}
@@ -28,7 +29,7 @@ const Input = ({
             </label>
         </div>
     )
-}
+})
 
 Input.propTypes = {
     className: PropTypes.string,

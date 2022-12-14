@@ -40,6 +40,12 @@ hr {
   border: none;
 }
 
+.blocked {
+  opacity: 0.4;
+  pointer-events: none;
+  cursor: wait;
+}
+
 .highlight-purple {
   color: var(--color-purple)
 }
