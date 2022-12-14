@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from "react"
 import classNames from "classnames"
+import { useScrollLock } from "../../hooks/useScrollLock"
 import MODAL_TYPES from "./modalTypes"
 import PropTypes from 'prop-types'
 import Overlay from "../Overlay/Overlay"
@@ -9,54 +10,58 @@ import './styles.css'
 const AlertModal = ({
     headerText,
     contentText,
-    isOpen,
+    isModalOpen,
     modalType,
     handleReturn,
     handleCloseModal,
-    handleCloseSuccessModal
+    handleOutsideClick
 }) => {
-    const modalRef = useRef(null);
+    const modalRef = useRef(null)
+    const { lockScroll, unlockScroll } = useScrollLock()
 
-    // useEffect(() => {
-    //     const handleClickOutside = (event) => {
-    //         if (modalRef.current && !modalRef.current.contains(event.target)) {
-    //             handleCloseModal()
-    //         }
-    //     }
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (modalRef.current && !modalRef.current.contains(e.target)) {
+                handleOutsideClick()
+            }
+        }
 
-    //     document.addEventListener('click', handleClickOutside);
+        document.addEventListener('click', handleClickOutside);
 
-    //     return () => document.removeEventListener('click', handleClickOutside)
-    // }, [modalRef, handleCloseModal])
+        return () => document.removeEventListener('click', handleClickOutside)
+    }, [modalRef, handleOutsideClick])
+
+    isModalOpen ? lockScroll() : unlockScroll()
 
     return (
-        <div className={classNames('modal-container', isOpen && 'show-modal')}>
-            <Overlay />
-            <div data-type={modalType} className={classNames("modal", "flex-all-centered")} ref={modalRef}>
-                <div>
-                    <h1>{headerText}</h1>
-                    <p>{contentText}</p>
-                </div>
-                <div className={"modal-actions"}>
-                    <Button
-                        innerText='Ok'
-                        handleClick={modalType === MODAL_TYPES.SUCCESS ? handleCloseSuccessModal : handleCloseModal}
-                    />
-                    {modalType !== MODAL_TYPES.SUCCESS && <Button innerText="Return to edit" handleClick={handleReturn} />}
+        <Overlay isModalOpen={isModalOpen}>
+            <div className={classNames('modal-container', isModalOpen && 'show')}>
+                <div data-type={modalType} className={classNames("modal", "flex-all-centered")} ref={modalRef}>
+                    <div>
+                        <h1>{headerText}</h1>
+                        <p>{contentText}</p>
+                    </div>
+                    {modalType !== MODAL_TYPES.SUCCESS && <div className={"modal-actions"}>
+                        <Button
+                            innerText='Ok'
+                            handleClick={handleCloseModal}
+                        />
+                        <Button innerText="Return to edit" handleClick={handleReturn} />
+                    </div>}
                 </div>
             </div>
-        </div>
+        </Overlay>
     )
 }
 
 AlertModal.propTypes = {
     headerText: PropTypes.string,
     contentText: PropTypes.string,
-    isOpen: PropTypes.bool.isRequired,
+    isModalOpen: PropTypes.bool.isRequired,
     modalType: PropTypes.string,
     handleReturn: PropTypes.func,
     handleCloseModal: PropTypes.func,
-    handleCloseSuccessModal: PropTypes.func
+    handleOutsideClick: PropTypes.func
 }
 
 export default AlertModal

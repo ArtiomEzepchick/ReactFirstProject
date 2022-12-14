@@ -1,20 +1,10 @@
-#modal {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 100;
-    transition: all 0.5s ease-in-out;
-}
-
 .modal-container {
     display: none;
     width: 100%;
     height: 100%;
 }
 
-.modal-container.show-modal {
+.modal-container.show {
     display: block;
 }
 
@@ -30,14 +20,12 @@
     padding: 1rem;
     z-index: 1;
     opacity: 1;
-    transition: all 0.5s ease-in-out;
+    transition: all 0.2s ease-in-out;
     box-shadow: 24px 19px 8px 0px rgba(34, 60, 80, 0.2);
 }
 
-.modal-container.show-modal .modal {}
-
 .modal[data-type='alert'] {
-    background-color: #ff8181;
+    background-color: #ffafcc;
 }
 
 .modal[data-type='success'] {
