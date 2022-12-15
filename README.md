@@ -1,6 +1,6 @@
 Greetings.
 
-This is my first project about using the full React functionality: hooks (useState, useEffect, useLayoutEffect, useReducer, useContext, useRef, useCallback, etc.), React.Memo, HOCs, Portals, Context and more. 
+This is my first project about using the full React functionality: hooks (useState, useEffect, useReducer, useContext, useRef, useCallback, etc.), React.Memo, HOCs, Portals, Context and more. 
 Used Redux Toolkit.
 
 Additionally applied JSON server.
