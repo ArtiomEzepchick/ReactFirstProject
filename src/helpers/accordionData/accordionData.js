@@ -57,14 +57,13 @@ export const accordionMorePageData = [
         title: 'What features were used on this page?',
         content: [
             { text: "GET, POST, DELETE methods with fetch" },
-            { text: "ReactDOM.createPortal" },
-            { text: "HOC" },
             { text: "useCallback" },
             { text: "useEffect" },
-            { text: "useLayoutEffect" },
             { text: "useState" },
             { text: "useRef" },
-            { text: "useScrollLock custom hook"}
+            { text: "useScrollLock custom hook"},
+            { text: "HOC" },
+            { text: "ReactDOM.createPortal" }
         ]
     }
 ]
