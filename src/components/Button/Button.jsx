@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import './styles.css'
 
-const Button = ({ className, type, innerText, handleClick }) => {
+const Button = ({ className, type, innerText, handleClick, isLoading }) => {
     return (
         <button
-            className={classNames('button', className)}
+            className={classNames('button', isLoading && "blocked", className)}
             onClick={handleClick}
             type={type}
         >
