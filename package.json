@@ -21,6 +21,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:all": "npm run start & npx json-server --watch  db.json",
     "start:server": "npx json-server --watch  db.json",
     "build": "react-scripts build",
     "test": "react-scripts test",
