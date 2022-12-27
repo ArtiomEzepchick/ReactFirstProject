@@ -36,11 +36,8 @@ const Posts = () => {
             const response = await fetch('http://localhost:3001/posts')
             const data = await response.json()
 
-            // @todo: maka delay using json server API, DELETE ALL THE TIMEOUTS
-            setTimeout(() => {
-                setPosts(data)
-                setIsLoading(false)
-            }, 1500)
+            setPosts(data)
+            setIsLoading(false)
         } catch {
             throw new Error('Failed to get posts')
         }
@@ -68,6 +65,9 @@ const Posts = () => {
 
         if (userName.trim()) {
             try {
+                setIsLoading(true)
+                setIsModalOpen(true)
+
                 const response = await fetch('http://localhost:3001/posts', {
                     method: 'POST',
                     body: JSON.stringify({
@@ -83,7 +83,6 @@ const Posts = () => {
 
                 const data = await response.json()
 
-                setIsLoading(true)
                 setIsUserAdded(true)
 
                 setModalSettings({
@@ -92,16 +91,10 @@ const Posts = () => {
                     contentText: 'New post added'
                 })
 
-                setTimeout(() => {
-                    setPosts((posts) => [...posts, data])
-                    setMessage('')
-                    setIsLoading(false)
-                    setIsModalOpen(true)
-
-                    setTimeout(() => {
-                        setIsModalOpen(false)
-                    }, 900)
-                }, 600)
+                setPosts((posts) => [...posts, data])
+                setMessage('')
+                setIsLoading(false)
+                setIsModalOpen(false)
             } catch {
                 throw new Error('Failed to add post')
             }
@@ -110,16 +103,13 @@ const Posts = () => {
 
     const deletePost = async (id) => {
         try {
+            setIsLoading(true)
             const response = await fetch(`http://localhost:3001/posts/${id}`, { method: 'DELETE' })
 
 
             if (response.status === 200) {
-                setIsLoading(true)
-
-                setTimeout(() => {
-                    setIsLoading(false)
-                    return setPosts(posts.filter((post) => post.id !== id))
-                }, 300)
+                setIsLoading(false)
+                return setPosts(posts.filter((post) => post.id !== id))
             }
             /** @toDO:
               1. set loader to false on request fail
