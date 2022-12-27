@@ -4,8 +4,7 @@ import { accordionMorePageData } from "../../helpers/accordionData/accordionData
 import Posts from "../Posts/Posts"
 import './styles.css'
 
-// toDo: rename
-const More = () => {
+const RestAPI = () => {
     return (
         <div className='more-page-wrapper'>
             <h1 style={{ marginTop: '1rem' }}>
@@ -27,4 +26,4 @@ const More = () => {
     )
 }
 
-export default More
+export default RestAPI

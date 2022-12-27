@@ -2,8 +2,8 @@ import React, { lazy, Suspense } from 'react'
 import MainLayout from '../../components/MainLayout/MainLayout'
 import Loader from '../../components/Loader/Loader'
 
-const More = lazy(() =>
-    import("../../components/More/More").then((component) => {
+const RestAPI = lazy(() =>
+    import("../../components/RestAPI/RestAPI").then((component) => {
         return new Promise((resolve) => {
             setTimeout(() => {
                 resolve(component)
@@ -12,14 +12,14 @@ const More = lazy(() =>
     })
 )
 
-const MorePage = () => {
+const RestPage = () => {
     return(
         <MainLayout>
             <Suspense fallback={<Loader />}>
-                <More />
+                <RestAPI />
             </Suspense>
         </MainLayout>
     )
 }
 
-export default MorePage
+export default RestPage
