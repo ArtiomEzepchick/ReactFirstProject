@@ -10,6 +10,7 @@ import './styles.css'
 const Modal = ({
     headerText,
     contentText,
+    children,
     isModalOpen,
     modalType,
     handleReturn,
@@ -20,6 +21,8 @@ const Modal = ({
     const { lockScroll, unlockScroll } = useScrollLock()
 
     useEffect(() => {
+        isModalOpen ? lockScroll() : unlockScroll()
+        
         const handleClickOutside = (e) => {
             if (modalRef.current && !modalRef.current.contains(e.target)) {
                 handleOutsideClick()
@@ -29,9 +32,7 @@ const Modal = ({
         document.addEventListener('click', handleClickOutside);
 
         return () => document.removeEventListener('click', handleClickOutside)
-    }, [modalRef, handleOutsideClick])
-
-    isModalOpen ? lockScroll() : unlockScroll()
+    }, [modalRef, handleOutsideClick, isModalOpen, lockScroll, unlockScroll])
 
     return (
         <Overlay isModalOpen={isModalOpen}>
@@ -41,6 +42,9 @@ const Modal = ({
                         <h1>{headerText}</h1>
                         <p>{contentText}</p>
                     </div>
+
+                    {children}
+
                     {modalType !== MODAL_TYPES.SUCCESS && <div className={"modal-actions"}>
                         <Button
                             innerText='Ok'

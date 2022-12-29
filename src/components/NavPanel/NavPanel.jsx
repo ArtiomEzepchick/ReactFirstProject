@@ -1,4 +1,6 @@
 import React from "react"
+import Modal from "../Modal/Modal"
+import * as ReactDOM from "react-dom"
 import classNames from "classnames"
 import { Link } from "../Link/Link"
 import Button from "../Button/Button"
@@ -22,9 +24,18 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
                     })}
                 </div>
 
+                <div className={classNames('login-buttons-container', 'flex-all-centered', !isHorizontal && 'vertical')}>
+                    <Button
+                        innerText="Register"
+                    />
+                    <Button
+                        innerText="Login"
+                    />
+                </div>
+
                 <div className={classNames('toggle-buttons-container', 'flex-all-centered', !isHorizontal && 'vertical')}>
                     <Button
-                        innerText='Toggle Nav Panel Orientation'
+                        innerText={isHorizontal ? 'Move panel to the left' : 'Move panel to the top'}
                         className='toggle-button'
                         handleClick={handleChangeOrientation}
                     />
@@ -35,6 +46,18 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
                     />
                 </div>
             </nav>
+            {ReactDOM.createPortal(
+                <Modal
+                // headerText={headerText}
+                // contentText={contentText}
+                // modalType={modalType}
+                // isModalOpen={isModalOpen}
+                // handleReturn={handleReturnToEdit}
+                // handleCloseModal={handleCloseModalAndSubmit}
+                // handleOutsideClick={() => setIsModalOpen(false)}
+                >
+
+                </Modal>, document.getElementById('modal'))}
         </header>
     )
 }

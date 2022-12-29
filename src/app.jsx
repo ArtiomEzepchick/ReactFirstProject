@@ -5,6 +5,7 @@ import routes from "./helpers/routes/routes";
 import { initialState, reducers } from "./reducers/contextReducer/contextReducer";
 import { ThemeContext } from "./contexts/themeContext/ThemeContext";
 import { OrientationContext } from "./contexts/orientationContext/OrientationContext";
+import { ModalContext } from "./contexts/modalContext/ModalContext";
 import { store } from './stores/store';
 
 const App = () => {
@@ -19,11 +20,13 @@ const App = () => {
                             key={path}
                             path={path}
                             element={
-                                <OrientationContext.Provider value={{ state, dispatch }}>
-                                    <ThemeContext.Provider value={{ state, dispatch }} >
-                                        {component}
-                                    </ThemeContext.Provider>
-                                </OrientationContext.Provider>
+                                <ModalContext.Provider value={{ state, dispatch }}>
+                                    <OrientationContext.Provider value={{ state, dispatch }}>
+                                        <ThemeContext.Provider value={{ state, dispatch }} >
+                                            {component}
+                                        </ThemeContext.Provider>
+                                    </OrientationContext.Provider>
+                                </ModalContext.Provider>
                             }
                         />
                     ))}

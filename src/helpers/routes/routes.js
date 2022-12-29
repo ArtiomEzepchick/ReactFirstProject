@@ -1,7 +1,7 @@
 import paths from "../paths/paths";
 import HomePage from "../../pages/Home/HomePage";
 import ReduxPage from "../../pages/Redux/ReduxPage";
-import RestPage from "../../pages/Rest/RestPage";
+import PostsPage from "../../pages/Posts/PostsPage";
 
 const routes = [
     {
@@ -13,8 +13,8 @@ const routes = [
         component: <ReduxPage />
     },
     {
-        path: paths.rest,
-        component: <RestPage />
+        path: paths.posts,
+        component: <PostsPage />
     }
 ]
 

@@ -10,8 +10,8 @@ const links = [
         href: paths.redux
     },
     {
-        label: "REST API", 
-        href: paths.rest
+        label: "Posts", 
+        href: paths.posts
     },
 ]
 
