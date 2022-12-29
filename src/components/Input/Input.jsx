@@ -17,10 +17,10 @@ const Input = forwardRef(({
             <label>
                 <span>{labelText}</span>
                 <input
+                    maxLength={maxLength}
+                    name={name}
                     ref={ref}
                     placeholder={placeholder}
-                    name={name}
-                    maxLength={maxLength}
                     type={type}
                     value={value}
                     onChange={handleChange}

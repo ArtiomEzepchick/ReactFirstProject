@@ -19,7 +19,7 @@ const Chat = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [posts, setPosts] = useState([])
     const userNameRef = useRef(null)
-    const postsRef = useRef(null)
+    const messageRef = useRef(null)
     const {
         state: {
             modalSettings: { modalType, headerText, contentText },
@@ -48,8 +48,17 @@ const Chat = () => {
 
     const addPost = async (userName, message) => {
         if (!message.trim()) {
-            // @toDo: DO NOT MUTATE FUNCTIONAL ARGUMENTS
-            message = 'No message'
+            dispatch({ type: REDUCER_TYPES.TOGGLE_MODAL, payload: true })
+
+            dispatch({
+                type: REDUCER_TYPES.CHANGE_MODAL, payload: {
+                    modalType: MODAL_TYPES.ALERT,
+                    headerText: 'Message field is empty',
+                    contentText: 'You need to type something'
+                }
+            })
+
+            return
         }
 
         if (!userName.trim()) {
@@ -119,7 +128,7 @@ const Chat = () => {
                 setIsLoading(false)
                 setPosts(posts.filter((post) => post.id !== id))
             }
-            
+
             /** @toDO:
               1. set loader to false on request fail
               2. simulate error and create a case with modal on error
@@ -154,8 +163,10 @@ const Chat = () => {
         e.preventDefault()
 
         dispatch({ type: REDUCER_TYPES.TOGGLE_MODAL, payload: false })
-        setIsUserAdded(false)
-        userNameRef.current.focus()
+
+        if (!message.trim()) {
+            messageRef.current.focus()
+        }
     }
 
     const handleSubmit = async (e) => {
@@ -174,28 +185,31 @@ const Chat = () => {
     return (
         <div className="manage-posts-container">
             <div className="add-post-container">
-                <h2 className="highlight-blue">Create posts</h2>
+                <h2 className="highlight-blue">Create post</h2>
                 <hr />
                 <form onSubmit={handleSubmit}>
-                    {!isUserAdded ? <Input
-                        className="input-container"
-                        labelText='Who are you?'
-                        placeholder='Your name here'
-                        maxLength='25'
-                        type="text"
-                        ref={userNameRef}
-                        value={userName}
-                        handleChange={(e) => setUserName(e.target.value)}
-                        handleFocus={() => userName === 'Unknown' && setUserName('')}
-                    />
+                    {!isUserAdded
+                        ? <Input
+                            className="input-container"
+                            labelText='Who are you?'
+                            placeholder='Your name here'
+                            maxLength='25'
+                            type="text"
+                            ref={userNameRef}
+                            value={userName}
+                            handleChange={(e) => setUserName(e.target.value)}
+                            handleFocus={() => userName === 'Unknown' && setUserName('')}
+                        />
                         : <h3>Hello, {userName}!</h3>
                     }
-                    {!isUserAdded ?
-                        <Button innerText="Confirm" handleClick={handleConfirmUserName} /> :
-                        <Button innerText='Change name' handleClick={handleChangeUserName} />}
+                    {!isUserAdded
+                        ? <Button innerText="Confirm" handleClick={handleConfirmUserName} />
+                        : <Button innerText='Change name' handleClick={handleChangeUserName} />
+                    }
                     <TextArea
-                        placeholder="What's on your mind?"
                         className="textarea-content"
+                        placeholder="What's on your mind?"
+                        ref={messageRef}
                         value={message}
                         handleChange={(e) => setMessage(e.target.value)}
                     />
@@ -204,23 +218,26 @@ const Chat = () => {
             </div>
             <div>
                 {isLoading && <Loader />}
-                <div ref={postsRef} className={classNames("posts-container", isLoading && "blocked")}>
-                    <h2 className="highlight-purple">Your created posts</h2>
+                <div className={classNames("posts-container", isLoading && "blocked")}>
+                    <h2 className="highlight-purple">Published posts</h2>
                     <hr />
-                    {posts.map(({ id, userName, message, time }) => {
-                        return (
-                            <div className="post-card" key={id}>
-                                <h3 className="post-user-name">{userName}</h3>
-                                <p className="post-message">{message}</p>
-                                <p className="post-time">Posted: {time}</p>
-                                <Button
-                                    className='delete-button'
-                                    innerText="Delete"
-                                    handleClick={() => deletePost(id)}
-                                />
-                            </div>
-                        )
-                    })}
+                    {!posts.length
+                        ? <p style={{ textAlign: 'center' }}>No posts in here. You'll be the first!</p>
+                        : posts.map(({ id, userName, message, time }) => {
+                            return (
+                                <div className="post-card" key={id}>
+                                    <h3 className="post-user-name">{userName}</h3>
+                                    <p className="post-message">{message}</p>
+                                    <p className="post-time">Posted: {time}</p>
+                                    <Button
+                                        className='delete-button'
+                                        innerText="Delete"
+                                        handleClick={() => deletePost(id)}
+                                    />
+                                </div>
+                            )
+                        })
+                    }
                 </div>
             </div>
             {ReactDOM.createPortal(

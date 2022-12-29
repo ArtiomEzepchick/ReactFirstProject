@@ -46,10 +46,6 @@ const Modal = ({
                     {children}
 
                     {modalType !== MODAL_TYPES.SUCCESS && <div className={"modal-actions"}>
-                        <Button
-                            innerText='Ok'
-                            handleClick={handleCloseModal}
-                        />
                         <Button innerText="Return to edit" handleClick={handleReturn} />
                     </div>}
                 </div>

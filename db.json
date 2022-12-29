@@ -1,11 +1,4 @@
 {
-  "posts": [
-    {
-      "userName": "Unknown",
-      "message": "No message",
-      "time": "29.12.2022, 12:52:05",
-      "id": "l9Xr-1S9zriuUr70zRBmb"
-    }
-  ],
+  "posts": [],
   "users": []
 }
