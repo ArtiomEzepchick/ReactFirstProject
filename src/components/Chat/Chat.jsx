@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef, useCallback, useContext } from "react";
-import * as ReactDOM from "react-dom"
 import { nanoid } from "nanoid";
 import classNames from 'classnames'
 import TextArea from "../TextArea/TextArea"
@@ -9,10 +8,12 @@ import Loader from "../Loader/Loader"
 import { ModalContext } from "../../contexts/modalContext/ModalContext"
 import Modal from "../Modal/Modal"
 import MODAL_TYPES from "../Modal/modalTypes"
-import { REDUCER_TYPES } from "../../reducers/contextReducer/contextReducer";
+import { REDUCER_TYPES } from "../../reducers/contextReducer/contextReducer"
+import { closeModal } from "../../helpers/functions/closeModal"
 import './styles.css'
 
 const Chat = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false)
     const [userName, setUserName] = useState('')
     const [message, setMessage] = useState('')
     const [isUserAdded, setIsUserAdded] = useState(false)
@@ -23,7 +24,6 @@ const Chat = () => {
     const {
         state: {
             modalSettings: { modalType, headerText, contentText },
-            isModalOpen
         },
         dispatch
     } = useContext(ModalContext)
@@ -48,7 +48,7 @@ const Chat = () => {
 
     const addPost = async (userName, message) => {
         if (!message.trim()) {
-            dispatch({ type: REDUCER_TYPES.TOGGLE_MODAL, payload: true })
+            setIsModalOpen(true)
 
             dispatch({
                 type: REDUCER_TYPES.CHANGE_MODAL, payload: {
@@ -66,7 +66,7 @@ const Chat = () => {
                 setUserName('Unknown')
             }
 
-            dispatch({ type: REDUCER_TYPES.TOGGLE_MODAL, payload: true })
+            setIsModalOpen(true)
 
             dispatch({
                 type: REDUCER_TYPES.CHANGE_MODAL, payload: {
@@ -98,7 +98,7 @@ const Chat = () => {
 
                 setIsUserAdded(true)
 
-                dispatch({ type: REDUCER_TYPES.TOGGLE_MODAL, payload: true })
+                setIsModalOpen(true)
 
                 dispatch({
                     type: REDUCER_TYPES.CHANGE_MODAL, payload: {
@@ -108,7 +108,7 @@ const Chat = () => {
                     }
                 })
 
-                setTimeout(() => dispatch({ type: REDUCER_TYPES.TOGGLE_MODAL, payload: false }), 1000)
+                setTimeout(() => closeModal(setIsModalOpen), 2000)
 
                 setPosts((posts) => [...posts, data])
                 setMessage('')
@@ -159,10 +159,8 @@ const Chat = () => {
         setIsUserAdded(false)
     }
 
-    const handleReturnToEdit = (e) => {
-        e.preventDefault()
-
-        dispatch({ type: REDUCER_TYPES.TOGGLE_MODAL, payload: false })
+    const handleReturnToEdit = () => {
+        closeModal(setIsModalOpen)
 
         if (!message.trim()) {
             messageRef.current.focus()
@@ -172,13 +170,6 @@ const Chat = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        await addPost(userName, message)
-    }
-
-    const handleCloseModalAndSubmit = async (e) => {
-        e.preventDefault()
-
-        dispatch({ type: REDUCER_TYPES.TOGGLE_MODAL, payload: false })
         await addPost(userName, message)
     }
 
@@ -203,8 +194,8 @@ const Chat = () => {
                         : <h3>Hello, {userName}!</h3>
                     }
                     {!isUserAdded
-                        ? <Button innerText="Confirm" handleClick={handleConfirmUserName} />
-                        : <Button innerText='Change name' handleClick={handleChangeUserName} />
+                        ? <Button handleClick={handleConfirmUserName}>Confirm</Button>
+                        : <Button handleClick={handleChangeUserName}>Change name</Button>
                     }
                     <TextArea
                         className="textarea-content"
@@ -213,7 +204,7 @@ const Chat = () => {
                         value={message}
                         handleChange={(e) => setMessage(e.target.value)}
                     />
-                    <Button isLoading={isLoading} innerText='Send post' type='submit' />
+                    <Button isLoading={isLoading} type='submit'>Send post</Button>
                 </form>
             </div>
             <div>
@@ -221,7 +212,7 @@ const Chat = () => {
                 <div className={classNames("posts-container", isLoading && "blocked")}>
                     <h2 className="highlight-purple">Published posts</h2>
                     <hr />
-                    {!posts.length
+                    {!isLoading && !posts.length
                         ? <p style={{ textAlign: 'center' }}>No posts in here. You'll be the first!</p>
                         : posts.map(({ id, userName, message, time }) => {
                             return (
@@ -229,27 +220,24 @@ const Chat = () => {
                                     <h3 className="post-user-name">{userName}</h3>
                                     <p className="post-message">{message}</p>
                                     <p className="post-time">Posted: {time}</p>
-                                    <Button
-                                        className='delete-button'
-                                        innerText="Delete"
-                                        handleClick={() => deletePost(id)}
-                                    />
+                                    <Button className='delete-button' handleClick={() => deletePost(id)}>Delete</Button>
                                 </div>
                             )
                         })
                     }
                 </div>
             </div>
-            {ReactDOM.createPortal(
-                <Modal
-                    headerText={headerText}
-                    contentText={contentText}
-                    modalType={modalType}
-                    isModalOpen={isModalOpen}
-                    handleReturn={handleReturnToEdit}
-                    handleCloseModal={handleCloseModalAndSubmit}
-                    handleOutsideClick={() => dispatch({ type: REDUCER_TYPES.TOGGLE_MODAL, payload: false })}
-                />, document.getElementById('modal'))}
+            <Modal
+                headerText={headerText}
+                contentText={contentText}
+                modalType={modalType}
+                isModalOpen={isModalOpen}
+                handleCloseModal={handleReturnToEdit}
+            >
+                {modalType !== MODAL_TYPES.SUCCESS && <div className={"modal-actions"}>
+                    <Button handleClick={handleReturnToEdit}>Return to edit</Button>
+                </div>}
+            </Modal>
         </div>
     )
 }

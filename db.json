@@ -1,4 +1,11 @@
 {
-  "posts": [],
+  "posts": [
+    {
+      "userName": "Unknown",
+      "message": "dasdas",
+      "time": "03.01.2023, 14:01:01",
+      "id": "tEnU-NTJjl1V-uVJx3UIP"
+    }
+  ],
   "users": []
 }
