@@ -4,6 +4,7 @@ import classNames from "classnames"
 import { useScrollLock } from "../../hooks/useScrollLock"
 import PropTypes from 'prop-types'
 import Overlay from "../Overlay/Overlay"
+import MODAL_TYPES from "./modalTypes"
 import './styles.css'
 
 const Modal = ({
@@ -40,7 +41,7 @@ const Modal = ({
                             <h1>{headerText}</h1>
                             <p>{contentText}</p>
                         </div>
-                        {children}
+                        {modalType !== MODAL_TYPES.SUCCESS && children}
                     </div>
                 </div>
             </Overlay>,

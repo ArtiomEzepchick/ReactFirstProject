@@ -1,22 +1,26 @@
 import React, { forwardRef } from "react"
 import PropTypes from 'prop-types'
 
-const Input = forwardRef(({ 
+const Input = forwardRef(({
     className,
+    children,
+    inputFieldClassName,
     labelText,
-    maxLength,  
-    name, 
+    maxLength,
+    name,
     placeholder,
-    type, 
-    value, 
-    handleChange, 
-    handleFocus 
+    type,
+    value,
+    handleChange,
+    handleFocus,
+    handleBlur
 }, ref) => {
     return (
         <div className={className}>
             <label>
                 <span>{labelText}</span>
                 <input
+                    className={inputFieldClassName}
                     maxLength={maxLength}
                     name={name}
                     ref={ref}
@@ -25,8 +29,10 @@ const Input = forwardRef(({
                     value={value}
                     onChange={handleChange}
                     onFocus={handleFocus}
+                    onBlur={handleBlur}
                 />
             </label>
+            {children}
         </div>
     )
 })

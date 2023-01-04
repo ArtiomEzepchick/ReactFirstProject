@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef, useCallback, useContext } from "react";
-import { nanoid } from "nanoid";
+import React, { useState, useEffect, useRef, useCallback, useContext } from "react"
+import { nanoid } from "nanoid"
 import classNames from 'classnames'
 import TextArea from "../TextArea/TextArea"
 import Input from "../Input/Input"
@@ -57,7 +57,7 @@ const Chat = () => {
                     contentText: 'You need to type something'
                 }
             })
-
+            
             return
         }
 

@@ -12,6 +12,7 @@
     animation: rotate 2s linear infinite;
     margin-top: -1.5rem;
     margin-left: -1.5rem;
+    z-index: 500;
 }
 
 @keyframes rotate {

@@ -2,10 +2,47 @@
   "posts": [
     {
       "userName": "Unknown",
-      "message": "dasdas",
-      "time": "03.01.2023, 14:01:01",
-      "id": "tEnU-NTJjl1V-uVJx3UIP"
+      "message": "dsadsa",
+      "time": "04.01.2023, 19:32:13",
+      "id": "n2Vim9svW5MyLqlRWh5k_"
+    },
+    {
+      "userName": "Unknown",
+      "message": "das",
+      "time": "04.01.2023, 19:32:16",
+      "id": "8H_WDtsefeJrKIZBNDh7O"
+    },
+    {
+      "userName": "Unknown",
+      "message": "dsadsa",
+      "time": "04.01.2023, 19:32:19",
+      "id": "znZF4EIwmdVIreNYF0ebF"
+    },
+    {
+      "userName": "Unknown",
+      "message": "dsad",
+      "time": "04.01.2023, 19:49:15",
+      "id": "5MuYPOD8OYdFnzFbjeYS_"
+    },
+    {
+      "userName": "Unknown",
+      "message": "dsadsa",
+      "time": "04.01.2023, 19:57:00",
+      "id": "FJXaIZ8zZdprhov-6BosH"
     }
   ],
-  "users": []
+  "users": [
+    {
+      "name": "a",
+      "password": "25810210",
+      "email": "artem.ezepchik@gmail.com",
+      "id": "ITGxYIECQvcdnP0ydbja1"
+    },
+    {
+      "name": "Wenghelm",
+      "password": "25810210",
+      "email": "tyomkarulez@gmail.com",
+      "id": "UUv7mKW0OzJfCp1MRtM7g"
+    }
+  ]
 }

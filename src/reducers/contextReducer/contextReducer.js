@@ -6,12 +6,14 @@ export const initialState = {
         headerText: '',
         contentText: '',
     },
+    isModalOpen: false
 }
 
 export const REDUCER_TYPES = {
     TOGGLE_THEME: 'TOGGLE_THEME',
     TOGGLE_ORIENTATION: 'TOGGLE_ORIENTATION',
-    CHANGE_MODAL: 'CHANGE_MODAL',
+    TOGGLE_MODAL: 'TOGGLE_MODAL',
+    CHANGE_MODAL: 'CHANGE_MODAL'
 }
 
 export const reducers = ((state, action) => {
@@ -31,7 +33,12 @@ export const reducers = ((state, action) => {
                 ...state,
                 modalSettings: action.payload
             }
-        default: 
+        case REDUCER_TYPES.TOGGLE_MODAL:
+            return {
+                ...state,
+                isModalOpen: action.payload
+            }
+        default:
             return state
     }
 })

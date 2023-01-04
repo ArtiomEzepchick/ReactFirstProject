@@ -1,8 +1,10 @@
-import React, { useContext, useReducer, useEffect, useState } from "react"
+import React, { useContext, useState } from "react"
+import { nanoid } from "nanoid"
 import PropTypes from 'prop-types'
 import classNames from "classnames"
-import Input from "../Input/Input"
 import Modal from "../Modal/Modal"
+import Loader from "../Loader/Loader"
+import RegisterForm from "../RegisterForm/RegisterForm"
 import { Link } from "../Link/Link"
 import Button from "../Button/Button"
 import links from "../../helpers/links/links"
@@ -10,15 +12,24 @@ import { ModalContext } from "../../contexts/modalContext/ModalContext"
 import MODAL_TYPES from "../Modal/modalTypes"
 import { closeModal } from "../../helpers/functions/closeModal"
 import { REDUCER_TYPES } from "../../reducers/contextReducer/contextReducer"
-import { inputs } from "../../helpers/registerFormData/registerFormData"
-import { initialValues, registerFormReducer, REGISTER_FORM_ACTION_TYPES } from "../../reducers/registerFormReducer/registerFormReducer"
+import { useLoginFormValidator } from "../../hooks/useRegisterFormValidator"
+import { useScrollLock } from "../../hooks/useScrollLock"
 import './styles.css'
 
-const { CHANGE_VALUE, RESET } = REGISTER_FORM_ACTION_TYPES
+const initialFormState = {
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+}
 
 const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrientation }) => {
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const [state, dispatchForm] = useReducer(registerFormReducer, initialValues)
+    const [isLoading, setIsLoading] = useState(false)
+    const { lockScroll, unlockScroll } = useScrollLock()
+    const [form, setForm] = useState(initialFormState)
+    const { name, password, email } = form
+    const { errors, clearErrors, validateForm, handleBlur } = useLoginFormValidator(form)
     const {
         state: {
             modalSettings: { modalType, headerText, contentText },
@@ -27,20 +38,95 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
     } = useContext(ModalContext)
 
     const openRegisterModal = () => {
-        setIsModalOpen(true)
+        setForm(initialFormState)
+        clearErrors()
 
         dispatchModal({
             type: REDUCER_TYPES.CHANGE_MODAL, payload: {
                 modalType: MODAL_TYPES.REGISTER_FORM,
                 headerText: 'Register Form',
-                contentText: 'Enter your info'
+                contentText: 'Please fill these fields'
             }
+        })
+
+        setTimeout(() => {
+            setIsModalOpen(true)
         })
     }
 
-    const handleSubmit = (e) => {
+    const registerUser = async () => {
+        try {
+            const response = await fetch('http://localhost:3001/users', {
+                method: 'POST',
+                body: JSON.stringify({
+                    name,
+                    password,
+                    email,
+                    id: nanoid()
+                }),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+            })
+
+            const data = await response.json()
+
+            closeModal(setIsModalOpen)
+
+            setTimeout(() => {
+                setIsModalOpen(true)
+                dispatchModal({
+                    type: REDUCER_TYPES.CHANGE_MODAL, payload: {
+                        modalType: MODAL_TYPES.SUCCESS,
+                        headerText: 'Great job!',
+                        contentText: 'You successfully registered'
+                    }
+                })
+            }, 1000)
+
+            setTimeout(() => {
+                closeModal(setIsModalOpen)
+            }, 3000)
+        } catch {
+            throw new Error('Failed to register user')
+        }
+    }
+
+    const handleCloseModal = () => {
+        closeModal(setIsModalOpen)
+    }
+
+    const handleChange = async (e) => {
+        const field = e.target.name
+
+        const nextFormState = {
+            ...form,
+            [field]: e.target.value,
+        }
+
+        setForm(nextFormState)
+
+        if (errors[field].dirty) {
+            await validateForm({
+                form: nextFormState,
+                errors,
+                field,
+            })
+        }
+    }
+
+    const handleSubmit = async (e) => {
         e.preventDefault()
-        console.log('submitted')
+
+        setIsLoading(true)
+
+        const { isValid } = await validateForm({ form, errors, forceTouchErrors: true })
+
+        setIsLoading(false)
+
+        if (!isValid) return
+
+        await registerUser()
     }
 
     return (
@@ -59,7 +145,7 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
                 </div>
 
                 <div className={classNames('login-buttons-container', 'flex-all-centered', !isHorizontal && 'vertical')}>
-                    <Button handleClick={openRegisterModal}>Register</Button>
+                    <Button handleClick={() => openRegisterModal()}>Register</Button>
                     <Button>Login</Button>
                 </div>
 
@@ -70,29 +156,23 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
                     <Button className='toggle-button' handleClick={handleChangeTheme}>Change Theme</Button>
                 </div>
             </nav>
+            {isLoading && <Loader />}
             <Modal
                 headerText={headerText}
                 contentText={contentText}
                 modalType={modalType}
                 isModalOpen={isModalOpen}
-                handleCloseModal={() => closeModal(setIsModalOpen)}
+                handleCloseModal={handleCloseModal}
             >
-                <form>
-                    {inputs.map(({ type, labelText, name }, index) => {
-                        return <Input
-                            className='form-input-container'
-                            key={labelText + index}
-                            type={type}
-                            labelText={labelText}
-                            name={name}
-                            value={state[name]}
-                            handleChange={(e) => dispatchForm({ type: CHANGE_VALUE, payload: e.target })}
-                        />
-                    })}
-                </form>
-
+                <RegisterForm 
+                    errors={errors}
+                    isLoading={isLoading}
+                    state={form}
+                    handleChange={handleChange}
+                    handleBlur={handleBlur}
+                />
                 <div className={"modal-actions"}>
-                    <Button handleClick={() => closeModal(setIsModalOpen)}>Close</Button>
+                    <Button handleClick={handleCloseModal}>Close</Button>
                     <Button type='submit' handleClick={handleSubmit}>Submit</Button>
                 </div>
             </Modal>

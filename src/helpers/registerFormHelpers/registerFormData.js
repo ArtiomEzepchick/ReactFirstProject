@@ -4,11 +4,6 @@ export const inputs = [{
     name: 'name',
 },
 {
-    type: 'text',
-    labelText: 'Surname',
-    name: 'surname',
-},
-{
     type: 'password',
     labelText: 'Password',
     name: 'password',
