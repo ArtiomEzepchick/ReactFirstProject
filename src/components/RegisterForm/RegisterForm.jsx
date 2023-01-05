@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import classNames from "classnames"
 import Input from "../Input/Input"
 import { inputs } from "../../helpers/registerFormHelpers/registerFormData"
+import Loader from "../Loader/Loader"
 import './styles.css'
 
 const RegisterForm = ({
@@ -16,7 +17,7 @@ const RegisterForm = ({
         <form className={classNames('register-form', isLoading && 'blocked')}>
             {inputs.map(({ type, labelText, name }, index) => {
                 return (<Input
-                    className={classNames('form-input-container')}
+                    className={classNames('form-input-container', isLoading && 'blocked')}
                     key={labelText + index}
                     inputFieldClassName={classNames(errors[name].dirty && errors[name].error && 'form-field-error')}
                     type={type}
@@ -26,6 +27,7 @@ const RegisterForm = ({
                     handleChange={handleChange}
                     handleBlur={handleBlur}
                 >
+                    {isLoading && <Loader />}
                     {errors[name].dirty && errors[name].error
                         ? <p className='form-field-error-message'>{errors[name].message}</p>
                         : null

@@ -17,7 +17,7 @@ const touchErrors = errors => {
     }, {})
 }
 
-export const useLoginFormValidator = form => {
+export const useLoginFormValidator = (form, setIsLoading) => {
     const initialErrorsState = {
         name: {
             dirty: false,

@@ -29,7 +29,7 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
     const { lockScroll, unlockScroll } = useScrollLock()
     const [form, setForm] = useState(initialFormState)
     const { name, password, email } = form
-    const { errors, clearErrors, validateForm, handleBlur } = useLoginFormValidator(form)
+    const { errors, clearErrors, validateForm, handleBlur } = useLoginFormValidator(form, setIsLoading)
     const {
         state: {
             modalSettings: { modalType, headerText, contentText },
@@ -99,6 +99,8 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
     const handleChange = async (e) => {
         const field = e.target.name
 
+        setIsLoading(true)
+
         const nextFormState = {
             ...form,
             [field]: e.target.value,
@@ -113,6 +115,8 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
                 field,
             })
         }
+
+        setIsLoading(false)
     }
 
     const handleSubmit = async (e) => {
