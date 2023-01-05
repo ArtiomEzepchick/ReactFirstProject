@@ -17,7 +17,6 @@ const MainLayout = ({ children }) => {
 
     const {
         state: { isHorizontal },
-        dispatch: dispatcher
     } = useContext(OrientationContext)
 
     return (
@@ -25,7 +24,7 @@ const MainLayout = ({ children }) => {
             <NavPanel
                 isHorizontal={isHorizontal}
                 darkMode={darkMode}
-                handleChangeOrientation={() => dispatcher({ type: REDUCER_TYPES.TOGGLE_ORIENTATION })}
+                handleChangeOrientation={() => dispatch({ type: REDUCER_TYPES.TOGGLE_ORIENTATION })}
                 handleChangeTheme={() => dispatch({ type: REDUCER_TYPES.TOGGLE_THEME })}
             />
 

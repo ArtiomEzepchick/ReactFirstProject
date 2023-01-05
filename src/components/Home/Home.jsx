@@ -5,8 +5,7 @@ import Button from '../Button/Button'
 import ResultsData from '../ResultsData/ResultsData'
 import Loader from '../Loader/Loader'
 import { useWindowSize } from '../../hooks/useWindowSize'
-import { standardFormReducer, initialValues } from '../../reducers/standardFormReducer/standardFormReducer'
-import { STANDARD_FORM_ACTION_TYPES } from '../../reducers/standardFormReducer/standardFormActionTypes'
+import { STANDARD_FORM_ACTION_TYPES, standardFormReducer, initialValues } from '../../reducers/standardFormReducer/standardFormReducer'
 import { generateResultData } from '../../helpers/formData/formData'
 import { accordionHomePageData } from '../../helpers/accordionData/accordionData'
 import './styles.css'
@@ -95,11 +94,7 @@ const Home = () => {
                     />
                 }
 
-                <Button
-                    className='reset-button'
-                    innerText='Reset'
-                    handleClick={handleReset}
-                />
+                <Button className='reset-button' handleClick={handleReset}>Reset</Button>
             </div>
         </div>
     )

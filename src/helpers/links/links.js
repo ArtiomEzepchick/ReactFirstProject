@@ -10,8 +10,8 @@ const links = [
         href: paths.redux
     },
     {
-        label: "More", 
-        href: paths.more
+        label: "Posts", 
+        href: paths.posts
     },
 ]
 

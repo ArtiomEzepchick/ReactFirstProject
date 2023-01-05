@@ -25,19 +25,21 @@ const Form = ({
                 <h3>Change Counter</h3>
                 <p>Current value: {state.count}</p>
                 <Button
-                    innerText='Increase'
                     handleClick={(e) => {
                         e.preventDefault()
                         handleIncreaseCounter()
                     }}
-                />
+                >
+                    Increase
+                </Button>
                 <Button
-                    innerText='Decrease'
                     handleClick={(e) => {
                         e.preventDefault()
                         handleDecreaseCounter()
                     }}
-                />
+                >
+                    Decrease
+                </Button>
             </div>
         )
     }
@@ -75,11 +77,7 @@ const Form = ({
             />
 
             <CounterBlock />
-
-            <Button
-                handleClick={handleSubmit}
-                innerText='Submit'
-            />
+            <Button handleClick={handleSubmit}>Submit</Button>
         </form>
     )
 }

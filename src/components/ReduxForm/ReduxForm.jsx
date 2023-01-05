@@ -77,11 +77,7 @@ const ReduxForm = () => {
                     />
                 }
 
-                <Button
-                    className='reset-button'
-                    innerText='Reset'
-                    handleClick={() => dispatch(clearForm())}
-                />
+                <Button className='reset-button' handleClick={() => dispatch(clearForm())}>Reset</Button>
             </div>
         </div>
     )
