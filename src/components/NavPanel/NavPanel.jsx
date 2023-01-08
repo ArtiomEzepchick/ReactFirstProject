@@ -12,24 +12,37 @@ import { ModalContext } from "../../contexts/modalContext/ModalContext"
 import MODAL_TYPES from "../Modal/modalTypes"
 import { closeModal } from "../../helpers/functions/closeModal"
 import { REDUCER_TYPES } from "../../reducers/contextReducer/contextReducer"
-import { useLoginFormValidator } from "../../hooks/useRegisterFormValidator"
-import { useScrollLock } from "../../hooks/useScrollLock"
+import { useFormValidator } from "../../hooks/useFormValidator"
 import './styles.css'
+import LoginForm from "../LoginForm/LoginForm"
 
-const initialFormState = {
+const initialRegisterFormState = {
     name: "",
     email: "",
     password: "",
     confirmPassword: "",
 }
 
+const initialLoginFormState = {
+    name: "",
+    password: ""
+}
+
 const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrientation }) => {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
-    const { lockScroll, unlockScroll } = useScrollLock()
-    const [form, setForm] = useState(initialFormState)
-    const { name, password, email } = form
-    const { errors, clearErrors, validateForm, handleBlur } = useLoginFormValidator(form, setIsLoading)
+    const [registerForm, setRegisterForm] = useState(initialRegisterFormState)
+    const [loginForm, setLoginForm] = useState(initialLoginFormState)
+    const { name, password, email } = registerForm
+    const { 
+        errors, 
+        clearErrors, 
+        validateForm, 
+        validateLoginForm,
+        handleBlur,
+        handleFocus 
+    } = useFormValidator(registerForm, loginForm, setIsLoading)
+
     const {
         state: {
             modalSettings: { modalType, headerText, contentText },
@@ -38,14 +51,30 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
     } = useContext(ModalContext)
 
     const openRegisterModal = () => {
-        setForm(initialFormState)
+        setRegisterForm(initialRegisterFormState)
         clearErrors()
-
+        
         dispatchModal({
             type: REDUCER_TYPES.CHANGE_MODAL, payload: {
                 modalType: MODAL_TYPES.REGISTER_FORM,
                 headerText: 'Register Form',
                 contentText: 'Please fill these fields'
+            }
+        })
+
+        setTimeout(() => {
+            setIsModalOpen(true)
+        })
+    }
+
+    const openLoginModal = () => {
+        setLoginForm(initialLoginFormState)
+        clearErrors()
+        
+        dispatchModal({
+            type: REDUCER_TYPES.CHANGE_MODAL, payload: {
+                modalType: MODAL_TYPES.LOGIN_FORM,
+                headerText: 'Login Form',
             }
         })
 
@@ -86,7 +115,7 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
 
             setTimeout(() => {
                 closeModal(setIsModalOpen)
-            }, 3000)
+            }, 2500)
         } catch {
             throw new Error('Failed to register user')
         }
@@ -96,41 +125,62 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
         closeModal(setIsModalOpen)
     }
 
-    const handleChange = async (e) => {
+    const handleRegisterFormChange = async (e) => {
         const field = e.target.name
 
-        setIsLoading(true)
-
-        const nextFormState = {
-            ...form,
+        const nextRegisterFormState = {
+            ...registerForm,
             [field]: e.target.value,
         }
 
-        setForm(nextFormState)
+        setRegisterForm(nextRegisterFormState)
 
         if (errors[field].dirty) {
-            await validateForm({
-                form: nextFormState,
+            validateForm({
+                registerForm: nextRegisterFormState,
                 errors,
                 field,
             })
         }
-
-        setIsLoading(false)
     }
 
-    const handleSubmit = async (e) => {
+    const handleLoginFormChange = (e) => {
+        const field = e.target.name
+
+        const nextLoginFormState = {
+            ...loginForm,
+            [field]: e.target.value,
+        }
+
+        setLoginForm(nextLoginFormState)
+
+        if (errors[field].dirty) {
+            validateLoginForm({
+                loginForm: nextLoginFormState,
+                errors,
+                field,
+            })
+        }
+    }
+
+    const handleRegisterSubmit = async (e) => {
         e.preventDefault()
 
-        setIsLoading(true)
-
-        const { isValid } = await validateForm({ form, errors, forceTouchErrors: true })
-
-        setIsLoading(false)
+        const { isValid } = await validateForm({ registerForm, errors, forceTouchErrors: true })
 
         if (!isValid) return
 
         await registerUser()
+    }
+
+    const handleLoginSubmit = async (e) => {
+        e.preventDefault()
+
+        const { isValid } = await validateLoginForm({ loginForm, errors, forceTouchErrors: true })
+
+        if (!isValid) return
+
+        console.log('everything is ok')
     }
 
     return (
@@ -149,8 +199,8 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
                 </div>
 
                 <div className={classNames('login-buttons-container', 'flex-all-centered', !isHorizontal && 'vertical')}>
-                    <Button handleClick={() => openRegisterModal()}>Register</Button>
-                    <Button>Login</Button>
+                    <Button handleClick={openRegisterModal}>Register</Button>
+                    <Button handleClick={openLoginModal}>Login</Button>
                 </div>
 
                 <div className={classNames('toggle-buttons-container', 'flex-all-centered', !isHorizontal && 'vertical')}>
@@ -167,18 +217,28 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
                 modalType={modalType}
                 isModalOpen={isModalOpen}
                 handleCloseModal={handleCloseModal}
-            >
-                <RegisterForm 
+            >   
+                {modalType === MODAL_TYPES.REGISTER_FORM 
+                ? <RegisterForm 
                     errors={errors}
                     isLoading={isLoading}
-                    state={form}
-                    handleChange={handleChange}
+                    state={registerForm}
+                    handleChange={handleRegisterFormChange}
                     handleBlur={handleBlur}
+                    handleFocus={handleFocus}
+                    handleCloseModal={handleCloseModal}
+                    handleSubmit={handleRegisterSubmit}
                 />
-                <div className={"modal-actions"}>
-                    <Button handleClick={handleCloseModal}>Close</Button>
-                    <Button type='submit' handleClick={handleSubmit}>Submit</Button>
-                </div>
+                : <LoginForm 
+                    errors={errors}
+                    isLoading={isLoading}
+                    state={loginForm}
+                    handleChange={handleLoginFormChange}
+                    handleBlur={(e) => handleBlur(e, 'login')}
+                    handleFocus={(e) => handleFocus(e, 'login')}
+                    handleCloseModal={handleCloseModal}
+                    handleSubmit={handleLoginSubmit}
+                />}
             </Modal>
         </header>
     )

@@ -98,18 +98,6 @@ const Chat = () => {
 
                 setIsUserAdded(true)
 
-                setIsModalOpen(true)
-
-                dispatch({
-                    type: REDUCER_TYPES.CHANGE_MODAL, payload: {
-                        modalType: MODAL_TYPES.SUCCESS,
-                        headerText: 'Success',
-                        contentText: 'New post added'
-                    }
-                })
-
-                setTimeout(() => closeModal(setIsModalOpen), 2000)
-
                 setPosts((posts) => [...posts, data])
                 setMessage('')
                 setIsLoading(false)

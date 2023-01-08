@@ -3,19 +3,19 @@ import PropTypes from 'prop-types'
 import classNames from "classnames"
 import Input from "../Input/Input"
 import Button from "../Button/Button"
-import { inputs } from "../../helpers/formHelpers/registerFormData"
+import { inputs } from "../../helpers/formHelpers/loginFormData"
 import Loader from "../Loader/Loader"
 import './styles.css'
 
-const RegisterForm = ({
-    isLoading,
-    errors,
-    state,
-    handleChange,
-    handleBlur,
-    handleFocus,
-    handleCloseModal,
-    handleSubmit
+const LoginForm = ({
+        errors,
+        isLoading,
+        state,
+        handleChange,
+        handleBlur,
+        handleFocus,
+        handleCloseModal,
+        handleSubmit
 }) => {
     const closeModal = (e) => {
         e.preventDefault()
@@ -23,7 +23,7 @@ const RegisterForm = ({
     }
 
     return (
-        <form className={classNames('register-form', isLoading && 'blocked')}>
+        <form className={classNames('login-form', isLoading && 'blocked')}>
             {inputs.map(({ type, labelText, name }, index) => {
                 return (<Input
                     key={labelText + index}
@@ -46,21 +46,10 @@ const RegisterForm = ({
             })}
             <div className={"modal-actions"}>
                 <Button handleClick={closeModal}>Close</Button>
-                <Button type='submit' handleClick={handleSubmit}>Submit</Button>
+                <Button type='submit' handleClick={handleSubmit}>Login</Button>
             </div>
         </form>
     )
 }
 
-RegisterForm.propTypes = {
-    isLoading: PropTypes.bool,
-    errors: PropTypes.object,
-    state: PropTypes.object,
-    handleChange: PropTypes.func,
-    handleBlur: PropTypes.func,
-    handleFocus: PropTypes.func,
-    handleCloseModal: PropTypes.func,
-    handleSubmit: PropTypes.func
-}
-
-export default RegisterForm
+export default LoginForm

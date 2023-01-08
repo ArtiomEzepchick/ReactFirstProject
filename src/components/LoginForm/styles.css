@@ -1,4 +1,4 @@
-.register-form {
+.login-form {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -6,7 +6,7 @@
     width: 25rem;
 }
 
-.register-form
+.login-form
 .form-input-container {
     display: block;
     width: 20rem;
@@ -14,7 +14,7 @@
     border-radius: 10px;
 }
 
-.register-form
+.login-form
 .form-input-container 
 label {
     display: flex;
@@ -24,13 +24,13 @@ label {
     width: 100%;
 }
 
-.register-form
+.login-form
 .form-input-container 
 span {
     width: 5rem;
 }
 
-.register-form
+.login-form
 .form-input-container 
 input {
     border: 1px solid #141414;
@@ -38,13 +38,13 @@ input {
     border-radius: 10px;
 }
 
-.register-form
+.login-form
 .form-input-container
 .form-field-error {
     border: 1px solid #e11d48;
 }
 
-.register-form
+.login-form
 .form-input-container
 .form-field-error-message {
     width: 14rem;
@@ -56,7 +56,7 @@ input {
     text-align: end;
 }
 
-.register-form
+.login-form
 .form-input-container
 .form-field-success-message {
     width: 14rem;

@@ -58,3 +58,10 @@ h1 + p {
 .modal-actions {
     margin-top: 2rem;
 }
+
+.modal-window[data-type='login-form'] {
+    width: 25rem;
+    height: max-content;
+    background-color: #f7fdff;
+    padding: 2rem;
+}

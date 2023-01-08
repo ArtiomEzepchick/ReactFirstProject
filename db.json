@@ -1,8 +1,72 @@
 {
   "posts": [
-
+    {
+      "userName": "Unknown",
+      "message": "m",
+      "time": "06.01.2023, 19:36:31",
+      "id": "ZZGX7awoK6jerngnIsR1u"
+    },
+    {
+      "userName": "Unknown",
+      "message": "m ",
+      "time": "06.01.2023, 19:36:37",
+      "id": "oEKH_1VKWYUX0j1eMvHXq"
+    }
   ],
   "users": [
-
+    {
+      "name": "Artstiom",
+      "password": "11111111",
+      "email": "artem.ezepchik@gmail.com",
+      "id": "4ND5-ak6Obz_0Qawd8fje"
+    },
+    {
+      "name": "Artem",
+      "password": "11111111",
+      "email": "tyomkarulez@gmail.com",
+      "id": "lvjFV3BVmYbpwBxONi1Ic"
+    },
+    {
+      "name": "And",
+      "password": "11111111",
+      "email": "artem.ezechik@gmail.com",
+      "id": "au7wRjGQYMzrGalyCvW0A"
+    },
+    {
+      "name": "ASdsad",
+      "password": "11111111",
+      "email": "artesdm.ezepchik@gmail.com",
+      "id": "8rt2kcZ37lYozoBJOSerK"
+    },
+    {
+      "name": "dsadas",
+      "password": "11111111",
+      "email": "artem.ezesdpchik@gmail.com",
+      "id": "oo-8moQwP_EVW5KTqzO2j"
+    },
+    {
+      "name": "Artstioms",
+      "password": "11111111",
+      "email": "artem.ezespchik@gmail.com",
+      "id": "AhPTVA70GqW7AfMEivgTo"
+    },
+    {
+      "name": "dsadasdas",
+      "password": "11111111",
+      "email": "artem.dsadasezepchik@gmail.com",
+      "id": "uBPiXd1qr2Kn5HJtSCeaJ"
+    },
+    {
+      "name": "dasdsada",
+      "password": "11111111",
+      "email": "artem.ezepdsadaschik@gmail.com",
+      "id": "TmQlB-tOIzu4j4oCvGrKf"
+    },
+    {
+      "name": "dsadsas",
+      "password": "11111111",
+      "email": "artem.ezepschik@gmail.com",
+      "id": "HzCFrUGGnq6OExwXZobK1"
+    }
   ]
 }
