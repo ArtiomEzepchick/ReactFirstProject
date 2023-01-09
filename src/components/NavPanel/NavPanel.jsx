@@ -2,11 +2,11 @@ import React, { useContext, useEffect, useState } from "react"
 import { nanoid } from "nanoid"
 import PropTypes from 'prop-types'
 import classNames from "classnames"
+import { useFormValidator } from "../../hooks/useFormValidator"
 import { Switch } from "antd"
 import Modal from "../Modal/Modal"
-import LoginForm from "../LoginForm/LoginForm"
 import Loader from "../Loader/Loader"
-import RegisterForm from "../RegisterForm/RegisterForm"
+import FormForUser from "../FormForUser/FormForUser"
 import { Link } from "../Link/Link"
 import Button from "../Button/Button"
 import links from "../../helpers/links/links"
@@ -14,7 +14,8 @@ import { ModalContext } from "../../contexts/modalContext/ModalContext"
 import MODAL_TYPES from "../Modal/modalTypes"
 import { closeModal } from "../../helpers/functions/closeModal"
 import { REDUCER_TYPES } from "../../reducers/contextReducer/contextReducer"
-import { useFormValidator } from "../../hooks/useFormValidator"
+import { loginFormData } from "../../helpers/formHelpers/loginFormData"
+import { registerFormData } from "../../helpers/formHelpers/registerFormData"
 import './styles.css'
 
 const initialRegisterFormState = {
@@ -216,11 +217,12 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
                     : <div className={classNames('login-buttons-container', 'flex-all-centered', !isHorizontal && 'vertical')}>
                         <Button handleClick={openRegisterModal}>Register</Button>
                         <Button handleClick={openLoginModal}>Login</Button>
-                    </div>}
+                    </div>
+                }
 
                 <div className={classNames('toggle-switches-container', 'flex-all-centered', !isHorizontal && 'vertical')}>
                     <div>
-                        <p>Change Orientation</p>
+                        <p>Change orientation</p>
                         <Switch className="switch" size='small' onClick={handleChangeOrientation} />
                     </div>
                     <div>
@@ -238,25 +240,30 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
                 handleCloseModal={handleCloseModal}
             >
                 {modalType === MODAL_TYPES.REGISTER_FORM
-                    ? <RegisterForm
+                    ? <FormForUser
                         errors={errors}
                         isLoading={isLoading}
+                        inputs={registerFormData}
                         state={registerForm}
+                        submitButtonText='Submit'
                         handleChange={handleRegisterFormChange}
                         handleBlur={handleBlur}
                         handleFocus={handleFocus}
                         handleCloseModal={handleCloseModal}
                         handleSubmit={handleRegisterSubmit}
                     />
-                    : <LoginForm
+                    : <FormForUser
                         errors={errors}
                         isLoading={isLoading}
+                        inputs={loginFormData}
                         state={loginForm}
+                        submitButtonText='Login'
                         handleChange={handleLoginFormChange}
                         handleFocus={(e) => handleFocus(e, 'login')}
                         handleCloseModal={handleCloseModal}
                         handleSubmit={handleLoginSubmit}
-                    />}
+                    />
+                }
             </Modal>
         </header>
     )

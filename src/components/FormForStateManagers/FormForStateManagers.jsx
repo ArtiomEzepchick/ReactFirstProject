@@ -3,11 +3,11 @@ import Input from "../Input/Input"
 import Button from "../Button/Button"
 import TextArea from "../TextArea/TextArea"
 import Select from "../Select/Select"
-import { inputs, options } from '../../helpers/formData/formData'
+import { inputs, options } from '../../helpers/formHelpers/formStateManagersData'
 import PropTypes from 'prop-types'
 import './styles.css'
 
-const Form = ({
+const FormForStateManagers = ({
     state,
     prevCountRef,
     handleSubmit,
@@ -82,15 +82,13 @@ const Form = ({
     )
 }
 
-Form.propTypes = {
+FormForStateManagers.propTypes = {
     state: PropTypes.object.isRequired,
-    isLoaded: PropTypes.bool,
     prevCountRef: PropTypes.object.isRequired,
     handleChange: PropTypes.func,
     handleIncreaseCounter: PropTypes.func,
     handleDecreaseCounter: PropTypes.func,
-    handleAsyncSubmit: PropTypes.func,
     handleSubmit: PropTypes.func
 }
 
-export default Form
+export default FormForStateManagers

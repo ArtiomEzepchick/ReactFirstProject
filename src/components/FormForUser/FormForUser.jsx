@@ -3,15 +3,17 @@ import PropTypes from 'prop-types'
 import classNames from "classnames"
 import Input from "../Input/Input"
 import Button from "../Button/Button"
-import { inputs } from "../../helpers/formHelpers/loginFormData"
 import Loader from "../Loader/Loader"
 import './styles.css'
 
-const LoginForm = ({
+const FormForUser = ({
     errors,
+    inputs,
     isLoading,
     state,
+    submitButtonText,
     handleChange,
+    handleBlur,
     handleFocus,
     handleCloseModal,
     handleSubmit
@@ -22,7 +24,7 @@ const LoginForm = ({
     }
 
     return (
-        <form className={classNames('login-form', isLoading && 'blocked')}>
+        <form className={classNames('form-main-container', isLoading && 'blocked')}>
             {inputs.map(({ type, labelText, name }, index) => {
                 return (<Input
                     key={labelText + index}
@@ -33,6 +35,7 @@ const LoginForm = ({
                     name={name}
                     value={state[name]}
                     handleChange={handleChange}
+                    handleBlur={handleBlur}
                     handleFocus={handleFocus}
                 >
                     {isLoading && <Loader />}
@@ -44,10 +47,23 @@ const LoginForm = ({
             })}
             <div className={"modal-actions"}>
                 <Button handleClick={closeModal}>Close</Button>
-                <Button type='submit' handleClick={handleSubmit}>Login</Button>
+                <Button type='submit' handleClick={handleSubmit}>{submitButtonText}</Button>
             </div>
         </form>
     )
 }
 
-export default LoginForm
+FormForUser.propTypes = {
+    errors: PropTypes.object,
+    inputs: PropTypes.arrayOf(PropTypes.object),
+    isLoading: PropTypes.bool,
+    state: PropTypes.object,
+    submitButtonText: PropTypes.string,
+    handleChange: PropTypes.func,
+    handleBlur: PropTypes.func,
+    handleFocus: PropTypes.func,
+    handleCloseModal: PropTypes.func,
+    handleSubmit: PropTypes.func
+}
+
+export default FormForUser

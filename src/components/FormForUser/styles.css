@@ -1,4 +1,4 @@
-.login-form {
+.form-main-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -6,7 +6,21 @@
     width: 25rem;
 }
 
-.login-form
+.form-main-container 
+.form-actions {
+    width: 20rem;
+    height: 2rem;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.form-main-container 
+.form-actions button {
+    display: block;
+    width: 8rem;
+}
+
+.form-main-container 
 .form-input-container {
     display: block;
     width: 20rem;
@@ -14,9 +28,8 @@
     border-radius: 10px;
 }
 
-.login-form
-.form-input-container 
-label {
+.form-main-container 
+.form-input-container label {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -24,13 +37,13 @@ label {
     width: 100%;
 }
 
-.login-form
+.form-main-container 
 .form-input-container 
 span {
     width: 5rem;
 }
 
-.login-form
+.form-main-container 
 .form-input-container 
 input {
     border: 1px solid #141414;
@@ -38,13 +51,13 @@ input {
     border-radius: 10px;
 }
 
-.login-form
-.form-input-container
+.form-main-container 
+.form-input-container 
 .form-field-error {
     border: 1px solid #e11d48;
 }
 
-.login-form
+.form-main-container
 .form-input-container
 .form-field-error-message {
     width: 14rem;
@@ -56,7 +69,7 @@ input {
     text-align: end;
 }
 
-.login-form
+.form-main-container
 .form-input-container
 .form-field-success-message {
     width: 14rem;

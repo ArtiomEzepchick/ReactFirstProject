@@ -1,4 +1,4 @@
-export const inputs = [{
+export const loginFormData = [{
     type: 'text',
     labelText: 'Name',
     name: 'name',
