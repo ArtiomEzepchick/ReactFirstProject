@@ -1,8 +1,10 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { nanoid } from "nanoid"
 import PropTypes from 'prop-types'
 import classNames from "classnames"
+import { Switch } from "antd"
 import Modal from "../Modal/Modal"
+import LoginForm from "../LoginForm/LoginForm"
 import Loader from "../Loader/Loader"
 import RegisterForm from "../RegisterForm/RegisterForm"
 import { Link } from "../Link/Link"
@@ -14,7 +16,6 @@ import { closeModal } from "../../helpers/functions/closeModal"
 import { REDUCER_TYPES } from "../../reducers/contextReducer/contextReducer"
 import { useFormValidator } from "../../hooks/useFormValidator"
 import './styles.css'
-import LoginForm from "../LoginForm/LoginForm"
 
 const initialRegisterFormState = {
     name: "",
@@ -31,16 +32,17 @@ const initialLoginFormState = {
 const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrientation }) => {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+    const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [registerForm, setRegisterForm] = useState(initialRegisterFormState)
     const [loginForm, setLoginForm] = useState(initialLoginFormState)
     const { name, password, email } = registerForm
-    const { 
-        errors, 
-        clearErrors, 
-        validateForm, 
+    const {
+        errors,
+        clearErrors,
+        validateForm,
         validateLoginForm,
         handleBlur,
-        handleFocus 
+        handleFocus
     } = useFormValidator(registerForm, loginForm, setIsLoading)
 
     const {
@@ -50,10 +52,16 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
         dispatch: dispatchModal
     } = useContext(ModalContext)
 
+    useEffect(() => {
+        const isUserExist = localStorage.getItem('username')
+
+        isUserExist ? setIsLoggedIn(true) : setIsLoggedIn(false)
+    }, [])
+
     const openRegisterModal = () => {
         setRegisterForm(initialRegisterFormState)
         clearErrors()
-        
+
         dispatchModal({
             type: REDUCER_TYPES.CHANGE_MODAL, payload: {
                 modalType: MODAL_TYPES.REGISTER_FORM,
@@ -70,7 +78,7 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
     const openLoginModal = () => {
         setLoginForm(initialLoginFormState)
         clearErrors()
-        
+
         dispatchModal({
             type: REDUCER_TYPES.CHANGE_MODAL, payload: {
                 modalType: MODAL_TYPES.LOGIN_FORM,
@@ -98,9 +106,11 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
                 },
             })
 
-            const data = await response.json()
-
             closeModal(setIsModalOpen)
+
+            localStorage.setItem('username', registerForm.name)
+
+            setIsLoggedIn(true)
 
             setTimeout(() => {
                 setIsModalOpen(true)
@@ -153,14 +163,6 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
         }
 
         setLoginForm(nextLoginFormState)
-
-        if (errors[field].dirty) {
-            validateLoginForm({
-                loginForm: nextLoginFormState,
-                errors,
-                field,
-            })
-        }
     }
 
     const handleRegisterSubmit = async (e) => {
@@ -180,7 +182,18 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
 
         if (!isValid) return
 
-        console.log('everything is ok')
+        localStorage.setItem('username', loginForm.name)
+        setIsLoggedIn(true)
+        closeModal(setIsModalOpen)
+    }
+
+    const handleLogOut = () => {
+        setIsLoading(true)
+        localStorage.removeItem('username')
+        setTimeout(() => {
+            setIsLoading(false)
+            setIsLoggedIn(false)
+        }, 1000)
     }
 
     return (
@@ -198,16 +211,22 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
                     })}
                 </div>
 
-                <div className={classNames('login-buttons-container', 'flex-all-centered', !isHorizontal && 'vertical')}>
-                    <Button handleClick={openRegisterModal}>Register</Button>
-                    <Button handleClick={openLoginModal}>Login</Button>
-                </div>
+                {isLoggedIn
+                    ? <Button handleClick={handleLogOut}>Log Out</Button>
+                    : <div className={classNames('login-buttons-container', 'flex-all-centered', !isHorizontal && 'vertical')}>
+                        <Button handleClick={openRegisterModal}>Register</Button>
+                        <Button handleClick={openLoginModal}>Login</Button>
+                    </div>}
 
-                <div className={classNames('toggle-buttons-container', 'flex-all-centered', !isHorizontal && 'vertical')}>
-                    <Button className='toggle-button' handleClick={handleChangeOrientation}>
-                        {isHorizontal ? 'Move panel to the left' : 'Move panel to the top'}
-                    </Button>
-                    <Button className='toggle-button' handleClick={handleChangeTheme}>Change Theme</Button>
+                <div className={classNames('toggle-switches-container', 'flex-all-centered', !isHorizontal && 'vertical')}>
+                    <div>
+                        <p>Change Orientation</p>
+                        <Switch className="switch" size='small' onClick={handleChangeOrientation} />
+                    </div>
+                    <div>
+                        <p>Change theme</p>
+                        <Switch className="switch" size='small' onClick={handleChangeTheme} />
+                    </div>
                 </div>
             </nav>
             {isLoading && <Loader />}
@@ -217,28 +236,27 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
                 modalType={modalType}
                 isModalOpen={isModalOpen}
                 handleCloseModal={handleCloseModal}
-            >   
-                {modalType === MODAL_TYPES.REGISTER_FORM 
-                ? <RegisterForm 
-                    errors={errors}
-                    isLoading={isLoading}
-                    state={registerForm}
-                    handleChange={handleRegisterFormChange}
-                    handleBlur={handleBlur}
-                    handleFocus={handleFocus}
-                    handleCloseModal={handleCloseModal}
-                    handleSubmit={handleRegisterSubmit}
-                />
-                : <LoginForm 
-                    errors={errors}
-                    isLoading={isLoading}
-                    state={loginForm}
-                    handleChange={handleLoginFormChange}
-                    handleBlur={(e) => handleBlur(e, 'login')}
-                    handleFocus={(e) => handleFocus(e, 'login')}
-                    handleCloseModal={handleCloseModal}
-                    handleSubmit={handleLoginSubmit}
-                />}
+            >
+                {modalType === MODAL_TYPES.REGISTER_FORM
+                    ? <RegisterForm
+                        errors={errors}
+                        isLoading={isLoading}
+                        state={registerForm}
+                        handleChange={handleRegisterFormChange}
+                        handleBlur={handleBlur}
+                        handleFocus={handleFocus}
+                        handleCloseModal={handleCloseModal}
+                        handleSubmit={handleRegisterSubmit}
+                    />
+                    : <LoginForm
+                        errors={errors}
+                        isLoading={isLoading}
+                        state={loginForm}
+                        handleChange={handleLoginFormChange}
+                        handleFocus={(e) => handleFocus(e, 'login')}
+                        handleCloseModal={handleCloseModal}
+                        handleSubmit={handleLoginSubmit}
+                    />}
             </Modal>
         </header>
     )

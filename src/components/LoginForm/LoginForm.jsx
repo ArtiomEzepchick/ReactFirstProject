@@ -8,14 +8,13 @@ import Loader from "../Loader/Loader"
 import './styles.css'
 
 const LoginForm = ({
-        errors,
-        isLoading,
-        state,
-        handleChange,
-        handleBlur,
-        handleFocus,
-        handleCloseModal,
-        handleSubmit
+    errors,
+    isLoading,
+    state,
+    handleChange,
+    handleFocus,
+    handleCloseModal,
+    handleSubmit
 }) => {
     const closeModal = (e) => {
         e.preventDefault()
@@ -34,7 +33,6 @@ const LoginForm = ({
                     name={name}
                     value={state[name]}
                     handleChange={handleChange}
-                    handleBlur={handleBlur}
                     handleFocus={handleFocus}
                 >
                     {isLoading && <Loader />}

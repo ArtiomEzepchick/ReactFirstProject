@@ -27,8 +27,7 @@
 .site-layout.dark .accordion-title,
 .site-layout.dark .accordion-content,
 .site-layout.dark .results-value,
-.site-layout.dark .form-counter-actions,
-.layout-header.dark .toggle-button {
+.site-layout.dark .form-counter-actions {
     background-color: #1d1d1d;
     border: 1px solid #ffffff;
 }

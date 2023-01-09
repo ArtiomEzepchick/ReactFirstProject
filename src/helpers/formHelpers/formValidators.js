@@ -74,19 +74,20 @@ export const nameLoginValidator = async (name) => {
     try {
         const response = await fetch("http://localhost:3001/users")
         const data = await response.json()
+        let message = ""
     
         for (let user of data) {
             if (name === user.name) {
                 return ""
             } else {
-                return "No such user"
+                message = "No such user"
             }
         }
+
+        return message
     } catch {
         throw new Error("Failed to check name")
     }
-
-    return ""
 }
 
 export const passwordLoginValidator = async (name, password) => {
@@ -97,17 +98,24 @@ export const passwordLoginValidator = async (name, password) => {
     try {
         const response = await fetch("http://localhost:3001/users")
         const data = await response.json()
+        let message = ""
     
         for (let user of data) {
             if (name === user.name) {
                 if (password !== user.password) {
                     return "Password is wrong"
+                } else {
+                    return ""
                 }
             }
+
+            if (name !== user.name) {
+                message = "Check name field"
+            }
         }
+
+        return message
     } catch {
         throw new Error("Failed to check password")
     }
-
-    return ""
 }
