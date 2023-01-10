@@ -4,6 +4,7 @@
     width: 100%;
 }
 
+.layout-header
 .nav-panel {
     display: flex;
     align-items: center;
@@ -13,29 +14,114 @@
     transition: none;
 }
 
-.nav-panel 
+.layout-header
+.nav-panel
+.links-container 
 .action-button {
     height: 5rem;
     width: 10rem;
 }
 
+.layout-header
+.nav-panel
+.links-container 
 .active-page {
     border-bottom: 4px solid #3498db;
     transition: border-bottom 0.5s ease;
 }
 
-.toggle-switches-container {
+.layout-header
+.nav-panel
+.login-buttons-container {
+    margin-left: auto;
+    display: flex;
     gap: 1rem;
 }
 
-.toggle-switches-container > div {
+.layout-header
+.nav-panel
+.fa-solid {
+    margin-left: 0.5rem;
+}
+
+.layout-header
+.nav-panel
+.settings-container {
+    position: relative;
+}
+
+.layout-header
+.nav-panel
+.settings-container
+.fa-sliders {
+    width: 4rem;
+    height: 5rem;
+    font-size: 2rem;
+    opacity: 0.7;
+    margin-right: 4rem;
+}
+
+.layout-header
+.nav-panel
+.settings-container
+.fa-sliders:hover {
+    opacity: 1;
+}
+
+.layout-header
+.nav-panel
+.settings-container
+.switches-container {
+    display: none;
+}
+
+.layout-header
+.nav-panel
+.settings-container
+.switches-container.show {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    width: 5rem;
+    position: absolute;
+    z-index: 100;
+    background-color: #ffffff;
+    border: 1px solid #000000;
+    left: -50%;
+    top: 100%;
+    border-radius: 10px;
+    width: 12rem;
+    height: 10rem;
+    padding: 0.5rem 1rem;
+    user-select: none;
+    gap: 1rem;
+}
+
+.layout-header
+.nav-panel
+.settings-container
+.switches-container  
+div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
     text-align: center;
 }
 
+.layout-header
+.nav-panel
+.settings-container
+.switches-container  
+div
+p {
+    margin-bottom: 0;
+}
+
+.layout-header
+.nav-panel
+.settings-container
+.switches-container 
 .switch {
     width: 2rem;
 }

@@ -59,6 +59,28 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
         isUserExist ? setIsLoggedIn(true) : setIsLoggedIn(false)
     }, [])
 
+    useEffect(() => {
+        const handleOutsideSettingsClick = (e) => {
+            const target = e.target
+            const settingsIcon = document.querySelector('.fa-sliders')
+            const switches = document.querySelector('.switches-container')
+
+            if (target === settingsIcon) {
+                switches.classList.toggle('show')
+                return
+            }
+
+            if (!target.closest('.switches-container')) {
+                switches.classList.remove('show')
+                return
+            }
+        }
+
+        document.addEventListener('click', handleOutsideSettingsClick)
+
+        return () => document.removeEventListener('click', handleOutsideSettingsClick)
+    }, [])
+
     const openRegisterModal = () => {
         setRegisterForm(initialRegisterFormState)
         clearErrors()
@@ -94,7 +116,7 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
 
     const registerUser = async () => {
         try {
-            const response = await fetch('http://localhost:3001/users', {
+            await fetch('http://localhost:3001/users', {
                 method: 'POST',
                 body: JSON.stringify({
                     name,
@@ -212,22 +234,39 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
                     })}
                 </div>
 
-                {isLoggedIn
-                    ? <Button handleClick={handleLogOut}>Log Out</Button>
-                    : <div className={classNames('login-buttons-container', 'flex-all-centered', !isHorizontal && 'vertical')}>
-                        <Button handleClick={openRegisterModal}>Register</Button>
-                        <Button handleClick={openLoginModal}>Login</Button>
-                    </div>
-                }
+                <div className={classNames('login-buttons-container', !isHorizontal && 'vertical')}>
+                    {isLoggedIn
+                        ? <Button handleClick={handleLogOut}>
+                            Logout
+                            <i className="fa-solid fa-right-from-bracket"></i>
+                        </Button>
+                        : <React.Fragment>
+                            <Button handleClick={openRegisterModal}>
+                                Register
+                                <i className="fa-solid fa-address-card"></i>
+                            </Button>
+                            <Button handleClick={openLoginModal}>
+                                Login
+                                <i className="fa-solid fa-right-to-bracket"></i>
+                            </Button>
+                        </React.Fragment>
+                    }
+                </div>
 
-                <div className={classNames('toggle-switches-container', 'flex-all-centered', !isHorizontal && 'vertical')}>
-                    <div>
-                        <p>Change orientation</p>
-                        <Switch className="switch" size='small' onClick={handleChangeOrientation} />
-                    </div>
-                    <div>
-                        <p>Change theme</p>
-                        <Switch className="switch" size='small' onClick={handleChangeTheme} />
+                <div className="settings-container">
+                    <i className={classNames("fa-solid fa-sliders", 'flex-all-centered', !isHorizontal && 'vertical')}></i>
+
+                    <div className={classNames('switches-container', 'flex-all-centered', !isHorizontal && 'vertical')}>
+                        <div>
+                            <i className={classNames("fa-solid fa-arrow-rotate-left")}></i>
+                            <p>Change orientation</p>
+                            <Switch className="switch" size='small' onClick={handleChangeOrientation} />
+                        </div>
+                        <div>
+                            <i className="fa-solid fa-moon"></i>
+                            <p>Change theme</p>
+                            <Switch className="switch" size='small' onClick={handleChangeTheme} />
+                        </div>
                     </div>
                 </div>
             </nav>
