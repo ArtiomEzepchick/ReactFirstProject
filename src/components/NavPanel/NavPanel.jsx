@@ -14,8 +14,7 @@ import { ModalContext } from "../../contexts/modalContext/ModalContext"
 import MODAL_TYPES from "../Modal/modalTypes"
 import { closeModal } from "../../helpers/functions/closeModal"
 import { REDUCER_TYPES } from "../../reducers/contextReducer/contextReducer"
-import { loginFormData } from "../../helpers/formHelpers/loginFormData"
-import { registerFormData } from "../../helpers/formHelpers/registerFormData"
+import { loginFormData, registerFormData, userProfileData } from "../../helpers/formHelpers/formUsersData" 
 import './styles.css'
 
 const initialRegisterFormState = {
@@ -62,17 +61,23 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
     useEffect(() => {
         const handleOutsideSettingsClick = (e) => {
             const target = e.target
+            const userIcon = document.querySelector('.fa-circle-user')
+            const userActions = document.querySelector('.user-actions')
             const settingsIcon = document.querySelector('.fa-sliders')
             const switches = document.querySelector('.switches-container')
 
-            if (target === settingsIcon) {
-                switches.classList.toggle('show')
-                return
+            if (userIcon) {
+                if (target === userIcon) {
+                    userActions.classList.toggle('show')
+                } else if (!target.closest('.user-actions')) {
+                    userActions.classList.remove('show')
+                }
             }
 
-            if (!target.closest('.switches-container')) {
+            if (target === settingsIcon) {
+                switches.classList.toggle('show')
+            } else if (!target.closest('.switches-container')) {
                 switches.classList.remove('show')
-                return
             }
         }
 
@@ -210,6 +215,18 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
         closeModal(setIsModalOpen)
     }
 
+    const openUserProfile = () => {
+        setIsModalOpen(true)
+
+        dispatchModal({
+            type: REDUCER_TYPES.CHANGE_MODAL, payload: {
+                modalType: MODAL_TYPES.USER_PROFILE,
+                headerText: `Hello, man`,
+                contentText: 'Welcome'
+            }
+        })
+    }
+
     const handleLogOut = () => {
         setIsLoading(true)
         localStorage.removeItem('username')
@@ -234,31 +251,38 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
                     })}
                 </div>
 
-                <div className={classNames('login-buttons-container', !isHorizontal && 'vertical')}>
-                    {isLoggedIn
-                        ? <Button handleClick={handleLogOut}>
-                            Logout
-                            <i className="fa-solid fa-right-from-bracket"></i>
+                {isLoggedIn
+                    ? <div className={classNames("user-block-container", !isHorizontal && 'vertical')}>
+                        <i className="fa-regular fa-circle-user"></i>
+                        <div className="user-actions">
+                            <Button handleClick={openUserProfile}>
+                                Profile
+                                <i className="fa-solid fa-gear"></i>
+                            </Button>
+                            <Button handleClick={handleLogOut}>
+                                Logout
+                                <i className="fa-solid fa-right-from-bracket"></i>
+                            </Button>
+                        </div>
+                    </div>
+
+                    : <div className={classNames('login-buttons-container', !isHorizontal && 'vertical')}>
+                        <Button handleClick={openRegisterModal}>
+                            Register
+                            <i className="fa-solid fa-address-card"></i>
                         </Button>
-                        : <React.Fragment>
-                            <Button handleClick={openRegisterModal}>
-                                Register
-                                <i className="fa-solid fa-address-card"></i>
-                            </Button>
-                            <Button handleClick={openLoginModal}>
-                                Login
-                                <i className="fa-solid fa-right-to-bracket"></i>
-                            </Button>
-                        </React.Fragment>
-                    }
-                </div>
+                        <Button handleClick={openLoginModal}>
+                            Login
+                            <i className="fa-solid fa-right-to-bracket"></i>
+                        </Button>
+                    </div>
+                }
 
-                <div className="settings-container">
-                    <i className={classNames("fa-solid fa-sliders", 'flex-all-centered', !isHorizontal && 'vertical')}></i>
-
-                    <div className={classNames('switches-container', 'flex-all-centered', !isHorizontal && 'vertical')}>
+                <div className={classNames("settings-container", !isHorizontal && 'vertical')}>
+                    <i className="fa-solid fa-sliders"></i>
+                    <div className='switches-container'>
                         <div>
-                            <i className={classNames("fa-solid fa-arrow-rotate-left")}></i>
+                            <i className="fa-solid fa-arrow-rotate-left"></i>
                             <p>Change orientation</p>
                             <Switch className="switch" size='small' onClick={handleChangeOrientation} />
                         </div>
@@ -278,31 +302,30 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
                 isModalOpen={isModalOpen}
                 handleCloseModal={handleCloseModal}
             >
-                {modalType === MODAL_TYPES.REGISTER_FORM
-                    ? <FormForUser
-                        errors={errors}
-                        isLoading={isLoading}
-                        inputs={registerFormData}
-                        state={registerForm}
-                        submitButtonText='Submit'
-                        handleChange={handleRegisterFormChange}
-                        handleBlur={handleBlur}
-                        handleFocus={handleFocus}
-                        handleCloseModal={handleCloseModal}
-                        handleSubmit={handleRegisterSubmit}
-                    />
-                    : <FormForUser
-                        errors={errors}
-                        isLoading={isLoading}
-                        inputs={loginFormData}
-                        state={loginForm}
-                        submitButtonText='Login'
-                        handleChange={handleLoginFormChange}
-                        handleFocus={(e) => handleFocus(e, 'login')}
-                        handleCloseModal={handleCloseModal}
-                        handleSubmit={handleLoginSubmit}
-                    />
-                }
+                {modalType === MODAL_TYPES.REGISTER_FORM && <FormForUser
+                    errors={errors}
+                    isLoading={isLoading}
+                    inputs={registerFormData}
+                    state={registerForm}
+                    submitButtonText='Submit'
+                    handleChange={handleRegisterFormChange}
+                    handleBlur={handleBlur}
+                    handleFocus={handleFocus}
+                    handleCloseModal={handleCloseModal}
+                    handleSubmit={handleRegisterSubmit}
+                />}
+
+                {modalType === MODAL_TYPES.LOGIN_FORM && <FormForUser
+                    errors={errors}
+                    isLoading={isLoading}
+                    inputs={loginFormData}
+                    state={loginForm}
+                    submitButtonText='Login'
+                    handleChange={handleLoginFormChange}
+                    handleFocus={(e) => handleFocus(e, 'login')}
+                    handleCloseModal={handleCloseModal}
+                    handleSubmit={handleLoginSubmit}
+                />}
             </Modal>
         </header>
     )

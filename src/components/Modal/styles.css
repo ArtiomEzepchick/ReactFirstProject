@@ -63,3 +63,10 @@ h1 + p {
     background-color: #f7fdff;
     padding: 2rem;
 }
+
+.modal-window[data-type='user-profile'] {
+    width: 30rem;
+    height: max-content;
+    background-color: #ffffff;
+    padding: 2rem;
+}

@@ -33,6 +33,7 @@
 .layout-header
 .nav-panel
 .login-buttons-container {
+    margin-right: 1rem;
     margin-left: auto;
     display: flex;
     gap: 1rem;
@@ -46,6 +47,58 @@
 
 .layout-header
 .nav-panel
+.user-block-container {
+    position: relative;
+    margin-left: auto;
+    margin-right: 1rem;
+}
+
+.layout-header
+.nav-panel
+.user-block-container
+.fa-circle-user {
+    opacity: 0.7;
+    font-size: 1.9rem;
+}
+
+.layout-header
+.nav-panel
+.user-block-container
+.fa-circle-user:hover {
+    opacity: 1;
+}
+
+.layout-header
+.nav-panel
+.user-block-container
+.user-actions {
+    display: none;
+}
+
+.layout-header
+.nav-panel
+.user-block-container
+.user-actions.show {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    z-index: 100;
+    background-color: #ffffff;
+    border: 1px solid #000000;
+    border-radius: 10px;
+    top: 175%;
+    left: -150%;
+    width: 7rem;
+    height: 7rem;
+    padding: 0.5rem 1rem;
+    user-select: none;
+    gap: 1rem;
+}
+
+.layout-header
+.nav-panel
 .settings-container {
     position: relative;
 }
@@ -54,8 +107,6 @@
 .nav-panel
 .settings-container
 .fa-sliders {
-    width: 4rem;
-    height: 5rem;
     font-size: 2rem;
     opacity: 0.7;
     margin-right: 4rem;
@@ -87,8 +138,8 @@
     z-index: 100;
     background-color: #ffffff;
     border: 1px solid #000000;
-    left: -50%;
-    top: 100%;
+    top: 165%;
+    left: -80%;
     border-radius: 10px;
     width: 12rem;
     height: 10rem;

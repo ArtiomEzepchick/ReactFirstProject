@@ -2,9 +2,9 @@
   "posts": [
     {
       "userName": "Unknown",
-      "message": "m ",
-      "time": "06.01.2023, 19:36:37",
-      "id": "oEKH_1VKWYUX0j1eMvHXq"
+      "message": "jkdsakjdhsakjhdsakj",
+      "time": "10.01.2023, 18:32:22",
+      "id": "nt1k_Oz2qFut8QCN_h2Hi"
     }
   ],
   "users": [
@@ -85,6 +85,12 @@
       "password": "11111111",
       "email": "sdadsa@dasdsa.ru",
       "id": "3s8vXPB-qSdq5v7xyz3D4"
+    },
+    {
+      "name": "Vasya",
+      "password": "11111111",
+      "email": "artdsaem.ezepchik@gmail.com",
+      "id": "7FKHlI04lZFfrtvxSFJmg"
     }
   ]
 }

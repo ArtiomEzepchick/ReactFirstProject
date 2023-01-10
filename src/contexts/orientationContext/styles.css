@@ -26,24 +26,40 @@
 
 .layout-header
 .nav-panel
+.login-buttons-container.vertical,
+.layout-header
+.nav-panel
+.user-block-container.vertical {
+    margin: auto 0 1rem 0;
+}
+
+.layout-header
+.nav-panel
 .login-buttons-container.vertical {
-    margin-left: 0;
-    margin-top: auto;
     flex-direction: column;
     gap: 1rem;
 }
 
 .layout-header
 .nav-panel
-.settings-container
-.switches-container.show.vertical {
-    top: -100%;
-    left: 175%;
+.user-block-container.vertical
+.user-actions.show {
+    top: -400%;
+    left: -130%;
 }
 
 .layout-header
 .nav-panel
-.settings-container
-.fa-sliders.vertical {
+.settings-container.vertical
+.switches-container.show {
+    top: -300%;
+    left: 300%;
+}
+
+.layout-header
+.nav-panel
+.settings-container.vertical
+.fa-sliders {
     margin-right: 0;
+    margin-left: 0;
 } 

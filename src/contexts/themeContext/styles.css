@@ -1,4 +1,5 @@
 .dark,
+.nav-panel.dark .login-buttons-container,
 .nav-panel.dark .links-container .action-button,
 .site-layout.dark * {
     color: #ffffff;
