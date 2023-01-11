@@ -89,12 +89,20 @@
     border: 1px solid #000000;
     border-radius: 10px;
     top: 175%;
-    left: -150%;
-    width: 7rem;
-    height: 7rem;
-    padding: 0.5rem 1rem;
+    left: -200%;
+    width: 10rem;
+    height: 10rem;
+    padding: 1rem 1rem;
     user-select: none;
     gap: 1rem;
+}
+
+.layout-header
+.nav-panel
+.user-block-container
+.user-actions
+h2 {
+    font-size: 1rem;
 }
 
 .layout-header

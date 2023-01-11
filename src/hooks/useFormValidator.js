@@ -47,87 +47,87 @@ export const useFormValidator = (registerForm, loginForm, setIsLoading) => {
 
     const validateForm = async ({ registerForm, field, errors, forceTouchErrors = false }) => {
         let isValid = true
-        let nextErrors = { ...errors }
+        let newErrors = { ...errors }
 
         if (forceTouchErrors) {
-            nextErrors = touchErrors(errors)
+            newErrors = touchErrors(errors)
         }
 
         const { name, email, password, confirmPassword } = registerForm
 
-        if (nextErrors.name.dirty && (field ? field === "name" : true)) {
+        if (newErrors.name.dirty && (field ? field === "name" : true)) {
             setIsLoading(true)
             const nameMessage = await nameRegisterValidator(name)
             setIsLoading(false)
-            nextErrors.name.error = !!nameMessage
-            nextErrors.name.message = nameMessage
+            newErrors.name.error = !!nameMessage
+            newErrors.name.message = nameMessage
             if (!!nameMessage) isValid = false
         }
 
-        if (nextErrors.email.dirty && (field ? field === "email" : true)) {
+        if (newErrors.email.dirty && (field ? field === "email" : true)) {
             setIsLoading(true)
             const emailMessage = await emailRegisterValidator(email)
             setIsLoading(false)
-            nextErrors.email.error = !!emailMessage
-            nextErrors.email.message = emailMessage
+            newErrors.email.error = !!emailMessage
+            newErrors.email.message = emailMessage
             if (!!emailMessage) isValid = false
         }
 
-        if (nextErrors.password.dirty && (field ? field === "password" : true)) {
+        if (newErrors.password.dirty && (field ? field === "password" : true)) {
             const passwordMessage = passwordRegisterValidator(password)
-            nextErrors.password.error = !!passwordMessage
-            nextErrors.password.message = passwordMessage
+            newErrors.password.error = !!passwordMessage
+            newErrors.password.message = passwordMessage
             if (!!passwordMessage) isValid = false
         }
 
-        if (nextErrors.confirmPassword.dirty && (field ? field === "confirmPassword" : true)) {
+        if (newErrors.confirmPassword.dirty && (field ? field === "confirmPassword" : true)) {
             const confirmPasswordMessage = confirmPasswordRegisterValidator(confirmPassword, password)
-            nextErrors.confirmPassword.error = !!confirmPasswordMessage
-            nextErrors.confirmPassword.message = confirmPasswordMessage
+            newErrors.confirmPassword.error = !!confirmPasswordMessage
+            newErrors.confirmPassword.message = confirmPasswordMessage
             if (!!confirmPasswordMessage) isValid = false
         }
 
-        setErrors(nextErrors)
+        setErrors(newErrors)
 
         return {
             isValid,
-            errors: nextErrors,
+            errors: newErrors,
         }
     }
 
     const validateLoginForm = async ({ loginForm, field, errors, forceTouchErrors = false }) => {
         let isValid = true
-        let nextErrors = { ...errors }
+        let newErrors = { ...errors }
 
         if (forceTouchErrors) {
-            nextErrors = touchErrors(errors)
+            newErrors = touchErrors(errors)
         }
 
         const { name, password } = loginForm
 
-        if (nextErrors.name.dirty && (field ? field === "name" : true)) {
+        if (newErrors.name.dirty && (field ? field === "name" : true)) {
             setIsLoading(true)
             const nameMessage = await nameLoginValidator(name)
             setIsLoading(false)
-            nextErrors.name.error = !!nameMessage
-            nextErrors.name.message = nameMessage
+            newErrors.name.error = !!nameMessage
+            newErrors.name.message = nameMessage
             if (!!nameMessage) isValid = false
         }
 
-        if (nextErrors.password.dirty && (field ? field === "password" : true)) {
+        if (newErrors.password.dirty && (field ? field === "password" : true)) {
             setIsLoading(true)
             const passwordMessage = await passwordLoginValidator(name, password)
             setIsLoading(false)
-            nextErrors.password.error = !!passwordMessage
-            nextErrors.password.message = passwordMessage
+            newErrors.password.error = !!passwordMessage
+            newErrors.password.message = passwordMessage
             if (!!passwordMessage) isValid = false
         }        
 
-        setErrors(nextErrors)
+        setErrors(newErrors)
 
         return {
             isValid,
-            errors: nextErrors,
+            errors: newErrors,
         }
     }
 

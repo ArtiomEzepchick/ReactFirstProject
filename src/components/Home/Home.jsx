@@ -62,7 +62,7 @@ const Home = () => {
     return (
         <div>
             <h1 style={{ marginTop: '1rem' }}>
-                Welcome to <span className='highlight-blue'>Artsiom Ezepchik's</span> first React project
+                Welcome to <span className='highlight-blue'>Artsiom Ezepchik's</span> React project
             </h1>
             <hr />
             <div className="accordion-container">

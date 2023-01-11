@@ -8,7 +8,7 @@ const Posts = () => {
     return (
         <div className='posts-page-wrapper'>
             <h1 style={{ marginTop: '1rem' }}>
-                <span className='highlight-purple'>REST API</span> consume
+                <span className='highlight-purple'>Posts</span> area
             </h1>
             <hr />
             <div className="accordion-container">

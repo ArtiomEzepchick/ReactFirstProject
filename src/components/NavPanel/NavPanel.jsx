@@ -10,11 +10,12 @@ import FormForUser from "../FormForUser/FormForUser"
 import { Link } from "../Link/Link"
 import Button from "../Button/Button"
 import links from "../../helpers/links/links"
+import { UserContext } from "../../contexts/userContext/userContext"
 import { ModalContext } from "../../contexts/modalContext/ModalContext"
 import MODAL_TYPES from "../Modal/modalTypes"
 import { closeModal } from "../../helpers/functions/closeModal"
 import { REDUCER_TYPES } from "../../reducers/contextReducer/contextReducer"
-import { loginFormData, registerFormData, userProfileData } from "../../helpers/formHelpers/formUsersData" 
+import { loginFormData, registerFormData, userProfileData } from "../../helpers/formHelpers/formInputsData"
 import './styles.css'
 
 const initialRegisterFormState = {
@@ -29,12 +30,18 @@ const initialLoginFormState = {
     password: ""
 }
 
+const initialProfileFormState ={
+    name: "",
+    password: "",
+    email: ""
+}
+
 const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrientation }) => {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
-    const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [registerForm, setRegisterForm] = useState(initialRegisterFormState)
     const [loginForm, setLoginForm] = useState(initialLoginFormState)
+    const [userProfileForm, setUserProfileForm] = useState(initialProfileFormState)
     const { name, password, email } = registerForm
     const {
         errors,
@@ -52,11 +59,18 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
         dispatch: dispatchModal
     } = useContext(ModalContext)
 
-    useEffect(() => {
-        const isUserExist = localStorage.getItem('username')
+    const {
+        state: { userName },
+        dispatch: dispatchUserName
+    } = useContext(UserContext)
 
-        isUserExist ? setIsLoggedIn(true) : setIsLoggedIn(false)
-    }, [])
+    const isUserLoggedIn = localStorage.getItem('username')
+
+    useEffect(() => {
+        if (isUserLoggedIn) {
+            dispatchUserName({ type: REDUCER_TYPES.SET_USERNAME, payload: isUserLoggedIn })
+        }
+    }, [isUserLoggedIn, dispatchUserName])
 
     useEffect(() => {
         const handleOutsideSettingsClick = (e) => {
@@ -119,6 +133,32 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
         })
     }
 
+    const openUserProfile = async () => {
+        setIsLoading(true)
+
+        const response = await fetch(`http://localhost:3001/users?name=${userName}`)
+
+        const userData = await response.json()
+
+        setUserProfileForm({
+            name: userData[0].name,
+            password: userData[0].password,
+            email: userData[0].email
+        })
+
+        setIsLoading(false)
+
+        setIsModalOpen(true)
+
+        dispatchModal({
+            type: REDUCER_TYPES.CHANGE_MODAL, payload: {
+                modalType: MODAL_TYPES.USER_PROFILE,
+                headerText: `${userName}'s profile`,
+                contentText: 'You can change you data here'
+            }
+        })
+    }
+
     const registerUser = async () => {
         try {
             await fetch('http://localhost:3001/users', {
@@ -137,8 +177,6 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
             closeModal(setIsModalOpen)
 
             localStorage.setItem('username', registerForm.name)
-
-            setIsLoggedIn(true)
 
             setTimeout(() => {
                 setIsModalOpen(true)
@@ -211,29 +249,28 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
         if (!isValid) return
 
         localStorage.setItem('username', loginForm.name)
-        setIsLoggedIn(true)
         closeModal(setIsModalOpen)
-    }
-
-    const openUserProfile = () => {
-        setIsModalOpen(true)
-
-        dispatchModal({
-            type: REDUCER_TYPES.CHANGE_MODAL, payload: {
-                modalType: MODAL_TYPES.USER_PROFILE,
-                headerText: `Hello, man`,
-                contentText: 'Welcome'
-            }
-        })
     }
 
     const handleLogOut = () => {
         setIsLoading(true)
-        localStorage.removeItem('username')
+
         setTimeout(() => {
             setIsLoading(false)
-            setIsLoggedIn(false)
+            setIsModalOpen(true)
+            localStorage.removeItem('username')
+            dispatchUserName({ type: REDUCER_TYPES.SET_USERNAME, payload: '' })
+            dispatchModal({
+                type: REDUCER_TYPES.CHANGE_MODAL, payload: {
+                    modalType: MODAL_TYPES.SUCCESS,
+                    headerText: 'Hope you come back soon!'
+                }
+            })
         }, 1000)
+
+        setTimeout(() => {
+            closeModal(setIsModalOpen)
+        }, 2500)
     }
 
     return (
@@ -250,11 +287,12 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
                         )
                     })}
                 </div>
-
-                {isLoggedIn
+                
+                {userName
                     ? <div className={classNames("user-block-container", !isHorizontal && 'vertical')}>
                         <i className="fa-regular fa-circle-user"></i>
                         <div className="user-actions">
+                            <h2>Hello, {userName}!</h2>
                             <Button handleClick={openUserProfile}>
                                 Profile
                                 <i className="fa-solid fa-gear"></i>
@@ -319,6 +357,18 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
                     errors={errors}
                     isLoading={isLoading}
                     inputs={loginFormData}
+                    state={loginForm}
+                    submitButtonText='Login'
+                    handleChange={handleLoginFormChange}
+                    handleFocus={(e) => handleFocus(e, 'login')}
+                    handleCloseModal={handleCloseModal}
+                    handleSubmit={handleLoginSubmit}
+                />}
+
+                {modalType === MODAL_TYPES.USER_PROFILE && <FormForUser
+                    errors={errors}
+                    isLoading={isLoading}
+                    inputs={userProfileData}
                     state={loginForm}
                     submitButtonText='Login'
                     handleChange={handleLoginFormChange}

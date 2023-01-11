@@ -37,13 +37,8 @@ export const userProfileData = [{
 },
 {
     type: 'password',
-    labelText: 'Previous password',
+    labelText: 'Password',
     name: 'password',
-},
-{
-    type: 'password',
-    labelText: 'New password',
-    name: 'newPassword',
 },
 {
     type: 'email',
