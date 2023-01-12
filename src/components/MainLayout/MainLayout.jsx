@@ -28,7 +28,7 @@ const MainLayout = ({ children }) => {
                 handleChangeTheme={() => dispatch({ type: REDUCER_TYPES.TOGGLE_THEME })}
             />
 
-            <Content className={classNames("site-layout", !isHorizontal && 'vertical', darkMode && 'dark' )} >
+            <Content className={classNames("site-layout", !isHorizontal && 'vertical', darkMode && 'dark')} >
                 {children}
             </Content>
 
@@ -36,7 +36,19 @@ const MainLayout = ({ children }) => {
                 className={classNames(!isHorizontal && 'vertical', darkMode && 'dark')}
                 style={{ textAlign: 'center' }}
             >
-                Made by Artsiom Ezepchik
+                <p>&#169; 2023 Made by Artsiom Ezepchik</p>
+                <div className="copyright-links">
+                    <p>Contact me:</p>
+                    <a href="linkedin.com/in/artiom-ezepchick">
+                        <i className="fa-brands fa-linkedin"></i>
+                    </a>
+                    <a href="https://www.instagram.com/art_ezepchik/">
+                        <i className="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://t.me/ArtiomEzepchik">
+                        <i className="fab fa-telegram"></i>
+                    </a>
+                </div>
             </Footer>
         </React.Fragment>
     )

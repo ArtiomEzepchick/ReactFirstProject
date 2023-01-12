@@ -5,6 +5,7 @@ const Input = forwardRef(({
     className,
     children,
     inputFieldClassName,
+    inputDisabled = false,
     labelText,
     maxLength,
     name,
@@ -21,6 +22,7 @@ const Input = forwardRef(({
                 <span>{labelText}</span>
                 <input
                     className={inputFieldClassName}
+                    disabled={inputDisabled}
                     maxLength={maxLength}
                     name={name}
                     ref={ref}
@@ -39,6 +41,7 @@ const Input = forwardRef(({
 
 Input.propTypes = {
     className: PropTypes.string,
+    inputFieldClassName: PropTypes.string,
     labelText: PropTypes.string,
     name: PropTypes.string,
     maxLength: PropTypes.string,
@@ -49,7 +52,8 @@ Input.propTypes = {
         PropTypes.number
     ]).isRequired,
     handleChange: PropTypes.func,
-    handleFocus: PropTypes.func
+    handleFocus: PropTypes.func,
+    handleBlur: PropTypes.func
 }
 
 export default Input

@@ -154,7 +154,7 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
             type: REDUCER_TYPES.CHANGE_MODAL, payload: {
                 modalType: MODAL_TYPES.USER_PROFILE,
                 headerText: `${userName}'s profile`,
-                contentText: 'You can change you data here'
+                contentText: 'You can change your data here'
             }
         })
     }
@@ -334,6 +334,7 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
             </nav>
             {isLoading && <Loader />}
             <Modal
+                darkMode={darkMode}
                 headerText={headerText}
                 contentText={contentText}
                 modalType={modalType}
@@ -369,7 +370,8 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
                     errors={errors}
                     isLoading={isLoading}
                     inputs={userProfileData}
-                    state={loginForm}
+                    inputDisabled={true}
+                    state={userProfileForm}
                     submitButtonText='Login'
                     handleChange={handleLoginFormChange}
                     handleFocus={(e) => handleFocus(e, 'login')}

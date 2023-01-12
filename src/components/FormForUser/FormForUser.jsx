@@ -9,6 +9,7 @@ import './styles.css'
 const FormForUser = ({
     errors,
     inputs,
+    inputDisabled,
     isLoading,
     state,
     submitButtonText,
@@ -29,7 +30,11 @@ const FormForUser = ({
                 return (<Input
                     key={labelText + index}
                     className={classNames('form-input-container')}
-                    inputFieldClassName={classNames(errors[name].dirty && errors[name].error && 'form-field-error')}
+                    inputFieldClassName={classNames(
+                        errors[name].dirty && errors[name].error && 'form-field-error',
+                        inputDisabled && 'blocked'
+                    )}
+                    inputDisabled={inputDisabled}
                     type={type}
                     labelText={labelText}
                     name={name}

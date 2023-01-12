@@ -8,6 +8,7 @@ import MODAL_TYPES from "./modalTypes"
 import './styles.css'
 
 const Modal = ({
+    darkMode,
     headerText,
     contentText,
     children,
@@ -34,7 +35,7 @@ const Modal = ({
 
     return (
         isModalOpen && ReactDOM.createPortal(
-            <Overlay isModalOpen={isModalOpen}>
+            <Overlay isModalOpen={isModalOpen} darkMode={darkMode}>
                 <div className={'modal-container'}>
                     <div data-type={modalType} className={classNames("modal-window", "flex-all-centered")} ref={modalRef}>
                         <div>
@@ -50,12 +51,12 @@ const Modal = ({
 }
 
 Modal.propTypes = {
+    darkMode: PropTypes.bool,
     headerText: PropTypes.string,
     contentText: PropTypes.string,
     isModalOpen: PropTypes.bool.isRequired,
     modalType: PropTypes.string,
     handleReturn: PropTypes.func,
-    handleOutsideClick: PropTypes.func
 }
 
 export default Modal

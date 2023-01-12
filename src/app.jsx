@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Provider } from 'react-redux';
 import routes from "./helpers/routes/routes";
@@ -7,10 +7,32 @@ import { ThemeContext } from "./contexts/themeContext/ThemeContext";
 import { OrientationContext } from "./contexts/orientationContext/OrientationContext";
 import { ModalContext } from "./contexts/modalContext/ModalContext";
 import { UserContext } from "./contexts/userContext/userContext";
+import { REDUCER_TYPES } from "./reducers/contextReducer/contextReducer";
 import { store } from './stores/store';
 
 const App = () => {
     const [state, dispatch] = useReducer(reducers, initialState)
+
+    useEffect(() => {
+        const currentTheme = localStorage.getItem('theme')
+        const currentNavOrientation = localStorage.getItem('navOrientation')
+
+        if (!currentTheme) {
+            localStorage.setItem('theme', 'light')
+        }
+
+        if (!currentNavOrientation) {
+            localStorage.setItem('navOrientation', 'horizontal')
+        }
+
+        if (currentNavOrientation === 'leftSide') {
+            dispatch({ type: REDUCER_TYPES.SET_ORIENTATION })
+        }
+
+        if (currentTheme === 'dark') {
+            dispatch({ type: REDUCER_TYPES.SET_DARK_THEME })
+        }
+    }, [])
 
     return (
         <Provider store={store}>

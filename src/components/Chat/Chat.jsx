@@ -6,6 +6,7 @@ import Button from "../Button/Button"
 import Loader from "../Loader/Loader"
 import { ModalContext } from "../../contexts/modalContext/ModalContext"
 import { UserContext } from "../../contexts/userContext/userContext"
+import { ThemeContext } from "../../contexts/themeContext/ThemeContext"
 import Modal from "../Modal/Modal"
 import MODAL_TYPES from "../Modal/modalTypes"
 import { REDUCER_TYPES } from "../../reducers/contextReducer/contextReducer"
@@ -18,16 +19,14 @@ const Chat = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [posts, setPosts] = useState([])
     const messageRef = useRef(null)
+    const { state: { userName } } = useContext(UserContext)
+    const { state: { darkMode} } = useContext(ThemeContext)
     const {
         state: {
             modalSettings: { modalType, headerText, contentText },
         },
         dispatch: dispatchModal
     } = useContext(ModalContext)
-
-    const {
-        state: { userName }
-    } = useContext(UserContext)
 
     const fetchPosts = useCallback(async () => {
         try {
@@ -165,6 +164,7 @@ const Chat = () => {
                 </div>
             </div>
             <Modal
+                darkMode={darkMode}
                 headerText={headerText}
                 contentText={contentText}
                 modalType={modalType}

@@ -1,24 +1,36 @@
 .dark,
+.overlay.show.dark *,
 .nav-panel.dark .login-buttons-container,
 .nav-panel.dark .links-container .action-button,
-.site-layout.dark * {
+.nav-panel.dark .user-block-container .user-actions.show *,
+.site-layout.dark *,
+.ant-layout-footer.dark .copyright-links * {
     color: #ffffff;
 }
 
 .dark,
+.overlay.show.dark,
 .nav-panel.vertical.dark,
+.nav-panel.dark .login-buttons-container *,
+.nav-panel.dark .user-block-container .user-actions.show,
+.nav-panel.dark .settings-container .switches-container.show,
+.nav-panel.dark .user-block-container .user-actions.show button,
 .site-layout.dark .counter-actions *,
-.site-layout.dark .accordion-title *,
+.site-layout.dark .accordion-item *,
 .site-layout.dark .form-counter-actions h3,
-.site-layout.dark .form-counter-actions p {
+.site-layout.dark .form-counter-actions p,
+.site-layout.dark .manage-posts-container * {
     background-color: #1d1d1d;
-}
+} 
 
 .site-layout.dark,
-.site-layout.dark * {
+.site-layout.dark *,
+.overlay.show.dark .modal-window {
     background-color: #090909;
 }
 
+.overlay.show.dark .modal-window button,
+.overlay.show.dark .modal-window input,
 .site-layout.dark input,
 .site-layout.dark textarea,
 .site-layout.dark select,
@@ -37,6 +49,11 @@
     background: #141414;
 }
 
+.overlay.show.dark .modal-window,
+.nav-panel.dark .login-buttons-container button,
+.nav-panel.dark .settings-container .switches-container.show,
+.nav-panel.dark .user-block-container .user-actions.show,
+.nav-panel.dark .user-block-container .user-actions.show button,
 .site-layout.dark input,
 .site-layout.dark textarea,
 .site-layout.dark select {
