@@ -30,7 +30,7 @@ const initialLoginFormState = {
     password: ""
 }
 
-const initialProfileFormState ={
+const initialProfileFormState = {
     name: "",
     password: "",
     email: ""
@@ -128,35 +128,7 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
             }
         })
 
-        setTimeout(() => {
-            setIsModalOpen(true)
-        })
-    }
-
-    const openUserProfile = async () => {
-        setIsLoading(true)
-
-        const response = await fetch(`http://localhost:3001/users?name=${userName}`)
-
-        const userData = await response.json()
-
-        setUserProfileForm({
-            name: userData[0].name,
-            password: userData[0].password,
-            email: userData[0].email
-        })
-
-        setIsLoading(false)
-
         setIsModalOpen(true)
-
-        dispatchModal({
-            type: REDUCER_TYPES.CHANGE_MODAL, payload: {
-                modalType: MODAL_TYPES.USER_PROFILE,
-                headerText: `${userName}'s profile`,
-                contentText: 'You can change your data here'
-            }
-        })
     }
 
     const registerUser = async () => {
@@ -194,6 +166,38 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
             }, 2500)
         } catch {
             throw new Error('Failed to register user')
+        }
+    }
+
+    const openUserProfile = async () => {
+        try {
+            setIsLoading(true)
+
+            const response = await fetch(`http://localhost:3001/users?name=${userName}`)
+    
+            const userData = await response.json()
+    
+            setUserProfileForm({
+                name: userData[0].name,
+                password: userData[0].password,
+                email: userData[0].email
+            })
+    
+            setIsLoading(false)
+    
+            setIsModalOpen(true)
+    
+            dispatchModal({
+                type: REDUCER_TYPES.CHANGE_MODAL, payload: {
+                    modalType: MODAL_TYPES.USER_PROFILE,
+                    headerText: `${userName}'s profile`,
+                    contentText: 'You can change your data here'
+                }
+            })
+        } catch {
+            throw new Error(`Failed to open profile settings`)
+        } finally {
+            setIsLoading(false)
         }
     }
 
@@ -263,14 +267,14 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
             dispatchModal({
                 type: REDUCER_TYPES.CHANGE_MODAL, payload: {
                     modalType: MODAL_TYPES.SUCCESS,
-                    headerText: 'Hope you come back soon!'
+                    headerText: 'Come back soon!'
                 }
             })
         }, 1000)
 
         setTimeout(() => {
             closeModal(setIsModalOpen)
-        }, 2500)
+        }, 2000)
     }
 
     return (
@@ -287,7 +291,7 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
                         )
                     })}
                 </div>
-                
+
                 {userName
                     ? <div className={classNames("user-block-container", !isHorizontal && 'vertical')}>
                         <i className="fa-regular fa-circle-user"></i>
@@ -322,12 +326,22 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
                         <div>
                             <i className="fa-solid fa-arrow-rotate-left"></i>
                             <p>Change orientation</p>
-                            <Switch className="switch" size='small' onClick={handleChangeOrientation} />
+                            <Switch
+                                className="switch"
+                                size='small'
+                                onClick={handleChangeOrientation}
+                                checked={!isHorizontal && true}
+                            />
                         </div>
                         <div>
                             <i className="fa-solid fa-moon"></i>
                             <p>Change theme</p>
-                            <Switch className="switch" size='small' onClick={handleChangeTheme} />
+                            <Switch
+                                className="switch"
+                                size='small'
+                                onClick={handleChangeTheme}
+                                checked={darkMode && true}
+                            />
                         </div>
                     </div>
                 </div>
@@ -371,12 +385,10 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
                     isLoading={isLoading}
                     inputs={userProfileData}
                     inputDisabled={true}
+                    modalType={modalType}
                     state={userProfileForm}
-                    submitButtonText='Login'
-                    handleChange={handleLoginFormChange}
-                    handleFocus={(e) => handleFocus(e, 'login')}
+                    submitButtonText='Change'
                     handleCloseModal={handleCloseModal}
-                    handleSubmit={handleLoginSubmit}
                 />}
             </Modal>
         </header>

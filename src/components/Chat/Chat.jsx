@@ -20,7 +20,7 @@ const Chat = () => {
     const [posts, setPosts] = useState([])
     const messageRef = useRef(null)
     const { state: { userName } } = useContext(UserContext)
-    const { state: { darkMode} } = useContext(ThemeContext)
+    const { state: { darkMode } } = useContext(ThemeContext)
     const {
         state: {
             modalSettings: { modalType, headerText, contentText },

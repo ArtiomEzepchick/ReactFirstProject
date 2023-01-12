@@ -1,28 +1,10 @@
 {
   "posts": [
     {
-      "userName": "Artstiom",
-      "message": "О, привет, Саша!",
-      "time": "12.01.2023, 00:26:58",
-      "id": "bVDM9c9yK-460Cqj2arqY"
-    },
-    {
       "userName": "Alexandra",
-      "message": "Прет, Артём!",
-      "time": "12.01.2023, 00:27:15",
-      "id": "i8npRuW4g3KFZooOTWH4Z"
-    },
-    {
-      "userName": "Alexandra",
-      "message": "ddasdas",
-      "time": "12.01.2023, 12:50:07",
-      "id": "yBpFVp8ruy9Ow9q4TOSMA"
-    },
-    {
-      "userName": "Alexandra",
-      "message": "dsadas",
-      "time": "12.01.2023, 12:50:14",
-      "id": "7_yBDdDSEq-wFJQ0btX1m"
+      "message": "Hello!",
+      "time": "12.01.2023, 14:14:53",
+      "id": "XFNDorI3bBwPYRsWdndeJ"
     }
   ],
   "users": [
@@ -37,48 +19,6 @@
       "password": "11111111",
       "email": "tyomkarulez@gmail.com",
       "id": "lvjFV3BVmYbpwBxONi1Ic"
-    },
-    {
-      "name": "And",
-      "password": "11111111",
-      "email": "artem.ezechik@gmail.com",
-      "id": "au7wRjGQYMzrGalyCvW0A"
-    },
-    {
-      "name": "ASdsad",
-      "password": "11111111",
-      "email": "artesdm.ezepchik@gmail.com",
-      "id": "8rt2kcZ37lYozoBJOSerK"
-    },
-    {
-      "name": "dsadas",
-      "password": "11111111",
-      "email": "artem.ezesdpchik@gmail.com",
-      "id": "oo-8moQwP_EVW5KTqzO2j"
-    },
-    {
-      "name": "Artstioms",
-      "password": "11111111",
-      "email": "artem.ezespchik@gmail.com",
-      "id": "AhPTVA70GqW7AfMEivgTo"
-    },
-    {
-      "name": "dsadasdas",
-      "password": "11111111",
-      "email": "artem.dsadasezepchik@gmail.com",
-      "id": "uBPiXd1qr2Kn5HJtSCeaJ"
-    },
-    {
-      "name": "dasdsada",
-      "password": "11111111",
-      "email": "artem.ezepdsadaschik@gmail.com",
-      "id": "TmQlB-tOIzu4j4oCvGrKf"
-    },
-    {
-      "name": "dsadsas",
-      "password": "11111111",
-      "email": "artem.ezepschik@gmail.com",
-      "id": "HzCFrUGGnq6OExwXZobK1"
     },
     {
       "name": "Vanya",
@@ -97,12 +37,6 @@
       "password": "11111111",
       "email": "piotr@kdsajj.ru",
       "id": "mVTAc5i8-pqt8dAjJzAOg"
-    },
-    {
-      "name": "Hui",
-      "password": "11111111",
-      "email": "sdadsa@dasdsa.ru",
-      "id": "3s8vXPB-qSdq5v7xyz3D4"
     },
     {
       "name": "Vasya",

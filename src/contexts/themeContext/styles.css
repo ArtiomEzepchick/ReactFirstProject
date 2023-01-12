@@ -8,6 +8,10 @@
     color: #ffffff;
 }
 
+.overlay.show.dark .form-field-error-message {
+    color: #e11d48;
+}
+
 .dark,
 .overlay.show.dark,
 .nav-panel.vertical.dark,
@@ -58,4 +62,8 @@
 .site-layout.dark textarea,
 .site-layout.dark select {
     border: 1px solid #ffffff;
+}
+
+.ant-layout-footer.dark {
+    background-color: #161616;
 }

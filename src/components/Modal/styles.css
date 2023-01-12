@@ -18,19 +18,8 @@
     box-shadow: 24px 19px 8px 0px rgba(34, 60, 80, 0.2);
 }
 
-.modal-window 
-.modal-actions {
-    width: 20rem;
-    height: 2rem;
-    display: flex;
-    justify-content: space-evenly;
-}
-
-.modal-window 
-.modal-actions 
-button {
-    display: block;
-    width: 8rem;
+.modal-window.moved {
+    left: 58%;
 }
 
 .modal-window[data-type='alert'] {

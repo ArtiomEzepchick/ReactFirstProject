@@ -3,14 +3,15 @@ import PropTypes from 'prop-types'
 import classNames from "classnames"
 import Input from "../Input/Input"
 import Button from "../Button/Button"
-import Loader from "../Loader/Loader"
 import './styles.css'
+import MODAL_TYPES from "../Modal/modalTypes"
 
 const FormForUser = ({
     errors,
     inputs,
     inputDisabled,
     isLoading,
+    modalType,
     state,
     submitButtonText,
     handleChange,
@@ -43,16 +44,16 @@ const FormForUser = ({
                     handleBlur={handleBlur}
                     handleFocus={handleFocus}
                 >
-                    {isLoading && <Loader />}
                     {errors[name].dirty && errors[name].error
                         ? <p className='form-field-error-message'>{errors[name].message}</p>
                         : null
                     }
                 </Input>)
             })}
-            <div className={"modal-actions"}>
+            <div className={"form-actions"}>
                 <Button handleClick={closeModal}>Close</Button>
-                <Button type='submit' handleClick={handleSubmit}>{submitButtonText}</Button>
+                {modalType !== MODAL_TYPES.USER_PROFILE &&
+                    <Button type='submit' handleClick={handleSubmit}>{submitButtonText}</Button>}
             </div>
         </form>
     )
@@ -61,7 +62,9 @@ const FormForUser = ({
 FormForUser.propTypes = {
     errors: PropTypes.object,
     inputs: PropTypes.arrayOf(PropTypes.object),
+    inputDisabled: PropTypes.bool,
     isLoading: PropTypes.bool,
+    modalType: PropTypes.string,
     state: PropTypes.object,
     submitButtonText: PropTypes.string,
     handleChange: PropTypes.func,
