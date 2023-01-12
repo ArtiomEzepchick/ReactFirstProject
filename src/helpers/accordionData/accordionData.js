@@ -21,8 +21,9 @@ export const accordionHomePageData = [
             { text: "All pages support theme change and navigation panel reorientation (React.createContext and useContext hook)" },
             { text: "Used dynamic imports (React.lazy, React.Suspense and Loader-component) to simulate code-splitting" },
             { text: "Project is made of functional components" },
-            { text: "All components have propTypes check" },
-            { text: 'Consumed 3rd-party libraries as Ant.d, coolors, classNames, JSON server' }
+            { text: 'Used React Router, Portals'},
+            { text: "All components have propTypes check (where its needed)" },
+            { text: 'Consumed 3rd-party libraries as Ant.d, coolors, classNames, nanoid, JSON server' },
         ]
     }
 ]
@@ -61,8 +62,7 @@ export const accordionMorePageData = [
             { text: "useEffect" },
             { text: "useState" },
             { text: "useRef" },
-            { text: "useScrollLock custom hook"},
-            { text: "HOC" },
+            { text: "useScrollLock custom hook" },
             { text: "ReactDOM.createPortal" }
         ]
     }

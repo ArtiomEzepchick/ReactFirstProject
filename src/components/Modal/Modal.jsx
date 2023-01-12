@@ -1,13 +1,15 @@
-import React, { useRef, useEffect } from "react"
+import React, { useRef, useEffect, useContext } from "react"
 import * as ReactDOM from "react-dom"
 import classNames from "classnames"
 import { useScrollLock } from "../../hooks/useScrollLock"
 import PropTypes from 'prop-types'
 import Overlay from "../Overlay/Overlay"
 import MODAL_TYPES from "./modalTypes"
+import { OrientationContext } from "../../contexts/orientationContext/OrientationContext"
 import './styles.css'
 
 const Modal = ({
+    darkMode,
     headerText,
     contentText,
     children,
@@ -16,6 +18,7 @@ const Modal = ({
     handleCloseModal,
 }) => {
     const modalRef = useRef(null)
+    const { state: { isHorizontal } } = useContext(OrientationContext)
     const { lockScroll, unlockScroll } = useScrollLock()
 
     useEffect(() => {
@@ -34,9 +37,13 @@ const Modal = ({
 
     return (
         isModalOpen && ReactDOM.createPortal(
-            <Overlay isModalOpen={isModalOpen}>
+            <Overlay isModalOpen={isModalOpen} darkMode={darkMode}>
                 <div className={'modal-container'}>
-                    <div data-type={modalType} className={classNames("modal-window", "flex-all-centered")} ref={modalRef}>
+                    <div
+                        data-type={modalType}
+                        className={classNames("modal-window", "flex-all-centered", !isHorizontal && 'moved')}
+                        ref={modalRef}
+                    >
                         <div>
                             <h1>{headerText}</h1>
                             <p>{contentText}</p>
@@ -50,12 +57,12 @@ const Modal = ({
 }
 
 Modal.propTypes = {
+    darkMode: PropTypes.bool,
     headerText: PropTypes.string,
     contentText: PropTypes.string,
     isModalOpen: PropTypes.bool.isRequired,
     modalType: PropTypes.string,
     handleReturn: PropTypes.func,
-    handleOutsideClick: PropTypes.func
 }
 
 export default Modal

@@ -1,35 +1,57 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { nanoid } from "nanoid"
 import PropTypes from 'prop-types'
 import classNames from "classnames"
+import { useFormValidator } from "../../hooks/useFormValidator"
+import { Switch } from "antd"
 import Modal from "../Modal/Modal"
 import Loader from "../Loader/Loader"
-import RegisterForm from "../RegisterForm/RegisterForm"
+import FormForUser from "../FormForUser/FormForUser"
 import { Link } from "../Link/Link"
 import Button from "../Button/Button"
 import links from "../../helpers/links/links"
+import { UserContext } from "../../contexts/userContext/userContext"
 import { ModalContext } from "../../contexts/modalContext/ModalContext"
 import MODAL_TYPES from "../Modal/modalTypes"
 import { closeModal } from "../../helpers/functions/closeModal"
 import { REDUCER_TYPES } from "../../reducers/contextReducer/contextReducer"
-import { useLoginFormValidator } from "../../hooks/useRegisterFormValidator"
-import { useScrollLock } from "../../hooks/useScrollLock"
+import { loginFormData, registerFormData, userProfileData } from "../../helpers/formHelpers/formInputsData"
 import './styles.css'
 
-const initialFormState = {
+const initialRegisterFormState = {
     name: "",
     email: "",
     password: "",
     confirmPassword: "",
 }
 
+const initialLoginFormState = {
+    name: "",
+    password: ""
+}
+
+const initialProfileFormState = {
+    name: "",
+    password: "",
+    email: ""
+}
+
 const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrientation }) => {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
-    const { lockScroll, unlockScroll } = useScrollLock()
-    const [form, setForm] = useState(initialFormState)
-    const { name, password, email } = form
-    const { errors, clearErrors, validateForm, handleBlur } = useLoginFormValidator(form, setIsLoading)
+    const [registerForm, setRegisterForm] = useState(initialRegisterFormState)
+    const [loginForm, setLoginForm] = useState(initialLoginFormState)
+    const [userProfileForm, setUserProfileForm] = useState(initialProfileFormState)
+    const { name, password, email } = registerForm
+    const {
+        errors,
+        clearErrors,
+        validateForm,
+        validateLoginForm,
+        handleBlur,
+        handleFocus
+    } = useFormValidator(registerForm, loginForm, setIsLoading)
+
     const {
         state: {
             modalSettings: { modalType, headerText, contentText },
@@ -37,8 +59,49 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
         dispatch: dispatchModal
     } = useContext(ModalContext)
 
+    const {
+        state: { userName },
+        dispatch: dispatchUserName
+    } = useContext(UserContext)
+
+    const isUserLoggedIn = localStorage.getItem('username')
+
+    useEffect(() => {
+        if (isUserLoggedIn) {
+            dispatchUserName({ type: REDUCER_TYPES.SET_USERNAME, payload: isUserLoggedIn })
+        }
+    }, [isUserLoggedIn, dispatchUserName])
+
+    useEffect(() => {
+        const handleOutsideSettingsClick = (e) => {
+            const target = e.target
+            const userIcon = document.querySelector('.fa-circle-user')
+            const userActions = document.querySelector('.user-actions')
+            const settingsIcon = document.querySelector('.fa-sliders')
+            const switches = document.querySelector('.switches-container')
+
+            if (userIcon) {
+                if (target === userIcon) {
+                    userActions.classList.toggle('show')
+                } else if (!target.closest('.user-actions')) {
+                    userActions.classList.remove('show')
+                }
+            }
+
+            if (target === settingsIcon) {
+                switches.classList.toggle('show')
+            } else if (!target.closest('.switches-container')) {
+                switches.classList.remove('show')
+            }
+        }
+
+        document.addEventListener('click', handleOutsideSettingsClick)
+
+        return () => document.removeEventListener('click', handleOutsideSettingsClick)
+    }, [])
+
     const openRegisterModal = () => {
-        setForm(initialFormState)
+        setRegisterForm(initialRegisterFormState)
         clearErrors()
 
         dispatchModal({
@@ -54,9 +117,23 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
         })
     }
 
+    const openLoginModal = () => {
+        setLoginForm(initialLoginFormState)
+        clearErrors()
+
+        dispatchModal({
+            type: REDUCER_TYPES.CHANGE_MODAL, payload: {
+                modalType: MODAL_TYPES.LOGIN_FORM,
+                headerText: 'Login Form',
+            }
+        })
+
+        setIsModalOpen(true)
+    }
+
     const registerUser = async () => {
         try {
-            const response = await fetch('http://localhost:3001/users', {
+            await fetch('http://localhost:3001/users', {
                 method: 'POST',
                 body: JSON.stringify({
                     name,
@@ -69,9 +146,9 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
                 },
             })
 
-            const data = await response.json()
-
             closeModal(setIsModalOpen)
+
+            localStorage.setItem('username', registerForm.name)
 
             setTimeout(() => {
                 setIsModalOpen(true)
@@ -86,9 +163,41 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
 
             setTimeout(() => {
                 closeModal(setIsModalOpen)
-            }, 3000)
+            }, 2500)
         } catch {
             throw new Error('Failed to register user')
+        }
+    }
+
+    const openUserProfile = async () => {
+        try {
+            setIsLoading(true)
+
+            const response = await fetch(`http://localhost:3001/users?name=${userName}`)
+    
+            const userData = await response.json()
+    
+            setUserProfileForm({
+                name: userData[0].name,
+                password: userData[0].password,
+                email: userData[0].email
+            })
+    
+            setIsLoading(false)
+    
+            setIsModalOpen(true)
+    
+            dispatchModal({
+                type: REDUCER_TYPES.CHANGE_MODAL, payload: {
+                    modalType: MODAL_TYPES.USER_PROFILE,
+                    headerText: `${userName}'s profile`,
+                    contentText: 'You can change your data here'
+                }
+            })
+        } catch {
+            throw new Error(`Failed to open profile settings`)
+        } finally {
+            setIsLoading(false)
         }
     }
 
@@ -96,41 +205,76 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
         closeModal(setIsModalOpen)
     }
 
-    const handleChange = async (e) => {
+    const handleRegisterFormChange = async (e) => {
         const field = e.target.name
 
-        setIsLoading(true)
-
-        const nextFormState = {
-            ...form,
+        const nextRegisterFormState = {
+            ...registerForm,
             [field]: e.target.value,
         }
 
-        setForm(nextFormState)
+        setRegisterForm(nextRegisterFormState)
 
         if (errors[field].dirty) {
-            await validateForm({
-                form: nextFormState,
+            validateForm({
+                registerForm: nextRegisterFormState,
                 errors,
                 field,
             })
         }
-
-        setIsLoading(false)
     }
 
-    const handleSubmit = async (e) => {
+    const handleLoginFormChange = (e) => {
+        const field = e.target.name
+
+        const nextLoginFormState = {
+            ...loginForm,
+            [field]: e.target.value,
+        }
+
+        setLoginForm(nextLoginFormState)
+    }
+
+    const handleRegisterSubmit = async (e) => {
         e.preventDefault()
 
-        setIsLoading(true)
-
-        const { isValid } = await validateForm({ form, errors, forceTouchErrors: true })
-
-        setIsLoading(false)
+        const { isValid } = await validateForm({ registerForm, errors, forceTouchErrors: true })
 
         if (!isValid) return
 
         await registerUser()
+    }
+
+    const handleLoginSubmit = async (e) => {
+        e.preventDefault()
+
+        const { isValid } = await validateLoginForm({ loginForm, errors, forceTouchErrors: true })
+
+        if (!isValid) return
+
+        localStorage.setItem('username', loginForm.name)
+        closeModal(setIsModalOpen)
+    }
+
+    const handleLogOut = () => {
+        setIsLoading(true)
+
+        setTimeout(() => {
+            setIsLoading(false)
+            setIsModalOpen(true)
+            localStorage.removeItem('username')
+            dispatchUserName({ type: REDUCER_TYPES.SET_USERNAME, payload: '' })
+            dispatchModal({
+                type: REDUCER_TYPES.CHANGE_MODAL, payload: {
+                    modalType: MODAL_TYPES.SUCCESS,
+                    headerText: 'Come back soon!'
+                }
+            })
+        }, 1000)
+
+        setTimeout(() => {
+            closeModal(setIsModalOpen)
+        }, 2000)
     }
 
     return (
@@ -148,37 +292,104 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
                     })}
                 </div>
 
-                <div className={classNames('login-buttons-container', 'flex-all-centered', !isHorizontal && 'vertical')}>
-                    <Button handleClick={() => openRegisterModal()}>Register</Button>
-                    <Button>Login</Button>
-                </div>
+                {userName
+                    ? <div className={classNames("user-block-container", !isHorizontal && 'vertical')}>
+                        <i className="fa-regular fa-circle-user"></i>
+                        <div className="user-actions">
+                            <h2>Hello, {userName}!</h2>
+                            <Button handleClick={openUserProfile}>
+                                Profile
+                                <i className="fa-solid fa-gear"></i>
+                            </Button>
+                            <Button handleClick={handleLogOut}>
+                                Logout
+                                <i className="fa-solid fa-right-from-bracket"></i>
+                            </Button>
+                        </div>
+                    </div>
 
-                <div className={classNames('toggle-buttons-container', 'flex-all-centered', !isHorizontal && 'vertical')}>
-                    <Button className='toggle-button' handleClick={handleChangeOrientation}>
-                        {isHorizontal ? 'Move panel to the left' : 'Move panel to the top'}
-                    </Button>
-                    <Button className='toggle-button' handleClick={handleChangeTheme}>Change Theme</Button>
+                    : <div className={classNames('login-buttons-container', !isHorizontal && 'vertical')}>
+                        <Button handleClick={openRegisterModal}>
+                            Register
+                            <i className="fa-solid fa-address-card"></i>
+                        </Button>
+                        <Button handleClick={openLoginModal}>
+                            Login
+                            <i className="fa-solid fa-right-to-bracket"></i>
+                        </Button>
+                    </div>
+                }
+
+                <div className={classNames("settings-container", !isHorizontal && 'vertical')}>
+                    <i className="fa-solid fa-sliders"></i>
+                    <div className='switches-container'>
+                        <div>
+                            <i className="fa-solid fa-arrow-rotate-left"></i>
+                            <p>Change orientation</p>
+                            <Switch
+                                className="switch"
+                                size='small'
+                                onClick={handleChangeOrientation}
+                                checked={!isHorizontal && true}
+                            />
+                        </div>
+                        <div>
+                            <i className="fa-solid fa-moon"></i>
+                            <p>Change theme</p>
+                            <Switch
+                                className="switch"
+                                size='small'
+                                onClick={handleChangeTheme}
+                                checked={darkMode && true}
+                            />
+                        </div>
+                    </div>
                 </div>
             </nav>
             {isLoading && <Loader />}
             <Modal
+                darkMode={darkMode}
                 headerText={headerText}
                 contentText={contentText}
                 modalType={modalType}
                 isModalOpen={isModalOpen}
                 handleCloseModal={handleCloseModal}
             >
-                <RegisterForm 
+                {modalType === MODAL_TYPES.REGISTER_FORM && <FormForUser
                     errors={errors}
                     isLoading={isLoading}
-                    state={form}
-                    handleChange={handleChange}
+                    inputs={registerFormData}
+                    state={registerForm}
+                    submitButtonText='Submit'
+                    handleChange={handleRegisterFormChange}
                     handleBlur={handleBlur}
-                />
-                <div className={"modal-actions"}>
-                    <Button handleClick={handleCloseModal}>Close</Button>
-                    <Button type='submit' handleClick={handleSubmit}>Submit</Button>
-                </div>
+                    handleFocus={handleFocus}
+                    handleCloseModal={handleCloseModal}
+                    handleSubmit={handleRegisterSubmit}
+                />}
+
+                {modalType === MODAL_TYPES.LOGIN_FORM && <FormForUser
+                    errors={errors}
+                    isLoading={isLoading}
+                    inputs={loginFormData}
+                    state={loginForm}
+                    submitButtonText='Login'
+                    handleChange={handleLoginFormChange}
+                    handleFocus={(e) => handleFocus(e, 'login')}
+                    handleCloseModal={handleCloseModal}
+                    handleSubmit={handleLoginSubmit}
+                />}
+
+                {modalType === MODAL_TYPES.USER_PROFILE && <FormForUser
+                    errors={errors}
+                    isLoading={isLoading}
+                    inputs={userProfileData}
+                    inputDisabled={true}
+                    modalType={modalType}
+                    state={userProfileForm}
+                    submitButtonText='Change'
+                    handleCloseModal={handleCloseModal}
+                />}
             </Modal>
         </header>
     )

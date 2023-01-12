@@ -18,16 +18,8 @@
     box-shadow: 24px 19px 8px 0px rgba(34, 60, 80, 0.2);
 }
 
-.modal-window .modal-actions {
-    width: 20rem;
-    height: 2rem;
-    display: flex;
-    justify-content: space-evenly;
-}
-
-.modal-window .modal-actions button {
-    display: block;
-    width: 8rem;
+.modal-window.moved {
+    left: 58%;
 }
 
 .modal-window[data-type='alert'] {
@@ -54,7 +46,16 @@ h1 + p {
     text-align: center;
 }
 
-.modal-window[data-type='register-form']
-.modal-actions {
-    margin-top: 2rem;
+.modal-window[data-type='login-form'] {
+    width: 25rem;
+    height: max-content;
+    background-color: #f7fdff;
+    padding: 2rem;
+}
+
+.modal-window[data-type='user-profile'] {
+    width: 30rem;
+    height: max-content;
+    background-color: #ffffff;
+    padding: 2rem;
 }

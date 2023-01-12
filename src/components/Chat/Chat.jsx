@@ -2,10 +2,11 @@ import React, { useState, useEffect, useRef, useCallback, useContext } from "rea
 import { nanoid } from "nanoid"
 import classNames from 'classnames'
 import TextArea from "../TextArea/TextArea"
-import Input from "../Input/Input"
 import Button from "../Button/Button"
 import Loader from "../Loader/Loader"
 import { ModalContext } from "../../contexts/modalContext/ModalContext"
+import { UserContext } from "../../contexts/userContext/userContext"
+import { ThemeContext } from "../../contexts/themeContext/ThemeContext"
 import Modal from "../Modal/Modal"
 import MODAL_TYPES from "../Modal/modalTypes"
 import { REDUCER_TYPES } from "../../reducers/contextReducer/contextReducer"
@@ -14,18 +15,17 @@ import './styles.css'
 
 const Chat = () => {
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const [userName, setUserName] = useState('')
     const [message, setMessage] = useState('')
-    const [isUserAdded, setIsUserAdded] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [posts, setPosts] = useState([])
-    const userNameRef = useRef(null)
     const messageRef = useRef(null)
+    const { state: { userName } } = useContext(UserContext)
+    const { state: { darkMode } } = useContext(ThemeContext)
     const {
         state: {
             modalSettings: { modalType, headerText, contentText },
         },
-        dispatch
+        dispatch: dispatchModal
     } = useContext(ModalContext)
 
     const fetchPosts = useCallback(async () => {
@@ -39,6 +39,8 @@ const Chat = () => {
             setIsLoading(false)
         } catch {
             throw new Error('Failed to get posts')
+        } finally {
+            setIsLoading(false)
         }
     }, [])
 
@@ -50,72 +52,40 @@ const Chat = () => {
         if (!message.trim()) {
             setIsModalOpen(true)
 
-            dispatch({
+            return dispatchModal({
                 type: REDUCER_TYPES.CHANGE_MODAL, payload: {
                     modalType: MODAL_TYPES.ALERT,
                     headerText: 'Message field is empty',
                     contentText: 'You need to type something'
                 }
             })
-            
-            return
         }
 
-        if (!userName.trim()) {
-            if (!userName.trim()) {
-                setUserName('Unknown')
-            }
+        try {
+            setIsLoading(true)
 
-            setIsModalOpen(true)
-
-            dispatch({
-                type: REDUCER_TYPES.CHANGE_MODAL, payload: {
-                    modalType: MODAL_TYPES.ALERT,
-                    headerText: 'Your name will be Unknown',
-                    contentText: 'Username field is empty'
-                }
+            const response = await fetch('http://localhost:3001/posts', {
+                method: 'POST',
+                body: JSON.stringify({
+                    userName: userName,
+                    message: message,
+                    time: new Date().toLocaleString(),
+                    id: nanoid()
+                }),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
             })
-        }
 
-        if (userName.trim()) {
-            try {
-                setIsLoading(true)
+            const data = await response.json()
 
-                const response = await fetch('http://localhost:3001/posts', {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        userName: userName,
-                        message: message,
-                        time: new Date().toLocaleString(),
-                        id: nanoid()
-                    }),
-                    headers: {
-                        'Content-type': 'application/json; charset=UTF-8',
-                    },
-                })
-
-                const data = await response.json()
-
-                setIsUserAdded(true)
-
-                setIsModalOpen(true)
-
-                dispatch({
-                    type: REDUCER_TYPES.CHANGE_MODAL, payload: {
-                        modalType: MODAL_TYPES.SUCCESS,
-                        headerText: 'Success',
-                        contentText: 'New post added'
-                    }
-                })
-
-                setTimeout(() => closeModal(setIsModalOpen), 2000)
-
-                setPosts((posts) => [...posts, data])
-                setMessage('')
-                setIsLoading(false)
-            } catch {
-                throw new Error('Failed to add post')
-            }
+            setPosts((posts) => [...posts, data])
+            setMessage('')
+            setIsLoading(false)
+        } catch {
+            throw new Error('Failed to add post')
+        } finally {
+            setIsLoading(false)
         }
     }
 
@@ -140,25 +110,6 @@ const Chat = () => {
         }
     }
 
-    const handleConfirmUserName = (e) => {
-        e.preventDefault()
-
-        if (!userName.trim()) {
-            setUserName('Unknown')
-            setIsUserAdded(true)
-            return
-        }
-
-        setUserName(userName.trim())
-        setIsUserAdded(true)
-    }
-
-    const handleChangeUserName = (e) => {
-        e.preventDefault()
-
-        setIsUserAdded(false)
-    }
-
     const handleReturnToEdit = () => {
         closeModal(setIsModalOpen)
 
@@ -178,34 +129,19 @@ const Chat = () => {
             <div className="add-post-container">
                 <h2 className="highlight-blue">Create post</h2>
                 <hr />
-                <form onSubmit={handleSubmit}>
-                    {!isUserAdded
-                        ? <Input
-                            className="input-container"
-                            labelText='Who are you?'
-                            placeholder='Your name here'
-                            maxLength='25'
-                            type="text"
-                            ref={userNameRef}
-                            value={userName}
-                            handleChange={(e) => setUserName(e.target.value)}
-                            handleFocus={() => userName === 'Unknown' && setUserName('')}
+                {userName
+                    ? <form onSubmit={handleSubmit}>
+                        <TextArea
+                            className="textarea-content"
+                            placeholder={`What's on your mind, ${userName}?`}
+                            ref={messageRef}
+                            value={message}
+                            handleChange={(e) => setMessage(e.target.value)}
                         />
-                        : <h3>Hello, {userName}!</h3>
-                    }
-                    {!isUserAdded
-                        ? <Button handleClick={handleConfirmUserName}>Confirm</Button>
-                        : <Button handleClick={handleChangeUserName}>Change name</Button>
-                    }
-                    <TextArea
-                        className="textarea-content"
-                        placeholder="What's on your mind?"
-                        ref={messageRef}
-                        value={message}
-                        handleChange={(e) => setMessage(e.target.value)}
-                    />
-                    <Button isLoading={isLoading} type='submit'>Send post</Button>
-                </form>
+                        <Button isLoading={isLoading} type='submit'>Send post</Button>
+                    </form>
+                    : <p style={{ textAlign: 'center' }}>You must be logged in to send messages</p>
+                }
             </div>
             <div>
                 {isLoading && <Loader />}
@@ -228,6 +164,7 @@ const Chat = () => {
                 </div>
             </div>
             <Modal
+                darkMode={darkMode}
                 headerText={headerText}
                 contentText={contentText}
                 modalType={modalType}

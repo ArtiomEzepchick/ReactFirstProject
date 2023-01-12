@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import Accordion from '../Accordion/Accordion'
-import Form from '../Form/Form'
+import FormForStateManagers from '../FormForStateManagers/FormForStateManagers'
 import Button from '../Button/Button'
 import ResultsData from '../ResultsData/ResultsData'
 import Loader from '../Loader/Loader'
@@ -13,7 +13,7 @@ import {
     decrementCounter,
     clearForm
 } from '../../reducers/reduxReducer/reduxFormSlice'
-import { generateResultData } from '../../helpers/formData/formData'
+import { generateResultData } from '../../helpers/formHelpers/formStateManagersData'
 import { accordionReduxPageData } from '../../helpers/accordionData/accordionData'
 import './styles.css'
 
@@ -59,7 +59,7 @@ const ReduxForm = () => {
             </div>
             <hr />
             <div className='main-container'>
-                <Form
+                <FormForStateManagers
                     state={formData}
                     prevCountRef={prevCountRef}
                     handleChange={handleChange}

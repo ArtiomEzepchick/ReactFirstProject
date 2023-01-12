@@ -1,9 +1,42 @@
-.site-layout .site-layout-background,
+.site-layout 
+.site-layout-background,
 .ant-layout-content {
     position: relative;
 }
 
-.site-layout .site-layout-background,
+.site-layout 
+.site-layout-background,
 .ant-layout-content {
     background: #ffffff;
+}
+
+.ant-layout-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ant-layout-footer 
+p {
+    margin-bottom: 0;
+}
+
+.ant-layout-footer 
+.copyright-links {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.ant-layout-footer 
+.copyright-links
+i {
+    font-size: 1.5rem;
+    color: #000000;
+}
+
+.ant-layout-footer 
+.copyright-links
+i:hover {
+    opacity: 0.7;
 }

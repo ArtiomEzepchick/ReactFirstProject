@@ -12,15 +12,17 @@ const areEqual = (prevProps, nextProps) => {
 const Paragraph = React.memo(({ value, label }) => {
     const upperCasedLabel = label[0].toUpperCase() + label.slice(1)
 
-    return (
-        <p>
-            <span>{upperCasedLabel}:
-                <span className="results-value">
-                    {value}
+    if (label !== 'isLoading' && label !== 'isLoaded') {
+        return (
+            <p>
+                <span>{upperCasedLabel}:
+                    <span className="results-value">
+                        {value}
+                    </span>
                 </span>
-            </span>
-        </p>
-    )
+            </p>
+        )
+    }
 }, areEqual)
 
 Paragraph.propTypes = {

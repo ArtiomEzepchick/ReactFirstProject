@@ -1,23 +1,40 @@
 .dark,
+.overlay.show.dark *,
+.nav-panel.dark .login-buttons-container,
 .nav-panel.dark .links-container .action-button,
-.site-layout.dark * {
+.nav-panel.dark .user-block-container .user-actions.show *,
+.site-layout.dark *,
+.ant-layout-footer.dark .copyright-links * {
     color: #ffffff;
 }
 
-.dark,
-.nav-panel.vertical.dark,
-.site-layout.dark .counter-actions *,
-.site-layout.dark .accordion-title *,
-.site-layout.dark .form-counter-actions h3,
-.site-layout.dark .form-counter-actions p {
-    background-color: #1d1d1d;
+.overlay.show.dark .form-field-error-message {
+    color: #e11d48;
 }
 
+.dark,
+.overlay.show.dark,
+.nav-panel.vertical.dark,
+.nav-panel.dark .login-buttons-container *,
+.nav-panel.dark .user-block-container .user-actions.show,
+.nav-panel.dark .settings-container .switches-container.show,
+.nav-panel.dark .user-block-container .user-actions.show button,
+.site-layout.dark .counter-actions *,
+.site-layout.dark .accordion-item *,
+.site-layout.dark .form-counter-actions h3,
+.site-layout.dark .form-counter-actions p,
+.site-layout.dark .manage-posts-container * {
+    background-color: #1d1d1d;
+} 
+
 .site-layout.dark,
-.site-layout.dark * {
+.site-layout.dark *,
+.overlay.show.dark .modal-window {
     background-color: #090909;
 }
 
+.overlay.show.dark .modal-window button,
+.overlay.show.dark .modal-window input,
 .site-layout.dark input,
 .site-layout.dark textarea,
 .site-layout.dark select,
@@ -27,8 +44,7 @@
 .site-layout.dark .accordion-title,
 .site-layout.dark .accordion-content,
 .site-layout.dark .results-value,
-.site-layout.dark .form-counter-actions,
-.layout-header.dark .toggle-button {
+.site-layout.dark .form-counter-actions {
     background-color: #1d1d1d;
     border: 1px solid #ffffff;
 }
@@ -37,8 +53,17 @@
     background: #141414;
 }
 
+.overlay.show.dark .modal-window,
+.nav-panel.dark .login-buttons-container button,
+.nav-panel.dark .settings-container .switches-container.show,
+.nav-panel.dark .user-block-container .user-actions.show,
+.nav-panel.dark .user-block-container .user-actions.show button,
 .site-layout.dark input,
 .site-layout.dark textarea,
 .site-layout.dark select {
     border: 1px solid #ffffff;
+}
+
+.ant-layout-footer.dark {
+    background-color: #161616;
 }
