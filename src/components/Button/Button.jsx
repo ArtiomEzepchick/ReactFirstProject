@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import './styles.css'
 
-const Button = ({ className, type, children, handleClick, isLoading }) => {
+const Button = ({ children, className, icon, isLoading, type, handleClick }) => {
     return (
         <button
             className={classNames('button', isLoading && "blocked", className)}
@@ -11,12 +11,14 @@ const Button = ({ className, type, children, handleClick, isLoading }) => {
             type={type}
         >
             {children}
+            {icon}
         </button>
     )
 }
 
 Button.propTypes = {
     className: PropTypes.string,
+    isLoading: PropTypes.bool,
     type: PropTypes.string,
     handleClick: PropTypes.func
 }

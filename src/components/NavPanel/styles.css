@@ -89,9 +89,9 @@
     border: 1px solid #000000;
     border-radius: 10px;
     top: 175%;
-    left: -200%;
+    left: -230%;
     width: 10rem;
-    height: 10rem;
+    height: 14rem;
     padding: 1rem 1rem;
     user-select: none;
     gap: 1rem;
@@ -102,7 +102,16 @@
 .user-block-container
 .user-actions
 h2 {
-    font-size: 1rem;
+    font-size: 1.2rem;
+}
+
+.layout-header
+.nav-panel
+.user-block-container
+.user-actions
+.fa-circle-user {
+    opacity: 1;
+    font-size: 3rem;
 }
 
 .layout-header

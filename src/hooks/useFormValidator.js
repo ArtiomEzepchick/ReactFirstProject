@@ -1,11 +1,7 @@
 import { useState } from "react"
 import {
-    nameRegisterValidator,
-    emailRegisterValidator,
-    passwordRegisterValidator,
-    confirmPasswordRegisterValidator,
-    nameLoginValidator,
-    passwordLoginValidator
+    registerValidators,
+    loginValidators
 } from "../helpers/formHelpers/formValidators"
 
 const touchErrors = errors => {
@@ -20,32 +16,19 @@ const touchErrors = errors => {
 }
 
 export const useFormValidator = (registerForm, loginForm, setIsLoading) => {
-    const initialErrorsState = {
-        name: {
-            dirty: false,
-            error: false,
-            message: "",
-        },
-        email: {
-            dirty: false,
-            error: false,
-            message: "",
-        },
-        password: {
-            dirty: false,
-            error: false,
-            message: "",
-        },
-        confirmPassword: {
+    const initialErrorsState = {}
+
+    Object.keys(registerForm).forEach(key => {
+        initialErrorsState[key] = {
             dirty: false,
             error: false,
             message: "",
         }
-    }
+    })
 
     const [errors, setErrors] = useState(initialErrorsState)
 
-    const validateForm = async ({ registerForm, field, errors, forceTouchErrors = false }) => {
+    const validateForm = async ({ form, field, errors, type = 'register', forceTouchErrors = false }) => {
         let isValid = true
         let newErrors = { ...errors }
 
@@ -53,105 +36,44 @@ export const useFormValidator = (registerForm, loginForm, setIsLoading) => {
             newErrors = touchErrors(errors)
         }
 
-        const { name, email, password, confirmPassword } = registerForm
-
-        if (newErrors.name.dirty && (field ? field === "name" : true)) {
-            setIsLoading(true)
-            const nameMessage = await nameRegisterValidator(name)
-            setIsLoading(false)
-            newErrors.name.error = !!nameMessage
-            newErrors.name.message = nameMessage
-            if (!!nameMessage) isValid = false
+        const checkFields = async (form, field, validator) => {
+            for (let key in form) {
+                if (newErrors[key].dirty && (field ? field === key : true)) {
+                    setIsLoading(true)
+                    const message = await validator(key, form[key], key === 'password' && form.email)
+                    setIsLoading(false)
+                    newErrors[key].error = !!message
+                    newErrors[key].message = message
+                    if (!!message) isValid = false
+                }
+            }
         }
 
-        if (newErrors.email.dirty && (field ? field === "email" : true)) {
-            setIsLoading(true)
-            const emailMessage = await emailRegisterValidator(email)
-            setIsLoading(false)
-            newErrors.email.error = !!emailMessage
-            newErrors.email.message = emailMessage
-            if (!!emailMessage) isValid = false
-        }
-
-        if (newErrors.password.dirty && (field ? field === "password" : true)) {
-            const passwordMessage = passwordRegisterValidator(password)
-            newErrors.password.error = !!passwordMessage
-            newErrors.password.message = passwordMessage
-            if (!!passwordMessage) isValid = false
-        }
-
-        if (newErrors.confirmPassword.dirty && (field ? field === "confirmPassword" : true)) {
-            const confirmPasswordMessage = confirmPasswordRegisterValidator(confirmPassword, password)
-            newErrors.confirmPassword.error = !!confirmPasswordMessage
-            newErrors.confirmPassword.message = confirmPasswordMessage
-            if (!!confirmPasswordMessage) isValid = false
-        }
+        await checkFields(form, field, type === 'register' ? registerValidators : loginValidators)
 
         setErrors(newErrors)
 
-        return {
-            isValid,
-            errors: newErrors,
-        }
-    }
-
-    const validateLoginForm = async ({ loginForm, field, errors, forceTouchErrors = false }) => {
-        let isValid = true
-        let newErrors = { ...errors }
-
-        if (forceTouchErrors) {
-            newErrors = touchErrors(errors)
-        }
-
-        const { name, password } = loginForm
-
-        if (newErrors.name.dirty && (field ? field === "name" : true)) {
-            setIsLoading(true)
-            const nameMessage = await nameLoginValidator(name)
-            setIsLoading(false)
-            newErrors.name.error = !!nameMessage
-            newErrors.name.message = nameMessage
-            if (!!nameMessage) isValid = false
-        }
-
-        if (newErrors.password.dirty && (field ? field === "password" : true)) {
-            setIsLoading(true)
-            const passwordMessage = await passwordLoginValidator(name, password)
-            setIsLoading(false)
-            newErrors.password.error = !!passwordMessage
-            newErrors.password.message = passwordMessage
-            if (!!passwordMessage) isValid = false
-        }        
-
-        setErrors(newErrors)
-
-        return {
-            isValid,
-            errors: newErrors,
-        }
+        return { isValid, errors: newErrors }
     }
 
     const handleFocus = async (e, type = 'register') => {
         const field = e.target.name
+        const fieldError = errors[field]
 
         const updatedErrors = {
             ...errors,
             [field]: {
-                ...errors[field],
+                ...fieldError,
                 dirty: false
             }
         }
 
-        if (type === 'register') {
-            return await validateForm({ registerForm, field, errors: updatedErrors })
-        }
-
-        if (type === 'login') {
-            return await validateLoginForm({ loginForm, field, errors: updatedErrors })
-        }
+        return type === 'register' 
+        ? await validateForm({ form: registerForm, field, errors: updatedErrors })
+        : await validateForm({ form: loginForm, field, errors: updatedErrors, type: 'login' })
     }
 
-    const handleBlur = async (e, type = 'register') => {
+    const handleBlur = async (e) => {
         const field = e.target.name
         const fieldError = errors[field]
 
@@ -165,20 +87,13 @@ export const useFormValidator = (registerForm, loginForm, setIsLoading) => {
             }
         }
 
-        if (type === 'register') {
-            await validateForm({ registerForm, field, errors: updatedErrors })
-        }
-
-        if (type === 'login') {
-            await validateLoginForm({ loginForm, field, errors: updatedErrors })
-        }
+        return await validateForm({ form: registerForm, field, errors: updatedErrors })
     }
 
     const clearErrors = () => setErrors(initialErrorsState)
 
     return {
         validateForm,
-        validateLoginForm,
         handleBlur,
         handleFocus,
         clearErrors,

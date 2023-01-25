@@ -24,7 +24,11 @@ const Modal = ({
     useEffect(() => {
         isModalOpen ? lockScroll() : unlockScroll()
 
-        const handleClickOutside = (e) => {
+        const handleClickOutside = e => {
+            if (modalType === MODAL_TYPES.SUCCESS) {
+                return
+            }
+
             if (modalRef.current && !modalRef.current.contains(e.target)) {
                 handleCloseModal()
             }
@@ -33,12 +37,12 @@ const Modal = ({
         document.addEventListener('mousedown', handleClickOutside)
 
         return () => document.removeEventListener('mousedown', handleClickOutside)
-    }, [modalRef, handleCloseModal, isModalOpen, lockScroll, unlockScroll])
+    }, [modalRef, modalType, handleCloseModal, isModalOpen, lockScroll, unlockScroll])
 
     return (
         isModalOpen && ReactDOM.createPortal(
             <Overlay isModalOpen={isModalOpen} darkMode={darkMode}>
-                <div className={'modal-container'}>
+                <div className={classNames('modal-container')}>
                     <div
                         data-type={modalType}
                         className={classNames("modal-window", "flex-all-centered", !isHorizontal && 'moved')}

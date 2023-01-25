@@ -19,12 +19,10 @@ const Chat = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [posts, setPosts] = useState([])
     const messageRef = useRef(null)
-    const { state: { userName } } = useContext(UserContext)
+    const { state: { nickname } } = useContext(UserContext)
     const { state: { darkMode } } = useContext(ThemeContext)
     const {
-        state: {
-            modalSettings: { modalType, headerText, contentText },
-        },
+        state: {modalSettings: { modalType, headerText, contentText } },
         dispatch: dispatchModal
     } = useContext(ModalContext)
 
@@ -48,7 +46,7 @@ const Chat = () => {
         fetchPosts()
     }, [fetchPosts])
 
-    const addPost = async (userName, message) => {
+    const addPost = async (nickname, message) => {
         if (!message.trim()) {
             setIsModalOpen(true)
 
@@ -67,8 +65,8 @@ const Chat = () => {
             const response = await fetch('http://localhost:3001/posts', {
                 method: 'POST',
                 body: JSON.stringify({
-                    userName: userName,
-                    message: message,
+                    nickname,
+                    message,
                     time: new Date().toLocaleString(),
                     id: nanoid()
                 }),
@@ -121,7 +119,7 @@ const Chat = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        await addPost(userName, message)
+        await addPost(nickname, message)
     }
 
     return (
@@ -129,11 +127,11 @@ const Chat = () => {
             <div className="add-post-container">
                 <h2 className="highlight-blue">Create post</h2>
                 <hr />
-                {userName
+                {nickname
                     ? <form onSubmit={handleSubmit}>
                         <TextArea
                             className="textarea-content"
-                            placeholder={`What's on your mind, ${userName}?`}
+                            placeholder={`What's on your mind, ${nickname}?`}
                             ref={messageRef}
                             value={message}
                             handleChange={(e) => setMessage(e.target.value)}
@@ -150,10 +148,11 @@ const Chat = () => {
                     <hr />
                     {!isLoading && !posts.length
                         ? <p style={{ textAlign: 'center' }}>No posts in here. You'll be the first!</p>
-                        : posts.map(({ id, userName, message, time }) => {
+                        : posts.map(({ id, nickname, message, time }) => {
                             return (
                                 <div className="post-card" key={id}>
-                                    <h3 className="post-user-name">{userName}</h3>
+                                    <i className="fa-solid fa-circle-user"></i>
+                                    <h3 className="post-user-name">{nickname}</h3>
                                     <p className="post-message">{message}</p>
                                     <p className="post-time">Posted: {time}</p>
                                     <Button className='delete-button' handleClick={() => deletePost(id)}>Delete</Button>

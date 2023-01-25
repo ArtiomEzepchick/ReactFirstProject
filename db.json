@@ -1,48 +1,38 @@
 {
   "posts": [
     {
-      "userName": "Alexandra",
-      "message": "Hello!",
-      "time": "12.01.2023, 14:14:53",
-      "id": "XFNDorI3bBwPYRsWdndeJ"
+      "nickname": "Weng",
+      "message": "dsada",
+      "time": "20.01.2023, 17:36:44",
+      "id": "Riy-cxT-xSGezm6RCkuTU"
+    },
+    {
+      "nickname": "Weng",
+      "message": "Okay",
+      "time": "20.01.2023, 17:38:44",
+      "id": "8A1icia8Nm_6fNkEFt2nM"
+    },
+    {
+      "nickname": "Ki",
+      "message": "dsadas",
+      "time": "23.01.2023, 18:12:26",
+      "id": "GA2DAZetxaXuIc6enPQ9k"
     }
   ],
   "users": [
     {
       "name": "Artstiom",
+      "nickname": "Ki",
       "password": "11111111",
-      "email": "artem.ezepchik@gmail.com",
-      "id": "4ND5-ak6Obz_0Qawd8fje"
+      "email": "tyomsarlez@gmail.com",
+      "id": "MaYwzDoDgJZmFNDLP43K2"
     },
     {
-      "name": "Artem",
+      "name": "Artstiom",
+      "nickname": "Weng",
       "password": "11111111",
-      "email": "tyomkarulez@gmail.com",
-      "id": "lvjFV3BVmYbpwBxONi1Ic"
-    },
-    {
-      "name": "Vanya",
-      "password": "11111111",
-      "email": "tyomskarulez@gmail.com",
-      "id": "nPm_PPLeJb_QcUqXvxj1p"
-    },
-    {
-      "name": "Alexandra",
-      "password": "11111111",
-      "email": "alexandra@mail.ru",
-      "id": "5cpwLpY1OfDvNsGthZ2C6"
-    },
-    {
-      "name": "Piotr",
-      "password": "11111111",
-      "email": "piotr@kdsajj.ru",
-      "id": "mVTAc5i8-pqt8dAjJzAOg"
-    },
-    {
-      "name": "Vasya",
-      "password": "11111111",
-      "email": "artdsaem.ezepchik@gmail.com",
-      "id": "7FKHlI04lZFfrtvxSFJmg"
+      "email": "tyomdsasarlez@gmail.com",
+      "id": "c7I3o4Rp5REKTDkAvayoV"
     }
   ]
 }
