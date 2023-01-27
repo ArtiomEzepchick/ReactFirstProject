@@ -2,6 +2,7 @@ import paths from "../paths/paths";
 import HomePage from "../../pages/Home/HomePage";
 import ReduxPage from "../../pages/Redux/ReduxPage";
 import PostsPage from "../../pages/Posts/PostsPage";
+import UserProfilePage from "../../pages/UserProfile/UserProfilePage";
 
 const routes = [
     {
@@ -15,6 +16,10 @@ const routes = [
     {
         path: paths.posts,
         component: <PostsPage />
+    },
+    {
+        path: paths.profile,
+        component: <UserProfilePage />
     }
 ]
 

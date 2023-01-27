@@ -19,7 +19,7 @@ const Chat = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [posts, setPosts] = useState([])
     const messageRef = useRef(null)
-    const { state: { nickname } } = useContext(UserContext)
+    const { state: { currentUser: { nickname } } } = useContext(UserContext)
     const { state: { darkMode } } = useContext(ThemeContext)
     const {
         state: {modalSettings: { modalType, headerText, contentText } },

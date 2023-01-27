@@ -15,10 +15,10 @@ const touchErrors = errors => {
     }, {})
 }
 
-export const useFormValidator = (registerForm, loginForm, setIsLoading) => {
+export const useFormValidator = ({ registerForm, loginForm, userProfileForm }, setIsLoading) => {
     const initialErrorsState = {}
 
-    Object.keys(registerForm).forEach(key => {
+    Object.keys(registerForm || loginForm || userProfileForm).forEach(key => {
         initialErrorsState[key] = {
             dirty: false,
             error: false,
@@ -56,7 +56,7 @@ export const useFormValidator = (registerForm, loginForm, setIsLoading) => {
         return { isValid, errors: newErrors }
     }
 
-    const handleFocus = async (e, type = 'register') => {
+    const handleFocus = async (e, type) => {
         const field = e.target.name
         const fieldError = errors[field]
 
@@ -68,9 +68,17 @@ export const useFormValidator = (registerForm, loginForm, setIsLoading) => {
             }
         }
 
-        return type === 'register' 
-        ? await validateForm({ form: registerForm, field, errors: updatedErrors })
-        : await validateForm({ form: loginForm, field, errors: updatedErrors, type: 'login' })
+        if (type === 'register') {
+            return await validateForm({ form: registerForm, field, errors: updatedErrors })
+        }
+
+        if (type === 'login') {
+            return await validateForm({ form: loginForm, field, errors: updatedErrors, type: 'login' })
+        }
+
+        if (type === 'profile') {
+            return await validateForm({ form: userProfileForm, field, errors: updatedErrors, type: 'profile' })
+        }
     }
 
     const handleBlur = async (e) => {

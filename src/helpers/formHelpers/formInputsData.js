@@ -46,13 +46,13 @@ export const userProfileData = [
         name: 'nickname',
     },
     {
-        type: 'password',
-        labelText: 'Password',
-        name: 'password',
-    },
-    {
         type: 'email',
         labelText: 'E-mail',
         name: 'email',
+    },
+    {
+        type: 'password',
+        labelText: 'Password',
+        name: 'password',
     }
 ]

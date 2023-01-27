@@ -17,6 +17,12 @@
       "message": "dsadas",
       "time": "23.01.2023, 18:12:26",
       "id": "GA2DAZetxaXuIc6enPQ9k"
+    },
+    {
+      "nickname": "JosephStalin",
+      "message": "Hello all!",
+      "time": "25.01.2023, 14:26:55",
+      "id": "xsf94imDydI8HEJK0YXNF"
     }
   ],
   "users": [
@@ -33,6 +39,20 @@
       "password": "11111111",
       "email": "tyomdsasarlez@gmail.com",
       "id": "c7I3o4Rp5REKTDkAvayoV"
+    },
+    {
+      "name": "Joseph",
+      "nickname": "JosephStalin",
+      "password": "11111111",
+      "email": "tyomddassasarlez@gmail.com",
+      "id": "CMxZSxZHGwXkk6fWydRmz"
+    },
+    {
+      "name": "dsadas",
+      "nickname": "Kio",
+      "password": "11111111",
+      "email": "tyomsadsadasrlez@gmail.com",
+      "id": "wW-o1q9KojKOhEvXGMjqQ"
     }
   ]
 }

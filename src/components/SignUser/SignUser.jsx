@@ -8,7 +8,7 @@ import './styles.css'
 const SignUser = ({
     errors,
     inputs,
-    inputDisabled,
+    isInputDisabled,
     isLoading,
     state,
     submitButtonText,
@@ -36,9 +36,9 @@ const SignUser = ({
                     className={classNames('form-input-container')}
                     inputFieldClassName={classNames(
                         errors[name].dirty && errors[name].error && 'form-field-error',
-                        inputDisabled && 'blocked'
+                        isInputDisabled && 'blocked'
                     )}
-                    inputDisabled={inputDisabled}
+                    isInputDisabled={isInputDisabled}
                     type={type}
                     labelText={labelText}
                     name={name}
@@ -64,7 +64,7 @@ const SignUser = ({
 SignUser.propTypes = {
     errors: PropTypes.object,
     inputs: PropTypes.arrayOf(PropTypes.object),
-    inputDisabled: PropTypes.bool,
+    isInputDisabled: PropTypes.bool,
     isLoading: PropTypes.bool,
     modalType: PropTypes.string,
     state: PropTypes.object,

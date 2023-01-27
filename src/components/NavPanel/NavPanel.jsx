@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { Switch } from "antd"
 import { nanoid } from "nanoid"
 import PropTypes from "prop-types"
 import classNames from "classnames"
 import { useFormValidator } from "../../hooks/useFormValidator"
-import { Switch } from "antd"
 import Modal from "../Modal/Modal"
 import Loader from "../Loader/Loader"
 import SignUser from "../SignUser/SignUser"
@@ -36,21 +37,22 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
     const [isLoading, setIsLoading] = useState(false)
     const [registerForm, setRegisterForm] = useState(initialRegisterFormState)
     const [loginForm, setLoginForm] = useState(initialLoginFormState)
+    const navigate = useNavigate()
     const {
         errors,
         clearErrors,
         validateForm,
         handleBlur,
         handleFocus
-    } = useFormValidator(registerForm, loginForm, setIsLoading)
+    } = useFormValidator({ registerForm, loginForm }, setIsLoading)
 
     const {
-        state: { modalSettings: { modalType, headerText, contentText } },
+        state: { modalSettings: { modalType, headerText, contentText }},
         dispatch: dispatchModal
     } = useContext(ModalContext)
 
     const {
-        state: { nickname: profileNickname }, dispatch: dispatchNickname
+        state: { currentUser: { nickname: profileNickname }}, dispatch: dispatchNickname
     } = useContext(UserContext)
 
     const isUserLoggedIn = localStorage.getItem("nickname")
@@ -64,7 +66,7 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
     useEffect(() => {
         const handleOutsideSettingsClick = (e) => {
             const target = e.target
-            const userIcon = document.querySelector(".fa-circle-user")
+            const userIcon = document.querySelector(".user-icon")
             const userActions = document.querySelector(".user-actions")
             const settingsIcon = document.querySelector(".fa-sliders")
             const switches = document.querySelector(".switches-container")
@@ -141,6 +143,7 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
             closeModal(setIsModalOpen)
 
             localStorage.setItem("nickname", registerForm.nickname)
+            localStorage.setItem("id", registerForm.id)
 
             setTimeout(() => {
                 setIsModalOpen(true)
@@ -176,7 +179,7 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
         setRegisterForm(nextRegisterFormState)
 
         if (errors[field].dirty) {
-            validateForm({
+           await validateForm({
                 form: nextRegisterFormState,
                 errors,
                 field,
@@ -212,6 +215,7 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
         const user = await response.json()
 
         localStorage.setItem("nickname", user[0].nickname)
+        localStorage.setItem("id", user[0].id)
         closeModal(setIsModalOpen)
     }
 
@@ -222,6 +226,7 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
             setIsLoading(false)
             setIsModalOpen(true)
             localStorage.removeItem("nickname")
+            localStorage.removeItem("id")
             dispatchNickname({ type: REDUCER_TYPES.SET_NICKNAME, payload: "" })
             dispatchModal({
                 type: REDUCER_TYPES.CHANGE_MODAL, payload: {
@@ -234,6 +239,15 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
         setTimeout(() => {
             closeModal(setIsModalOpen)
         }, 2500)
+    }
+
+    const handleOpenUsersProfile = () => {
+        setIsLoading(true)
+        
+        setTimeout(() => {
+            navigate("/profile")
+            setIsLoading(false)
+        }, 1000)
     }
 
     const formProps = {
@@ -257,6 +271,7 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
         formProps.state = loginForm
         formProps.submitButtonText = "Login"
         formProps.handleChange = handleLoginFormChange
+        formProps.handleBlur = null
         formProps.handleFocus = (e) => handleFocus(e, "login")
         formProps.handleSubmit = handleLoginSubmit
     }
@@ -278,11 +293,11 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
 
                 {profileNickname
                     ? <div className={classNames("user-block-container", !isHorizontal && "vertical")}>
-                        <i className="fa-regular fa-circle-user"></i>
+                        <i className="fa-regular fa-circle-user user-icon"></i>
                         <div className="user-actions">
                             <i className="fa-solid fa-circle-user"></i>
                             <h2>Hello, {profileNickname}!</h2>
-                            <Button icon={<i className="fa-solid fa-gear"></i>}>
+                            <Button icon={<i className="fa-solid fa-gear"></i>} handleClick={handleOpenUsersProfile}>
                                 Profile
                             </Button>
                             <Button icon={<i className="fa-solid fa-right-from-bracket"></i>} handleClick={handleLogOut}>

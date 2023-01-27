@@ -43,17 +43,14 @@ export const formSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(asyncSubmit.pending, (state) => {
-        console.log('loading')
         state.isLoaded = false
         state.isLoading = true
       })
       .addCase(asyncSubmit.fulfilled, (state) => {
-        console.log('fulfilled')
         state.isLoading = false
         state.isLoaded = true
       })
       .addCase(asyncSubmit.rejected, (state) => {
-        console.log('rejected')
         state.isLoaded = false
         state.isLoading = false
       })

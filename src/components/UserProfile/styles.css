@@ -1,0 +1,23 @@
+.user-profile-section
+.form-main-container {
+    margin: 0 auto;
+}
+
+.user-profile-section
+.fa-circle-user {
+    display: block;
+    text-align: center;
+    font-size: 4rem;
+    margin-top: 2rem;
+}
+
+.user-profile-section
+.form-main-container {
+    margin-top: 4rem;
+}
+
+.user-profile-section
+.form-input-container
+.button {
+    margin-left: 1rem;
+}
