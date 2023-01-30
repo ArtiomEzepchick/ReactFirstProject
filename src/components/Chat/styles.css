@@ -96,6 +96,13 @@
     margin-bottom: 1rem;
 }
 
+.post-card
+.fa-circle-user {
+    font-size: 3.5rem;
+    text-align: center;
+    color: var(--color-purple);
+}
+
 .post-user-name,
 .post-message {
     word-wrap: break-word;

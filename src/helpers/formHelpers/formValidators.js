@@ -1,50 +1,30 @@
-export const nameRegisterValidator = async name => {
+import { getUser } from "../requests/requests"
+
+const regExps = {
+    nickname: /^[A-Za-z0-9]*$/,
+    email: /\S+@\S+\.\S+/
+}
+
+const fieldNames = {
+    name: 'name',
+    nickname: 'nickname',
+    email: 'email',
+    password: 'password'
+}
+
+const { name, nickname, email, password } = fieldNames
+
+const nameValidator = name => {
     if (!name) {
         return "Name is required"
-    } else if (!new RegExp(/^[A-Za-z0-9]*$/).test(name)) {
+    } else if (!new RegExp(/^[A-Za-z]*$/).test(name)) {
         return "Incorrect name format"
     }
 
-    try {
-        const response = await fetch("http://localhost:3001/users")
-        const data = await response.json()
-    
-        for (let user of data) {
-            if (name === user.name) {
-                return "This name already exists"
-            }
-        }
-    } catch {
-        throw new Error("Failed to check name")
-    }
-
     return ""
 }
 
-export const emailRegisterValidator = async email => {
-    if (!email) {
-        return "Email is required"
-    } else if (!new RegExp(/\S+@\S+\.\S+/).test(email)) {
-        return "Incorrect email format"
-    }
-
-    try {
-        const response = await fetch("http://localhost:3001/users")
-        const data = await response.json()
-    
-        for (let user of data) {
-            if (email === user.email) {
-                return "This email already exists"
-            }
-        }
-    } catch {
-        throw new Error("Failed to check email")
-    }
-
-    return ""
-}
-
-export const passwordRegisterValidator = password => {
+const passwordValidator = password => {
     if (!password) {
         return "Password is required"
     } else if (password.length <= 7) {
@@ -54,68 +34,96 @@ export const passwordRegisterValidator = password => {
     return ""
 }
 
-export const confirmPasswordRegisterValidator = (confirmPassword, password) => {
-    if (!confirmPassword) {
-        return "Confirm password is required"
-    } else if (confirmPassword.length <= 7) {
-        return "Confirm password must have a minimum 8 characters"
-    } else if (confirmPassword !== password) {
-        return "Passwords do not match"
+const fieldValidator = async (fieldName, field, regExp, previousValue) => {
+    if (!field) {
+        return `${fieldName[0].toUpperCase() + fieldName.slice(1)} is required`
+    } else if (!new RegExp(regExp).test(field)) {
+        return `Incorrect ${fieldName} format`
     }
-    
+
+    try {
+        const response = await getUser(fieldName, field)
+        const user = await response.json()
+
+        if (previousValue) {
+            if (!user.length || previousValue === user[0][fieldName] ) return ""
+        }
+
+        if (user.length) return `This ${fieldName} already exists`
+    } catch {
+        throw new Error(`Failed to check ${fieldName}`)
+    }
+
     return ""
 }
 
-export const nameLoginValidator = async (name) => {
-    if (!name) {
-        return "Name is required"
-    }
+const emailLoginValidator = async (email) => {
+    if (!email) return "Email is required"
 
     try {
-        const response = await fetch("http://localhost:3001/users")
-        const data = await response.json()
-        let message = ""
-    
-        for (let user of data) {
-            if (name === user.name) {
-                return ""
-            } else {
-                message = "No such user"
-            }
-        }
+        const response = await getUser('email', email)
+        const user = await response.json()
 
-        return message
+        return !user.length ? "Wrong email" : ""
     } catch {
-        throw new Error("Failed to check name")
+        throw new Error("Failed to check email")
     }
 }
 
-export const passwordLoginValidator = async (name, password) => {
-    if (!password) {
-        return "Password is required"
-    }
-
-    try {
-        const response = await fetch("http://localhost:3001/users")
-        const data = await response.json()
-        let message = ""
+const passwordLoginValidator = async (password, email) => {
+    if (!password) return "Password is required"
     
-        for (let user of data) {
-            if (name === user.name) {
-                if (password !== user.password) {
-                    return "Password is wrong"
-                } else {
-                    return ""
-                }
-            }
+    try {
+        const response = await getUser('email', email)
+        const user = await response.json()
 
-            if (name !== user.name) {
-                message = "Check name field"
-            }
+        if (user.length) {
+            return password !== user[0].password ? "Password is wrong" : ""
+        } else {
+            return "Check email field"
         }
-
-        return message
     } catch {
         throw new Error("Failed to check password")
+    }
+}
+
+export const registerValidators = async ({ fieldName, field }) => {
+    switch (fieldName) {
+        case name:
+            return nameValidator(field)
+        case nickname:
+            return await fieldValidator(fieldName, field, regExps.nickname)
+        case email:
+            return await fieldValidator(fieldName, field, regExps.email)
+        case password:
+            return passwordValidator(field)
+        default:
+            return
+    }
+}
+
+export const loginValidators = async ({ fieldName, field, emailForPasswordCheck }) => {
+    switch (fieldName) {
+        case email:
+            return await emailLoginValidator(field)
+        case password:
+            return await passwordLoginValidator(field, emailForPasswordCheck)
+        default:
+            return
+    }
+}
+
+export const profileChangeValidators = async ({ fieldName, field, previousNickname, previousEmail }) => {
+    switch (fieldName) {
+        case name:
+            return nameValidator(field)
+        case nickname:
+            return await fieldValidator(fieldName, field, regExps.nickname, previousNickname)
+        case email:
+            return await fieldValidator(fieldName, field, regExps.email, previousEmail)
+        case password:
+            return passwordValidator(field)
+        default:
+            return
     }
 }

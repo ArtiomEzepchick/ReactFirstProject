@@ -1,12 +1,13 @@
 import React, { useContext, useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { Switch } from "antd"
 import { nanoid } from "nanoid"
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types"
 import classNames from "classnames"
 import { useFormValidator } from "../../hooks/useFormValidator"
-import { Switch } from "antd"
 import Modal from "../Modal/Modal"
 import Loader from "../Loader/Loader"
-import FormForUser from "../FormForUser/FormForUser"
+import SignUser from "../SignUser/SignUser"
 import { Link } from "../Link/Link"
 import Button from "../Button/Button"
 import links from "../../helpers/links/links"
@@ -15,25 +16,20 @@ import { ModalContext } from "../../contexts/modalContext/ModalContext"
 import MODAL_TYPES from "../Modal/modalTypes"
 import { closeModal } from "../../helpers/functions/closeModal"
 import { REDUCER_TYPES } from "../../reducers/contextReducer/contextReducer"
-import { loginFormData, registerFormData, userProfileData } from "../../helpers/formHelpers/formInputsData"
-import './styles.css'
+import { loginFormData, registerFormData } from "../../helpers/formHelpers/formInputsData"
+import { getUser, urls } from "../../helpers/requests/requests"
+import "./styles.css"
 
 const initialRegisterFormState = {
     name: "",
+    nickname: "",
     email: "",
     password: "",
-    confirmPassword: "",
 }
 
 const initialLoginFormState = {
-    name: "",
+    email: "",
     password: ""
-}
-
-const initialProfileFormState = {
-    name: "",
-    password: "",
-    email: ""
 }
 
 const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrientation }) => {
@@ -41,63 +37,59 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
     const [isLoading, setIsLoading] = useState(false)
     const [registerForm, setRegisterForm] = useState(initialRegisterFormState)
     const [loginForm, setLoginForm] = useState(initialLoginFormState)
-    const [userProfileForm, setUserProfileForm] = useState(initialProfileFormState)
-    const { name, password, email } = registerForm
+    const navigate = useNavigate()
     const {
         errors,
+        FORM_TYPES,
         clearErrors,
         validateForm,
-        validateLoginForm,
         handleBlur,
         handleFocus
-    } = useFormValidator(registerForm, loginForm, setIsLoading)
+    } = useFormValidator({ registerForm, loginForm }, setIsLoading)
 
     const {
-        state: {
-            modalSettings: { modalType, headerText, contentText },
-        },
+        state: { modalSettings: { modalType, headerText, contentText }},
         dispatch: dispatchModal
     } = useContext(ModalContext)
 
     const {
-        state: { userName },
-        dispatch: dispatchUserName
+        state: { currentUser: { nickname: profileNickname }}, dispatch: dispatchNickname
     } = useContext(UserContext)
 
-    const isUserLoggedIn = localStorage.getItem('username')
+    const isUserLoggedIn = localStorage.getItem("nickname")
 
     useEffect(() => {
         if (isUserLoggedIn) {
-            dispatchUserName({ type: REDUCER_TYPES.SET_USERNAME, payload: isUserLoggedIn })
+            dispatchNickname({ type: REDUCER_TYPES.SET_NICKNAME, payload: isUserLoggedIn })
         }
-    }, [isUserLoggedIn, dispatchUserName])
+    }, [isUserLoggedIn, dispatchNickname])
 
     useEffect(() => {
         const handleOutsideSettingsClick = (e) => {
             const target = e.target
-            const userIcon = document.querySelector('.fa-circle-user')
-            const userActions = document.querySelector('.user-actions')
-            const settingsIcon = document.querySelector('.fa-sliders')
-            const switches = document.querySelector('.switches-container')
+            const userIcon = document.querySelector(".user-icon")
+            const userActions = document.querySelector(".user-actions")
+            const settingsIcon = document.querySelector(".fa-sliders")
+            const switches = document.querySelector(".switches-container")
 
             if (userIcon) {
                 if (target === userIcon) {
-                    userActions.classList.toggle('show')
-                } else if (!target.closest('.user-actions')) {
-                    userActions.classList.remove('show')
+                    userActions.classList.toggle("show")
+                } else if (!target.closest(".user-actions")) {
+                    userActions.classList.remove("show")
                 }
             }
 
             if (target === settingsIcon) {
-                switches.classList.toggle('show')
-            } else if (!target.closest('.switches-container')) {
-                switches.classList.remove('show')
+                switches.classList.toggle("show")
+            } else if (!target.closest(".switches-container")) {
+                switches.classList.remove("show")
             }
         }
 
-        document.addEventListener('click', handleOutsideSettingsClick)
+        document.addEventListener("click", handleOutsideSettingsClick)
 
-        return () => document.removeEventListener('click', handleOutsideSettingsClick)
+        return () => document.removeEventListener("click", handleOutsideSettingsClick)
     }, [])
 
     const openRegisterModal = () => {
@@ -107,8 +99,8 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
         dispatchModal({
             type: REDUCER_TYPES.CHANGE_MODAL, payload: {
                 modalType: MODAL_TYPES.REGISTER_FORM,
-                headerText: 'Register Form',
-                contentText: 'Please fill these fields'
+                headerText: "Register Form",
+                contentText: "Please fill these fields"
             }
         })
 
@@ -124,7 +116,7 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
         dispatchModal({
             type: REDUCER_TYPES.CHANGE_MODAL, payload: {
                 modalType: MODAL_TYPES.LOGIN_FORM,
-                headerText: 'Login Form',
+                headerText: "Login Form",
             }
         })
 
@@ -132,31 +124,35 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
     }
 
     const registerUser = async () => {
+        const { name, nickname, password, email } = registerForm
+
         try {
-            await fetch('http://localhost:3001/users', {
-                method: 'POST',
+            await fetch(urls.users, {
+                method: "POST",
                 body: JSON.stringify({
                     name,
+                    nickname,
                     password,
                     email,
                     id: nanoid()
                 }),
                 headers: {
-                    'Content-type': 'application/json; charset=UTF-8',
+                    "Content-type": "application/json; charset=UTF-8",
                 },
             })
 
             closeModal(setIsModalOpen)
 
-            localStorage.setItem('username', registerForm.name)
+            localStorage.setItem("nickname", registerForm.nickname)
+            localStorage.setItem("id", registerForm.id)
 
             setTimeout(() => {
                 setIsModalOpen(true)
                 dispatchModal({
                     type: REDUCER_TYPES.CHANGE_MODAL, payload: {
                         modalType: MODAL_TYPES.SUCCESS,
-                        headerText: 'Great job!',
-                        contentText: 'You successfully registered'
+                        headerText: "Great job!",
+                        contentText: "You successfully registered"
                     }
                 })
             }, 1000)
@@ -165,39 +161,7 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
                 closeModal(setIsModalOpen)
             }, 2500)
         } catch {
-            throw new Error('Failed to register user')
-        }
-    }
-
-    const openUserProfile = async () => {
-        try {
-            setIsLoading(true)
-
-            const response = await fetch(`http://localhost:3001/users?name=${userName}`)
-    
-            const userData = await response.json()
-    
-            setUserProfileForm({
-                name: userData[0].name,
-                password: userData[0].password,
-                email: userData[0].email
-            })
-    
-            setIsLoading(false)
-    
-            setIsModalOpen(true)
-    
-            dispatchModal({
-                type: REDUCER_TYPES.CHANGE_MODAL, payload: {
-                    modalType: MODAL_TYPES.USER_PROFILE,
-                    headerText: `${userName}'s profile`,
-                    contentText: 'You can change your data here'
-                }
-            })
-        } catch {
-            throw new Error(`Failed to open profile settings`)
-        } finally {
-            setIsLoading(false)
+            throw new Error("Failed to register user")
         }
     }
 
@@ -216,8 +180,8 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
         setRegisterForm(nextRegisterFormState)
 
         if (errors[field].dirty) {
-            validateForm({
-                registerForm: nextRegisterFormState,
+           await validateForm({
+                form: nextRegisterFormState,
                 errors,
                 field,
             })
@@ -237,9 +201,7 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
 
     const handleRegisterSubmit = async (e) => {
         e.preventDefault()
-
-        const { isValid } = await validateForm({ registerForm, errors, forceTouchErrors: true })
-
+        const { isValid } = await validateForm({ form: registerForm, errors, forceTouchErrors: true })
         if (!isValid) return
 
         await registerUser()
@@ -247,12 +209,14 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
 
     const handleLoginSubmit = async (e) => {
         e.preventDefault()
-
-        const { isValid } = await validateLoginForm({ loginForm, errors, forceTouchErrors: true })
-
+        const { isValid } = await validateForm({ form: loginForm, errors, forceTouchErrors: true, type: FORM_TYPES.LOGIN  })
         if (!isValid) return
 
-        localStorage.setItem('username', loginForm.name)
+        const response = await getUser("email", loginForm.email)
+        const user = await response.json()
+
+        localStorage.setItem("nickname", user[0].nickname)
+        localStorage.setItem("id", user[0].id)
         closeModal(setIsModalOpen)
     }
 
@@ -262,25 +226,61 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
         setTimeout(() => {
             setIsLoading(false)
             setIsModalOpen(true)
-            localStorage.removeItem('username')
-            dispatchUserName({ type: REDUCER_TYPES.SET_USERNAME, payload: '' })
+            localStorage.removeItem("nickname")
+            localStorage.removeItem("id")
+            dispatchNickname({ type: REDUCER_TYPES.SET_NICKNAME, payload: "" })
             dispatchModal({
                 type: REDUCER_TYPES.CHANGE_MODAL, payload: {
                     modalType: MODAL_TYPES.SUCCESS,
-                    headerText: 'Come back soon!'
+                    headerText: "Come back soon!"
                 }
             })
         }, 1000)
 
         setTimeout(() => {
             closeModal(setIsModalOpen)
-        }, 2000)
+        }, 2500)
+    }
+
+    const handleOpenUsersProfile = () => {
+        setIsLoading(true)
+        
+        setTimeout(() => {
+            navigate("/profile")
+            setIsLoading(false)
+        }, 1000)
+    }
+
+    const formProps = {
+        errors,
+        isLoading,
+        handleCloseModal,
+        handleBlur,
+        handleFocus
+    }
+
+    if (modalType === MODAL_TYPES.REGISTER_FORM) {
+        formProps.inputs = registerFormData
+        formProps.state = registerForm
+        formProps.submitButtonText = "Submit"
+        formProps.handleChange = handleRegisterFormChange
+        formProps.handleSubmit = handleRegisterSubmit
+    }
+
+    if (modalType === MODAL_TYPES.LOGIN_FORM) {
+        formProps.inputs = loginFormData
+        formProps.state = loginForm
+        formProps.submitButtonText = "Login"
+        formProps.handleChange = handleLoginFormChange
+        formProps.handleBlur = null
+        formProps.handleFocus = (e) => handleFocus(e, FORM_TYPES.LOGIN)
+        formProps.handleSubmit = handleLoginSubmit
     }
 
     return (
-        <header className={classNames('layout-header', !isHorizontal && 'vertical', darkMode && 'dark')}>
-            <nav className={classNames('nav-panel', !isHorizontal && 'vertical', darkMode && 'dark')}>
-                <div className={classNames('links-container', 'flex-all-centered', !isHorizontal && 'vertical')}>
+        <header className={classNames("layout-header", !isHorizontal && "vertical", darkMode && "dark")}>
+            <nav className={classNames("nav-panel", !isHorizontal && "vertical", darkMode && "dark")}>
+                <div className={classNames("links-container", "flex-all-centered", !isHorizontal && "vertical")}>
                     {links.map(({ label, href }, index) => {
                         return (
                             <Link
@@ -292,55 +292,52 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
                     })}
                 </div>
 
-                {userName
-                    ? <div className={classNames("user-block-container", !isHorizontal && 'vertical')}>
-                        <i className="fa-regular fa-circle-user"></i>
+                {profileNickname
+                    ? <div className={classNames("user-block-container", !isHorizontal && "vertical")}>
+                        <i className="fa-regular fa-circle-user user-icon"></i>
                         <div className="user-actions">
-                            <h2>Hello, {userName}!</h2>
-                            <Button handleClick={openUserProfile}>
+                            <i className="fa-solid fa-circle-user"></i>
+                            <h2>Hello, {profileNickname}!</h2>
+                            <Button icon={<i className="fa-solid fa-gear"></i>} handleClick={handleOpenUsersProfile}>
                                 Profile
-                                <i className="fa-solid fa-gear"></i>
                             </Button>
-                            <Button handleClick={handleLogOut}>
+                            <Button icon={<i className="fa-solid fa-right-from-bracket"></i>} handleClick={handleLogOut}>
                                 Logout
-                                <i className="fa-solid fa-right-from-bracket"></i>
                             </Button>
                         </div>
                     </div>
 
-                    : <div className={classNames('login-buttons-container', !isHorizontal && 'vertical')}>
-                        <Button handleClick={openRegisterModal}>
+                    : <div className={classNames("login-buttons-container", !isHorizontal && "vertical")}>
+                        <Button icon={<i className="fa-solid fa-address-card"></i>} handleClick={openRegisterModal}>
                             Register
-                            <i className="fa-solid fa-address-card"></i>
                         </Button>
-                        <Button handleClick={openLoginModal}>
+                        <Button icon={<i className="fa-solid fa-right-to-bracket"></i>} handleClick={openLoginModal}>
                             Login
-                            <i className="fa-solid fa-right-to-bracket"></i>
                         </Button>
                     </div>
                 }
 
-                <div className={classNames("settings-container", !isHorizontal && 'vertical')}>
+                <div className={classNames("settings-container", !isHorizontal && "vertical")}>
                     <i className="fa-solid fa-sliders"></i>
-                    <div className='switches-container'>
+                    <div className="switches-container">
                         <div>
-                            <i className="fa-solid fa-arrow-rotate-left"></i>
+                            <i className="fa-solid fa-border-top-left"></i>
                             <p>Change orientation</p>
                             <Switch
-                                className="switch"
-                                size='small'
-                                onClick={handleChangeOrientation}
                                 checked={!isHorizontal && true}
+                                className="switch"
+                                size="small"
+                                onClick={handleChangeOrientation}
                             />
                         </div>
                         <div>
                             <i className="fa-solid fa-moon"></i>
                             <p>Change theme</p>
                             <Switch
-                                className="switch"
-                                size='small'
-                                onClick={handleChangeTheme}
                                 checked={darkMode && true}
+                                className="switch"
+                                size="small"
+                                onClick={handleChangeTheme}
                             />
                         </div>
                     </div>
@@ -348,48 +345,24 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
             </nav>
             {isLoading && <Loader />}
             <Modal
-                darkMode={darkMode}
                 headerText={headerText}
                 contentText={contentText}
                 modalType={modalType}
                 isModalOpen={isModalOpen}
                 handleCloseModal={handleCloseModal}
             >
-                {modalType === MODAL_TYPES.REGISTER_FORM && <FormForUser
-                    errors={errors}
-                    isLoading={isLoading}
-                    inputs={registerFormData}
-                    state={registerForm}
-                    submitButtonText='Submit'
-                    handleChange={handleRegisterFormChange}
-                    handleBlur={handleBlur}
-                    handleFocus={handleFocus}
-                    handleCloseModal={handleCloseModal}
-                    handleSubmit={handleRegisterSubmit}
-                />}
-
-                {modalType === MODAL_TYPES.LOGIN_FORM && <FormForUser
-                    errors={errors}
-                    isLoading={isLoading}
-                    inputs={loginFormData}
-                    state={loginForm}
-                    submitButtonText='Login'
-                    handleChange={handleLoginFormChange}
-                    handleFocus={(e) => handleFocus(e, 'login')}
-                    handleCloseModal={handleCloseModal}
-                    handleSubmit={handleLoginSubmit}
-                />}
-
-                {modalType === MODAL_TYPES.USER_PROFILE && <FormForUser
-                    errors={errors}
-                    isLoading={isLoading}
-                    inputs={userProfileData}
-                    inputDisabled={true}
-                    modalType={modalType}
-                    state={userProfileForm}
-                    submitButtonText='Change'
-                    handleCloseModal={handleCloseModal}
-                />}
+                <SignUser
+                    errors={formProps.errors}
+                    isLoading={formProps.isLoading}
+                    inputs={formProps.inputs}
+                    state={formProps.state}
+                    submitButtonText={formProps.submitButtonText}
+                    handleChange={formProps.handleChange}
+                    handleBlur={formProps.handleBlur}
+                    handleFocus={formProps.handleFocus}
+                    handleCloseModal={formProps.handleCloseModal}
+                    handleSubmit={formProps.handleSubmit}
+                />
             </Modal>
         </header>
     )

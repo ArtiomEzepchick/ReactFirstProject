@@ -1,48 +1,26 @@
 {
   "posts": [
     {
-      "userName": "Alexandra",
-      "message": "Hello!",
-      "time": "12.01.2023, 14:14:53",
-      "id": "XFNDorI3bBwPYRsWdndeJ"
+      "nickname": "Weng",
+      "message": "Okay",
+      "time": "20.01.2023, 17:38:44",
+      "id": "8A1icia8Nm_6fNkEFt2nM"
     }
   ],
   "users": [
     {
+      "name": "John",
+      "nickname": "Smith",
+      "password": "11111111",
+      "email": "no@gmail.com",
+      "id": "A_XNutoQ-yjcD_Ajsh62O"
+    },
+    {
       "name": "Artstiom",
+      "nickname": "Kios",
       "password": "11111111",
-      "email": "artem.ezepchik@gmail.com",
-      "id": "4ND5-ak6Obz_0Qawd8fje"
-    },
-    {
-      "name": "Artem",
-      "password": "11111111",
-      "email": "tyomkarulez@gmail.com",
-      "id": "lvjFV3BVmYbpwBxONi1Ic"
-    },
-    {
-      "name": "Vanya",
-      "password": "11111111",
-      "email": "tyomskarulez@gmail.com",
-      "id": "nPm_PPLeJb_QcUqXvxj1p"
-    },
-    {
-      "name": "Alexandra",
-      "password": "11111111",
-      "email": "alexandra@mail.ru",
-      "id": "5cpwLpY1OfDvNsGthZ2C6"
-    },
-    {
-      "name": "Piotr",
-      "password": "11111111",
-      "email": "piotr@kdsajj.ru",
-      "id": "mVTAc5i8-pqt8dAjJzAOg"
-    },
-    {
-      "name": "Vasya",
-      "password": "11111111",
-      "email": "artdsaem.ezepchik@gmail.com",
-      "id": "7FKHlI04lZFfrtvxSFJmg"
+      "email": "no@gmail.coms",
+      "id": "iMUuFkoy5DEkVz3yQ7E75"
     }
   ]
 }

@@ -4,14 +4,12 @@ import classNames from "classnames"
 import Input from "../Input/Input"
 import Button from "../Button/Button"
 import './styles.css'
-import MODAL_TYPES from "../Modal/modalTypes"
 
-const FormForUser = ({
+const SignUser = ({
     errors,
     inputs,
-    inputDisabled,
+    isInputDisabled,
     isLoading,
-    modalType,
     state,
     submitButtonText,
     handleChange,
@@ -25,17 +23,22 @@ const FormForUser = ({
         handleCloseModal()
     }
 
+    const handleFormSubmit = async (e) => {
+        e.preventDefault()
+        await handleSubmit()
+    }
+
     return (
-        <form className={classNames('form-main-container', isLoading && 'blocked')}>
+        <form className={classNames('form-main-container', isLoading && 'blocked')} onSubmit={handleFormSubmit}>
             {inputs.map(({ type, labelText, name }, index) => {
                 return (<Input
                     key={labelText + index}
                     className={classNames('form-input-container')}
                     inputFieldClassName={classNames(
                         errors[name].dirty && errors[name].error && 'form-field-error',
-                        inputDisabled && 'blocked'
+                        isInputDisabled && 'blocked'
                     )}
-                    inputDisabled={inputDisabled}
+                    isInputDisabled={isInputDisabled}
                     type={type}
                     labelText={labelText}
                     name={name}
@@ -52,17 +55,16 @@ const FormForUser = ({
             })}
             <div className={"form-actions"}>
                 <Button handleClick={closeModal}>Close</Button>
-                {modalType !== MODAL_TYPES.USER_PROFILE &&
-                    <Button type='submit' handleClick={handleSubmit}>{submitButtonText}</Button>}
+                <Button type='submit' handleClick={handleSubmit}>{submitButtonText}</Button>
             </div>
         </form>
     )
 }
 
-FormForUser.propTypes = {
+SignUser.propTypes = {
     errors: PropTypes.object,
     inputs: PropTypes.arrayOf(PropTypes.object),
-    inputDisabled: PropTypes.bool,
+    isInputDisabled: PropTypes.bool,
     isLoading: PropTypes.bool,
     modalType: PropTypes.string,
     state: PropTypes.object,
@@ -74,4 +76,4 @@ FormForUser.propTypes = {
     handleSubmit: PropTypes.func
 }
 
-export default FormForUser
+export default SignUser

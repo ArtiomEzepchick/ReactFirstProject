@@ -1,7 +1,8 @@
 const paths = {
     home: '/',
     redux: '/redux',
-    posts: '/posts'
+    posts: '/posts',
+    profile: '/profile'
 }
 
 export default paths

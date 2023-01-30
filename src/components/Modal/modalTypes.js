@@ -3,7 +3,6 @@ const MODAL_TYPES = {
     SUCCESS: 'success',
     REGISTER_FORM: 'register-form',
     LOGIN_FORM: 'login-form',
-    USER_PROFILE: 'user-profile'
 }
 
 export default MODAL_TYPES

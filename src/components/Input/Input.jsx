@@ -5,7 +5,7 @@ const Input = forwardRef(({
     className,
     children,
     inputFieldClassName,
-    inputDisabled = false,
+    isInputDisabled = false,
     labelText,
     maxLength,
     name,
@@ -22,7 +22,7 @@ const Input = forwardRef(({
                 <span>{labelText}</span>
                 <input
                     className={inputFieldClassName}
-                    disabled={inputDisabled}
+                    disabled={isInputDisabled}
                     maxLength={maxLength}
                     name={name}
                     ref={ref}
@@ -42,6 +42,7 @@ const Input = forwardRef(({
 Input.propTypes = {
     className: PropTypes.string,
     inputFieldClassName: PropTypes.string,
+    isInputDisabled: PropTypes.bool,
     labelText: PropTypes.string,
     name: PropTypes.string,
     maxLength: PropTypes.string,

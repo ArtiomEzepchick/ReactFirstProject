@@ -6,7 +6,10 @@ export const initialState = {
         headerText: '',
         contentText: '',
     },
-    userName: ''
+    currentUser: {
+        nickname: '',
+        id: ''
+    }
 }
 
 export const REDUCER_TYPES = {
@@ -15,7 +18,7 @@ export const REDUCER_TYPES = {
     TOGGLE_ORIENTATION: 'TOGGLE_ORIENTATION',
     SET_ORIENTATION: 'SET_ORIENTATION',
     CHANGE_MODAL: 'CHANGE_MODAL',
-    SET_USERNAME: 'SET_USERNAME'
+    SET_NICKNAME: 'SET_NICKNAME'
 }
 
 export const reducers = ((state, action) => {
@@ -71,10 +74,12 @@ export const reducers = ((state, action) => {
                 ...state,
                 modalSettings: action.payload
             }
-        case REDUCER_TYPES.SET_USERNAME:
+        case REDUCER_TYPES.SET_NICKNAME:
             return {
                 ...state,
-                userName: action.payload
+                currentUser: {
+                    nickname: action.payload
+                }
             }
         default:
             return state

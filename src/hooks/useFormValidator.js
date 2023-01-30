@@ -1,11 +1,8 @@
 import { useState } from "react"
 import {
-    nameRegisterValidator,
-    emailRegisterValidator,
-    passwordRegisterValidator,
-    confirmPasswordRegisterValidator,
-    nameLoginValidator,
-    passwordLoginValidator
+    registerValidators,
+    loginValidators,
+    profileChangeValidators
 } from "../helpers/formHelpers/formValidators"
 
 const touchErrors = errors => {
@@ -19,142 +16,106 @@ const touchErrors = errors => {
     }, {})
 }
 
-export const useFormValidator = (registerForm, loginForm, setIsLoading) => {
-    const initialErrorsState = {
-        name: {
-            dirty: false,
-            error: false,
-            message: "",
-        },
-        email: {
-            dirty: false,
-            error: false,
-            message: "",
-        },
-        password: {
-            dirty: false,
-            error: false,
-            message: "",
-        },
-        confirmPassword: {
+export const useFormValidator = ({ registerForm, loginForm, userProfileForm }, setIsLoading) => {
+    const initialErrorsState = {}
+
+    const FORM_TYPES = {
+        REGISTER: 'REGISTER',
+        LOGIN: 'LOGIN',
+        PROFILE: 'PROFILE'
+    }
+
+    const { REGISTER, LOGIN, PROFILE } = FORM_TYPES
+
+    Object.keys(registerForm || loginForm || userProfileForm).forEach(key => {
+        initialErrorsState[key] = {
             dirty: false,
             error: false,
             message: "",
         }
-    }
+    })
 
     const [errors, setErrors] = useState(initialErrorsState)
 
-    const validateForm = async ({ registerForm, field, errors, forceTouchErrors = false }) => {
+    const validateForm = async ({
+        errors,
+        field,
+        forceTouchErrors = false,
+        form,
+        type = REGISTER,
+        previousNickname,
+        previousEmail
+    }) => {
         let isValid = true
         let newErrors = { ...errors }
+        let currentValidators
 
         if (forceTouchErrors) {
             newErrors = touchErrors(errors)
         }
 
-        const { name, email, password, confirmPassword } = registerForm
+        const checkFields = async (form, field, validators) => {
+            for (let key in form) {
+                if (newErrors[key].dirty && (field ? field === key : true)) {
+                    setIsLoading(true)
 
-        if (newErrors.name.dirty && (field ? field === "name" : true)) {
-            setIsLoading(true)
-            const nameMessage = await nameRegisterValidator(name)
-            setIsLoading(false)
-            newErrors.name.error = !!nameMessage
-            newErrors.name.message = nameMessage
-            if (!!nameMessage) isValid = false
+                    const message = await validators({ 
+                        fieldName: key, 
+                        field: form[key], 
+                        emailForPasswordCheck: key === 'password' && form.email, 
+                        previousNickname, 
+                        previousEmail
+                    })
+
+                    setIsLoading(false)
+                    newErrors[key].error = !!message
+                    newErrors[key].message = message
+                    if (!!message) isValid = false
+                }
+            }
         }
 
-        if (newErrors.email.dirty && (field ? field === "email" : true)) {
-            setIsLoading(true)
-            const emailMessage = await emailRegisterValidator(email)
-            setIsLoading(false)
-            newErrors.email.error = !!emailMessage
-            newErrors.email.message = emailMessage
-            if (!!emailMessage) isValid = false
-        }
+        if (type === REGISTER) currentValidators = registerValidators
+        if (type === LOGIN) currentValidators = loginValidators
+        if (type === PROFILE) currentValidators = profileChangeValidators
 
-        if (newErrors.password.dirty && (field ? field === "password" : true)) {
-            const passwordMessage = passwordRegisterValidator(password)
-            newErrors.password.error = !!passwordMessage
-            newErrors.password.message = passwordMessage
-            if (!!passwordMessage) isValid = false
-        }
-
-        if (newErrors.confirmPassword.dirty && (field ? field === "confirmPassword" : true)) {
-            const confirmPasswordMessage = confirmPasswordRegisterValidator(confirmPassword, password)
-            newErrors.confirmPassword.error = !!confirmPasswordMessage
-            newErrors.confirmPassword.message = confirmPasswordMessage
-            if (!!confirmPasswordMessage) isValid = false
-        }
+        await checkFields(form, field, currentValidators)
 
         setErrors(newErrors)
 
-        return {
-            isValid,
-            errors: newErrors,
-        }
+        return { isValid, errors: newErrors }
     }
 
-    const validateLoginForm = async ({ loginForm, field, errors, forceTouchErrors = false }) => {
-        let isValid = true
-        let newErrors = { ...errors }
-
-        if (forceTouchErrors) {
-            newErrors = touchErrors(errors)
-        }
-
-        const { name, password } = loginForm
-
-        if (newErrors.name.dirty && (field ? field === "name" : true)) {
-            setIsLoading(true)
-            const nameMessage = await nameLoginValidator(name)
-            setIsLoading(false)
-            newErrors.name.error = !!nameMessage
-            newErrors.name.message = nameMessage
-            if (!!nameMessage) isValid = false
-        }
-
-        if (newErrors.password.dirty && (field ? field === "password" : true)) {
-            setIsLoading(true)
-            const passwordMessage = await passwordLoginValidator(name, password)
-            setIsLoading(false)
-            newErrors.password.error = !!passwordMessage
-            newErrors.password.message = passwordMessage
-            if (!!passwordMessage) isValid = false
-        }        
-
-        setErrors(newErrors)
-
-        return {
-            isValid,
-            errors: newErrors,
-        }
-    }
-
-    const handleFocus = async (e, type = 'register') => {
+    const handleFocus = async (e, type = REGISTER) => {
         const field = e.target.name
+        const fieldError = errors[field]
 
         const updatedErrors = {
             ...errors,
             [field]: {
-                ...errors[field],
+                ...fieldError,
                 dirty: false
             }
         }
 
-        if (type === 'register') {
-            return await validateForm({ registerForm, field, errors: updatedErrors })
+        if (type === REGISTER) {
+            return await validateForm({ form: registerForm, field, errors: updatedErrors })
         }
 
-        if (type === 'login') {
-            return await validateLoginForm({ loginForm, field, errors: updatedErrors })
+        if (type === LOGIN) {
+            return await validateForm({ form: loginForm, field, errors: updatedErrors, type: LOGIN })
+        }
+
+        if (type === PROFILE) {
+            return await validateForm({ form: userProfileForm, field, errors: updatedErrors, type: PROFILE })
         }
     }
 
-    const handleBlur = async (e, type = 'register') => {
+    const handleBlur = async (e, type = REGISTER) => {
         const field = e.target.name
         const fieldError = errors[field]
 
+        if (type === PROFILE) return
         if (fieldError.dirty) return
 
         const updatedErrors = {
@@ -165,23 +126,17 @@ export const useFormValidator = (registerForm, loginForm, setIsLoading) => {
             }
         }
 
-        if (type === 'register') {
-            await validateForm({ registerForm, field, errors: updatedErrors })
-        }
-
-        if (type === 'login') {
-            await validateLoginForm({ loginForm, field, errors: updatedErrors })
-        }
+        return await validateForm({ form: registerForm, field, errors: updatedErrors })
     }
 
     const clearErrors = () => setErrors(initialErrorsState)
 
     return {
-        validateForm,
-        validateLoginForm,
+        errors,
+        FORM_TYPES,
+        clearErrors,
         handleBlur,
         handleFocus,
-        clearErrors,
-        errors,
+        validateForm,
     }
 }
