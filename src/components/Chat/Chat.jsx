@@ -96,11 +96,6 @@ const Chat = () => {
                 setIsLoading(false)
                 setPosts(posts.filter((post) => post.id !== id))
             }
-
-            /** @toDO:
-              1. set loader to false on request fail
-              2. simulate error and create a case with modal on error
-            **/
         } catch {
             throw new Error('Failed to delete post')
         } finally {

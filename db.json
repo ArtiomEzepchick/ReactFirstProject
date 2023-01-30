@@ -2,57 +2,25 @@
   "posts": [
     {
       "nickname": "Weng",
-      "message": "dsada",
-      "time": "20.01.2023, 17:36:44",
-      "id": "Riy-cxT-xSGezm6RCkuTU"
-    },
-    {
-      "nickname": "Weng",
       "message": "Okay",
       "time": "20.01.2023, 17:38:44",
       "id": "8A1icia8Nm_6fNkEFt2nM"
-    },
-    {
-      "nickname": "Ki",
-      "message": "dsadas",
-      "time": "23.01.2023, 18:12:26",
-      "id": "GA2DAZetxaXuIc6enPQ9k"
-    },
-    {
-      "nickname": "JosephStalin",
-      "message": "Hello all!",
-      "time": "25.01.2023, 14:26:55",
-      "id": "xsf94imDydI8HEJK0YXNF"
     }
   ],
   "users": [
-    {
-      "name": "Artstiom",
-      "nickname": "Ki",
-      "password": "11111111",
-      "email": "tyomsarlez@gmail.com",
-      "id": "MaYwzDoDgJZmFNDLP43K2"
-    },
-    {
-      "name": "Artstiom",
-      "nickname": "Weng",
-      "password": "11111111",
-      "email": "tyomdsasarlez@gmail.com",
-      "id": "c7I3o4Rp5REKTDkAvayoV"
-    },
-    {
-      "name": "Joseph",
-      "nickname": "JosephStalin",
-      "password": "11111111",
-      "email": "tyomddassasarlez@gmail.com",
-      "id": "CMxZSxZHGwXkk6fWydRmz"
-    },
     {
       "name": "dsadas",
       "nickname": "Kio",
       "password": "11111111",
       "email": "tyomsadsadasrlez@gmail.com",
       "id": "wW-o1q9KojKOhEvXGMjqQ"
+    },
+    {
+      "name": "John",
+      "nickname": "Smithnggggg",
+      "password": "11111111",
+      "email": "no@gmail.com",
+      "id": "A_XNutoQ-yjcD_Ajsh62O"
     }
   ]
 }

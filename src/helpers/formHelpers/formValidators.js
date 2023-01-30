@@ -1,6 +1,6 @@
 import { getUser } from "../requests/getUser"
 
-export const nameRegisterValidator = async name => {
+const nameValidator = name => {
     if (!name) {
         return "Name is required"
     } else if (!new RegExp(/^[A-Za-z]*$/).test(name)) {
@@ -10,7 +10,17 @@ export const nameRegisterValidator = async name => {
     return ""
 }
 
-export const nicknameRegisterValidator = async nickname => {
+const passwordValidator = password => {
+    if (!password) {
+        return "Password is required"
+    } else if (password.length <= 7) {
+        return "Password must have a minimum 8 characters"
+    }
+
+    return ""
+}
+
+const nicknameRegisterValidator = async nickname => {
     if (!nickname) {
         return "Nickname is required"
     } else if (!new RegExp(/^[A-Za-z0-9]*$/).test(nickname)) {
@@ -29,7 +39,27 @@ export const nicknameRegisterValidator = async nickname => {
     return ""
 }
 
-export const emailRegisterValidator = async email => {
+const nicknameProfileValidator = async (nickname, previousNickname) => {
+    if (!nickname) {
+        return "Nickname is required"
+    } else if (!new RegExp(/^[A-Za-z0-9]*$/).test(nickname)) {
+        return "Incorrect nickname format"
+    }
+
+    try {
+        const response = await getUser('nickname', nickname)
+        const user = await response.json()
+
+        if (!user.length || previousNickname === user[0].nickname ) return ""
+        if (user.length) return "This nickname already exists"
+    } catch {
+        throw new Error("Failed to check nickname")
+    }
+
+    return ""
+}  
+
+const emailRegisterValidator = async email => {
     if (!email) {
         return "Email is required"
     } else if (!new RegExp(/\S+@\S+\.\S+/).test(email)) {
@@ -48,18 +78,9 @@ export const emailRegisterValidator = async email => {
     return ""
 }
 
-export const passwordRegisterValidator = password => {
-    if (!password) {
-        return "Password is required"
-    } else if (password.length <= 7) {
-        return "Password must have a minimum 8 characters"
-    }
-
-    return ""
-}
-
-export const emailLoginValidator = async (email) => {
+const emailLoginValidator = async (email) => {
     if (!email) return "Email is required"
+
     try {
         const response = await getUser('email', email)
         const user = await response.json()
@@ -70,8 +91,29 @@ export const emailLoginValidator = async (email) => {
     }
 }
 
-export const passwordLoginValidator = async (password, email) => {
+const emailProfileValidator = async (email, previousEmail) => {
+    if (!email) {
+        return "Email is required"
+    } else if (!new RegExp(/\S+@\S+\.\S+/).test(email)) {
+        return "Incorrect email format"
+    }
+
+    try {
+        const response = await getUser('email', email)
+        const user = await response.json()
+
+        if (!user.length || previousEmail === user[0].email ) return ""
+        if (user.length) return "This email already exists"
+    } catch {
+        throw new Error("Failed to check email")
+    }
+
+    return ""
+}
+
+const passwordLoginValidator = async (password, email) => {
     if (!password) return "Password is required"
+    
     try {
         const response = await getUser('email', email)
         const user = await response.json()
@@ -86,27 +128,42 @@ export const passwordLoginValidator = async (password, email) => {
     }
 }
 
-export const registerValidators = async (fieldName, field) => {
+export const registerValidators = async ({ fieldName, field }) => {
     switch (fieldName) {
         case 'name':
-            return nameRegisterValidator(field)
+            return nameValidator(field)
         case 'nickname':
             return await nicknameRegisterValidator(field)
         case 'email':
             return await emailRegisterValidator(field)
         case 'password':
-            return passwordRegisterValidator(field)
+            return passwordValidator(field)
         default:
             return
     }
 }
 
-export const loginValidators = async (fieldName, field, emailForPasswordCheck) => {
+export const loginValidators = async ({ fieldName, field, emailForPasswordCheck }) => {
     switch (fieldName) {
         case 'email':
             return await emailLoginValidator(field)
         case 'password':
             return await passwordLoginValidator(field, emailForPasswordCheck)
+        default:
+            return
+    }
+}
+
+export const profileChangeValidators = async ({ fieldName, field, previousNickname, previousEmail }) => {
+    switch (fieldName) {
+        case 'name':
+            return nameValidator(field)
+        case 'nickname':
+            return await nicknameProfileValidator(field, previousNickname)
+        case 'email':
+            return await emailProfileValidator(field, previousEmail)
+        case 'password':
+            return passwordValidator(field)
         default:
             return
     }

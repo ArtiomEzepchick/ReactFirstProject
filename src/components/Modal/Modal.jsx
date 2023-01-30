@@ -6,10 +6,10 @@ import PropTypes from 'prop-types'
 import Overlay from "../Overlay/Overlay"
 import MODAL_TYPES from "./modalTypes"
 import { OrientationContext } from "../../contexts/orientationContext/OrientationContext"
+import { ThemeContext } from "../../contexts/themeContext/ThemeContext"
 import './styles.css'
 
 const Modal = ({
-    darkMode,
     headerText,
     contentText,
     children,
@@ -18,7 +18,8 @@ const Modal = ({
     handleCloseModal,
 }) => {
     const modalRef = useRef(null)
-    const { state: { isHorizontal } } = useContext(OrientationContext)
+    const { state: { darkMode }} = useContext(ThemeContext)
+    const { state: { isHorizontal }} = useContext(OrientationContext)
     const { lockScroll, unlockScroll } = useScrollLock()
 
     useEffect(() => {
@@ -61,7 +62,6 @@ const Modal = ({
 }
 
 Modal.propTypes = {
-    darkMode: PropTypes.bool,
     headerText: PropTypes.string,
     contentText: PropTypes.string,
     isModalOpen: PropTypes.bool.isRequired,

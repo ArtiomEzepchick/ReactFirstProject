@@ -344,7 +344,6 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
             </nav>
             {isLoading && <Loader />}
             <Modal
-                darkMode={darkMode}
                 headerText={headerText}
                 contentText={contentText}
                 modalType={modalType}

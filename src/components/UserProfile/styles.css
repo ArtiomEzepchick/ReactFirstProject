@@ -1,3 +1,9 @@
+.user-profile-section {
+    border-radius: 10px;
+    border: 1px solid var(--color-blue);
+    padding: 1rem;
+}
+
 .user-profile-section
 .form-main-container {
     margin: 0 auto;
@@ -20,4 +26,21 @@
 .form-input-container
 .button {
     margin-left: 1rem;
+}
+
+.user-profile-section
+.form-actions {
+    display: flex;
+    height: max-content;
+}
+
+.ant-layout-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.user-profile-section
+.unsigned-message {
+    padding: 3rem;
 }
