@@ -1,5 +1,7 @@
 .user-profile-section {
     border-radius: 10px;
+    width: 50%;
+    margin: 1.5rem auto 0 auto;
     border: 1px solid var(--color-blue);
     padding: 1rem;
 }
@@ -32,12 +34,6 @@
 .form-actions {
     display: flex;
     height: max-content;
-}
-
-.ant-layout-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .user-profile-section
