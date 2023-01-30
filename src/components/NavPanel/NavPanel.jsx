@@ -17,7 +17,7 @@ import MODAL_TYPES from "../Modal/modalTypes"
 import { closeModal } from "../../helpers/functions/closeModal"
 import { REDUCER_TYPES } from "../../reducers/contextReducer/contextReducer"
 import { loginFormData, registerFormData } from "../../helpers/formHelpers/formInputsData"
-import { getUser } from "../../helpers/requests/getUser"
+import { getUser, urls } from "../../helpers/requests/requests"
 import "./styles.css"
 
 const initialRegisterFormState = {
@@ -40,6 +40,7 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
     const navigate = useNavigate()
     const {
         errors,
+        FORM_TYPES,
         clearErrors,
         validateForm,
         handleBlur,
@@ -126,7 +127,7 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
         const { name, nickname, password, email } = registerForm
 
         try {
-            await fetch("http://localhost:3001/users", {
+            await fetch(urls.users, {
                 method: "POST",
                 body: JSON.stringify({
                     name,
@@ -208,7 +209,7 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
 
     const handleLoginSubmit = async (e) => {
         e.preventDefault()
-        const { isValid } = await validateForm({ form: loginForm, errors, forceTouchErrors: true, type: "login" })
+        const { isValid } = await validateForm({ form: loginForm, errors, forceTouchErrors: true, type: FORM_TYPES.LOGIN  })
         if (!isValid) return
 
         const response = await getUser("email", loginForm.email)
@@ -272,7 +273,7 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
         formProps.submitButtonText = "Login"
         formProps.handleChange = handleLoginFormChange
         formProps.handleBlur = null
-        formProps.handleFocus = (e) => handleFocus(e, "login")
+        formProps.handleFocus = (e) => handleFocus(e, FORM_TYPES.LOGIN)
         formProps.handleSubmit = handleLoginSubmit
     }
 

@@ -11,6 +11,7 @@ import Modal from "../Modal/Modal"
 import MODAL_TYPES from "../Modal/modalTypes"
 import { REDUCER_TYPES } from "../../reducers/contextReducer/contextReducer"
 import { closeModal } from "../../helpers/functions/closeModal"
+import { urls } from "../../helpers/requests/requests"
 import './styles.css'
 
 const Chat = () => {
@@ -30,7 +31,7 @@ const Chat = () => {
         try {
             setIsLoading(true)
 
-            const response = await fetch('http://localhost:3001/posts')
+            const response = await fetch(urls.posts)
             const data = await response.json()
 
             setPosts(data)
@@ -62,7 +63,7 @@ const Chat = () => {
         try {
             setIsLoading(true)
 
-            const response = await fetch('http://localhost:3001/posts', {
+            const response = await fetch(urls.posts, {
                 method: 'POST',
                 body: JSON.stringify({
                     nickname,
@@ -90,7 +91,7 @@ const Chat = () => {
     const deletePost = async (id) => {
         try {
             setIsLoading(true)
-            const response = await fetch(`http://localhost:3001/posts/${id}`, { method: 'DELETE' })
+            const response = await fetch(`${urls.posts}/${id}`, { method: 'DELETE' })
 
             if (response.status === 200) {
                 setIsLoading(false)

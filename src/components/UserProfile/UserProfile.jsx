@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useContext } from "react"
 import classNames from "classnames"
 import Loader from "../Loader/Loader"
-import { getUser } from "../../helpers/requests/getUser"
+import { getUser, urls } from "../../helpers/requests/requests"
 import { UserContext } from "../../contexts/userContext/userContext"
 import { userProfileData } from "../../helpers/formHelpers/formInputsData"
 import Input from "../Input/Input"
@@ -73,6 +73,8 @@ const UserProfile = () => {
     useEffect(() => {
         fetchUser()
         setIsInputDisabled(true)
+
+        return setUserProfileForm(initialUserProfileState)
     }, [fetchUser])
 
     const checkAreObjValuesEqual = (firstObj, secondObj) => {
@@ -146,7 +148,7 @@ const UserProfile = () => {
 
         setIsLoading(true)
 
-        await fetch(`http://localhost:3001/users/${userId}`, {
+        await fetch(`${urls.users}/${userId}`, {
             method: "PUT",
             body: JSON.stringify({
                 name: userProfileForm.name,
@@ -176,7 +178,7 @@ const UserProfile = () => {
 
         setTimeout(() => {
             closeModal(setIsModalOpen)
-        }, 1500)
+        }, 2000)
     }
 
     return (

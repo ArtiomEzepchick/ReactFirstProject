@@ -9,18 +9,18 @@
   ],
   "users": [
     {
-      "name": "dsadas",
-      "nickname": "Kio",
-      "password": "11111111",
-      "email": "tyomsadsadasrlez@gmail.com",
-      "id": "wW-o1q9KojKOhEvXGMjqQ"
-    },
-    {
       "name": "John",
-      "nickname": "Smithnggggg",
+      "nickname": "Smith",
       "password": "11111111",
       "email": "no@gmail.com",
       "id": "A_XNutoQ-yjcD_Ajsh62O"
+    },
+    {
+      "name": "Artstiom",
+      "nickname": "Kios",
+      "password": "11111111",
+      "email": "no@gmail.coms",
+      "id": "iMUuFkoy5DEkVz3yQ7E75"
     }
   ]
 }
