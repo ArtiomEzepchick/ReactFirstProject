@@ -127,6 +127,7 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
         const { name, nickname, password, email } = registerForm
 
         try {
+            setIsLoading(true)
             await fetch(urls.users, {
                 method: "POST",
                 body: JSON.stringify({
@@ -134,6 +135,7 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
                     nickname,
                     password,
                     email,
+                    registerDate: new Date().toLocaleDateString(),
                     id: nanoid()
                 }),
                 headers: {
@@ -145,6 +147,8 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
 
             localStorage.setItem("nickname", registerForm.nickname)
             localStorage.setItem("id", registerForm.id)
+
+            setIsLoading(false)
 
             setTimeout(() => {
                 setIsModalOpen(true)
@@ -162,6 +166,8 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
             }, 2500)
         } catch {
             throw new Error("Failed to register user")
+        } finally {
+            setIsLoading(false)
         }
     }
 
@@ -179,12 +185,8 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
 
         setRegisterForm(nextRegisterFormState)
 
-        if (errors[field].dirty) {
-           await validateForm({
-                form: nextRegisterFormState,
-                errors,
-                field,
-            })
+        if (document.activeElement === e.target) {
+            errors[field].dirty = false
         }
     }
 
@@ -201,6 +203,7 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
 
     const handleRegisterSubmit = async (e) => {
         e.preventDefault()
+
         const { isValid } = await validateForm({ form: registerForm, errors, forceTouchErrors: true })
         if (!isValid) return
 
@@ -212,12 +215,13 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
         const { isValid } = await validateForm({ form: loginForm, errors, forceTouchErrors: true, type: FORM_TYPES.LOGIN  })
         if (!isValid) return
 
+        setIsLoading(true)
         const response = await getUser("email", loginForm.email)
         const user = await response.json()
-
         localStorage.setItem("nickname", user[0].nickname)
         localStorage.setItem("id", user[0].id)
         closeModal(setIsModalOpen)
+        setIsLoading(false)
     }
 
     const handleLogOut = () => {

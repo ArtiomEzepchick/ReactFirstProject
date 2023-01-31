@@ -98,10 +98,6 @@ export const useFormValidator = ({ registerForm, loginForm, userProfileForm }, s
             }
         }
 
-        if (type === REGISTER) {
-            return await validateForm({ form: registerForm, field, errors: updatedErrors })
-        }
-
         if (type === LOGIN) {
             return await validateForm({ form: loginForm, field, errors: updatedErrors, type: LOGIN })
         }
@@ -109,6 +105,8 @@ export const useFormValidator = ({ registerForm, loginForm, userProfileForm }, s
         if (type === PROFILE) {
             return await validateForm({ form: userProfileForm, field, errors: updatedErrors, type: PROFILE })
         }
+
+        return await validateForm({ form: registerForm, field, errors: updatedErrors })
     }
 
     const handleBlur = async (e, type = REGISTER) => {

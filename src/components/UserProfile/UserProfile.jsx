@@ -25,7 +25,7 @@ const UserProfile = () => {
     const [userProfileForm, setUserProfileForm] = useState(initialUserProfileState)
     const [isLoading, setIsLoading] = useState(false)
     const [copiedUserProfile, setCopiedUserProfile] = useState()
-    const [userId, setUserId] = useState()
+    const [additionalUserInfo, setAdditionalUserInfo] = useState({}) 
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [isInputDisabled, setIsInputDisabled] = useState(true)
     const { state: { currentUser: { nickname } }, dispatch: dispatchNickname } = useContext(UserContext)
@@ -53,18 +53,21 @@ const UserProfile = () => {
                 const data = await response.json()
 
                 for (let key in data[0]) {
-                    if (key !== 'id') {
+                    if (key !== 'id' && key !== 'registerDate') {
                         userProfile[key] = data[0][key]
                     }
                 }
 
                 setUserProfileForm(userProfile)
                 setCopiedUserProfile(userProfile)
-                setUserId(data[0].id)
+                setAdditionalUserInfo({
+                    id: data[0].id,
+                    registerDate: data[0].registerDate
+                })
                 setIsLoading(false)
             }
         } catch {
-            throw new Error('Failed to get posts')
+            throw new Error('Failed to get user')
         } finally {
             setIsLoading(false)
         }
@@ -114,10 +117,6 @@ const UserProfile = () => {
         setUserProfileForm(copiedUserProfile)
     }
 
-    const handleReturnToEdit = () => {
-        closeModal(setIsModalOpen)
-    }
-
     const handleSubmit = async (e) => {
         e.preventDefault()
 
@@ -148,8 +147,8 @@ const UserProfile = () => {
 
         setIsLoading(true)
 
-        await fetch(`${urls.users}/${userId}`, {
-            method: "PUT",
+        await fetch(`${urls.users}/${additionalUserInfo.id}`, {
+            method: "PATCH",
             body: JSON.stringify({
                 name: userProfileForm.name,
                 nickname: userProfileForm.nickname,
@@ -187,6 +186,7 @@ const UserProfile = () => {
                 ? <React.Fragment>
                     <i className="fa-solid fa-circle-user"></i>
                     <h1>{nickname}'s profile</h1>
+                    <h2>Registered: {additionalUserInfo.registerDate}</h2>
                     {isLoading && <Loader />}
                     <form className={classNames('form-main-container', isLoading && 'blocked')}>
                         {userProfileData.map(({ type, labelText, name }, index) => {
@@ -231,7 +231,7 @@ const UserProfile = () => {
                 handleCloseModal={() => closeModal(setIsModalOpen)}
             >
                 {modalType !== MODAL_TYPES.SUCCESS && <div className={"modal-actions"}>
-                    <Button handleClick={handleReturnToEdit}>Return to edit</Button>
+                    <Button handleClick={() => closeModal(setIsModalOpen)}>Return</Button>
                 </div>}
             </Modal>
         </section>

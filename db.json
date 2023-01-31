@@ -9,18 +9,28 @@
   ],
   "users": [
     {
-      "name": "John",
-      "nickname": "Smith",
+      "name": "Vanya",
+      "nickname": "Boost",
       "password": "11111111",
       "email": "no@gmail.com",
-      "id": "A_XNutoQ-yjcD_Ajsh62O"
+      "registerDate": "31.01.2023",
+      "id": "2hwmNDJQLJaDvFi8IjOyo"
     },
     {
       "name": "Artstiom",
-      "nickname": "Kios",
+      "nickname": "Artiom",
       "password": "11111111",
-      "email": "no@gmail.coms",
-      "id": "iMUuFkoy5DEkVz3yQ7E75"
+      "email": "tyomarulez@gmail.com",
+      "registerDate": "31.01.2023",
+      "id": "TgGVQjM4Hgi6SNqHL58Em"
+    },
+    {
+      "name": "On",
+      "nickname": "Back",
+      "password": "11111111",
+      "email": "tyomaruslez@gmail.com",
+      "registerDate": "31.01.2023",
+      "id": "L1fG9SdlYj7aCDpxD4MBm"
     }
   ]
 }
