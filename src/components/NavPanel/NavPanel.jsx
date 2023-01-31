@@ -65,7 +65,7 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
     }, [isUserLoggedIn, dispatchNickname])
 
     useEffect(() => {
-        const handleOutsideSettingsClick = (e) => {
+        const handleOutsideSettingsClick = e => {
             const target = e.target
             const userIcon = document.querySelector(".user-icon")
             const userActions = document.querySelector(".user-actions")
@@ -174,7 +174,7 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
         closeModal(setIsModalOpen)
     }
 
-    const handleRegisterFormChange = async (e) => {
+    const handleRegisterFormChange = async e => {
         const field = e.target.name
 
         const nextRegisterFormState = {
@@ -189,7 +189,7 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
         }
     }
 
-    const handleLoginFormChange = (e) => {
+    const handleLoginFormChange = e => {
         const field = e.target.name
 
         const nextLoginFormState = {
@@ -200,7 +200,7 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
         setLoginForm(nextLoginFormState)
     }
 
-    const handleRegisterSubmit = async (e) => {
+    const handleRegisterSubmit = async e => {
         e.preventDefault()
 
         const { isValid } = await validateForm({ form: registerForm, errors, forceTouchErrors: true })
@@ -209,7 +209,7 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
         await registerUser()
     }
 
-    const handleLoginSubmit = async (e) => {
+    const handleLoginSubmit = async e => {
         e.preventDefault()
         const { isValid } = await validateForm({ form: loginForm, errors, forceTouchErrors: true, type: FORM_TYPES.LOGIN  })
         if (!isValid) return
@@ -276,7 +276,7 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
         formProps.submitButtonText = "Login"
         formProps.handleChange = handleLoginFormChange
         formProps.handleBlur = null
-        formProps.handleFocus = (e) => handleFocus(e, FORM_TYPES.LOGIN)
+        formProps.handleFocus = e => handleFocus(e, FORM_TYPES.LOGIN)
         formProps.handleSubmit = handleLoginSubmit
     }
 

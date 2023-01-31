@@ -30,13 +30,13 @@ const ReduxForm = () => {
         prevCountRef.current = formData.count
     }, [formData.count])
 
-    const handleChange = (e) => dispatch(changeFormValue({ value: e.target.value, name: e.target.name }))
+    const handleChange = e => dispatch(changeFormValue({ value: e.target.value, name: e.target.name }))
 
     const handleIncreaseCounter = () => dispatch(incrementCounter())
 
     const handleDecreaseCounter = () => dispatch(decrementCounter())
 
-    const handleSubmit = (e) => {
+    const handleSubmit = e => {
         e.preventDefault()
 
         dispatch(asyncSubmit())

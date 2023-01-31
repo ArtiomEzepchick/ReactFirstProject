@@ -25,7 +25,7 @@ const FormForStateManagers = ({
                 <h3>Change Counter</h3>
                 <p>Current value: {state.count}</p>
                 <Button
-                    handleClick={(e) => {
+                    handleClick={e => {
                         e.preventDefault()
                         handleIncreaseCounter()
                     }}
@@ -33,7 +33,7 @@ const FormForStateManagers = ({
                     Increase
                 </Button>
                 <Button
-                    handleClick={(e) => {
+                    handleClick={e => {
                         e.preventDefault()
                         handleDecreaseCounter()
                     }}

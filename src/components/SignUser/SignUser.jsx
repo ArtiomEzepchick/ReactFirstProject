@@ -18,7 +18,7 @@ const SignUser = ({
     handleCloseModal,
     handleSubmit
 }) => {
-    const closeModal = (e) => {
+    const closeModal = e => {
         e.preventDefault()
         handleCloseModal()
     }

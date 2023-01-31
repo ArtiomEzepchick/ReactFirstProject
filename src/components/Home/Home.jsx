@@ -29,7 +29,7 @@ const Home = () => {
         prevCountRef.current = state.count
     }, [state.count])
 
-    const handleChange = (e) => dispatch({ type: CHANGE_VALUE, payload: e.target })
+    const handleChange = e => dispatch({ type: CHANGE_VALUE, payload: e.target })
 
     const handleReset = () => {
         dispatch({ type: SET_LOADING, payload: false })
@@ -52,7 +52,7 @@ const Home = () => {
         })
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = e => {
         e.preventDefault()
 
         dispatch({ type: SET_LOADING, payload: false })

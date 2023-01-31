@@ -57,20 +57,26 @@ export const useFormValidator = ({ registerForm, loginForm, userProfileForm }, s
         const checkFields = async (form, field, validators) => {
             for (let key in form) {
                 if (newErrors[key].dirty && (field ? field === key : true)) {
-                    setIsLoading(true)
+                    try {
+                        setIsLoading(true)
 
-                    const message = await validators({ 
-                        fieldName: key, 
-                        field: form[key], 
-                        emailForPasswordCheck: key === 'password' && form.email, 
-                        previousNickname, 
-                        previousEmail
-                    })
-
-                    setIsLoading(false)
-                    newErrors[key].error = !!message
-                    newErrors[key].message = message
-                    if (!!message) isValid = false
+                        const message = await validators({ 
+                            fieldName: key, 
+                            field: form[key], 
+                            emailForPasswordCheck: key === 'password' && form.email, 
+                            previousNickname, 
+                            previousEmail
+                        })
+    
+                        setIsLoading(false)
+                        newErrors[key].error = !!message
+                        newErrors[key].message = message
+                        if (!!message) isValid = false
+                    } catch {
+                        throw new Error('Failed to check field')
+                    } finally {
+                        setIsLoading(false)
+                    }
                 }
             }
         }

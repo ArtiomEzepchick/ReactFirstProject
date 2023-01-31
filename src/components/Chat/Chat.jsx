@@ -112,7 +112,7 @@ const Chat = () => {
         }
     }
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async e => {
         e.preventDefault()
 
         await addPost(nickname, message)
@@ -130,7 +130,7 @@ const Chat = () => {
                             placeholder={`What's on your mind, ${nickname}?`}
                             ref={messageRef}
                             value={message}
-                            handleChange={(e) => setMessage(e.target.value)}
+                            handleChange={e => setMessage(e.target.value)}
                         />
                         <Button isLoading={isLoading} type='submit'>Send post</Button>
                     </form>

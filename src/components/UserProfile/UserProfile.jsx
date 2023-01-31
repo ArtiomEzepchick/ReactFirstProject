@@ -92,7 +92,7 @@ const UserProfile = () => {
         return equal
     }
 
-    const handleInputChange = async (e) => {
+    const handleInputChange = async e => {
         const field = e.target.name
 
         const nextFormState = {
@@ -103,13 +103,13 @@ const UserProfile = () => {
         setUserProfileForm(nextFormState)
     }
 
-    const handleChangeButtonClick = (e) => {
+    const handleChangeButtonClick = e => {
         e.preventDefault()
 
         setIsInputDisabled(!isInputDisabled)
     }
 
-    const handleResetForm = (e) => {
+    const handleResetForm = e => {
         e.preventDefault()
 
         clearErrors()
@@ -117,7 +117,7 @@ const UserProfile = () => {
         setUserProfileForm(copiedUserProfile)
     }
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async e => {
         e.preventDefault()
 
         const { isValid } = await validateForm({
@@ -203,8 +203,8 @@ const UserProfile = () => {
                                 name={name}
                                 value={userProfileForm[name]}
                                 handleChange={handleInputChange}
-                                handleBlur={(e) => handleBlur(e, FORM_TYPES.PROFILE)}
-                                handleFocus={(e) => handleFocus(e, FORM_TYPES.PROFILE)}
+                                handleBlur={e => handleBlur(e, FORM_TYPES.PROFILE)}
+                                handleFocus={e => handleFocus(e, FORM_TYPES.PROFILE)}
                             >
                                 {errors[name].dirty && errors[name].error
                                     ? <p className='form-field-error-message'>{errors[name].message}</p>
