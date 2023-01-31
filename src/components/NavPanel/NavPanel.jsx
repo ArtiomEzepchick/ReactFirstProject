@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { Switch } from "antd"
-import { nanoid } from "nanoid"
 import PropTypes from "prop-types"
 import classNames from "classnames"
 import { useFormValidator } from "../../hooks/useFormValidator"
@@ -17,7 +16,7 @@ import MODAL_TYPES from "../Modal/modalTypes"
 import { closeModal } from "../../helpers/functions/closeModal"
 import { REDUCER_TYPES } from "../../reducers/contextReducer/contextReducer"
 import { loginFormData, registerFormData } from "../../helpers/formHelpers/formInputsData"
-import { getUser, urls } from "../../helpers/requests/requests"
+import { getUser, postUser } from "../../helpers/requests/requests"
 import "./styles.css"
 
 const initialRegisterFormState = {
@@ -124,30 +123,13 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
     }
 
     const registerUser = async () => {
-        const { name, nickname, password, email } = registerForm
-
         try {
             setIsLoading(true)
-            await fetch(urls.users, {
-                method: "POST",
-                body: JSON.stringify({
-                    name,
-                    nickname,
-                    password,
-                    email,
-                    registerDate: new Date().toLocaleDateString(),
-                    id: nanoid()
-                }),
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8",
-                },
-            })
-
+            await postUser(registerForm)
+            setIsLoading(false)
             closeModal(setIsModalOpen)
-
             localStorage.setItem("nickname", registerForm.nickname)
             localStorage.setItem("id", registerForm.id)
-            setIsLoading(false)
 
             setTimeout(() => {
                 setIsModalOpen(true)
@@ -168,10 +150,6 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
         } finally {
             setIsLoading(false)
         }
-    }
-
-    const handleCloseModal = () => {
-        closeModal(setIsModalOpen)
     }
 
     const handleRegisterFormChange = async e => {
@@ -203,24 +181,34 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
     const handleRegisterSubmit = async e => {
         e.preventDefault()
 
-        const { isValid } = await validateForm({ form: registerForm, errors, forceTouchErrors: true })
-        if (!isValid) return
+        try {
+            const { isValid } = await validateForm({ form: registerForm, errors, forceTouchErrors: true })
+            if (!isValid) return
 
-        await registerUser()
+            await registerUser()
+        } catch {
+            throw new Error('Failed to validate and register user')
+        }
     }
 
     const handleLoginSubmit = async e => {
         e.preventDefault()
-        const { isValid } = await validateForm({ form: loginForm, errors, forceTouchErrors: true, type: FORM_TYPES.LOGIN  })
-        if (!isValid) return
 
-        setIsLoading(true)
-        const response = await getUser("email", loginForm.email)
-        const user = await response.json()
-        localStorage.setItem("nickname", user[0].nickname)
-        localStorage.setItem("id", user[0].id)
-        closeModal(setIsModalOpen)
-        setIsLoading(false)
+        try {
+            const { isValid } = await validateForm({ form: loginForm, errors, forceTouchErrors: true, type: FORM_TYPES.LOGIN  })
+            if (!isValid) return
+    
+            setIsLoading(true)
+            const response = await getUser("email", loginForm.email)
+            const user = await response.json()
+    
+            localStorage.setItem("nickname", user[0].nickname)
+            localStorage.setItem("id", user[0].id)
+            closeModal(setIsModalOpen)
+            setIsLoading(false)
+        } catch {
+            throw new Error('Failed to validate and log in user')
+        }
     }
 
     const handleLogOut = () => {
@@ -252,6 +240,10 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
             navigate("/profile")
             setIsLoading(false)
         }, 1000)
+    }
+
+    const handleCloseModal = () => {
+        closeModal(setIsModalOpen)
     }
 
     const formProps = {
@@ -323,24 +315,22 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
                 <div className={classNames("settings-container", !isHorizontal && "vertical")}>
                     <i className="fa-solid fa-sliders"></i>
                     <div className="switches-container">
-                        <div>
+                        <div onClick={handleChangeOrientation}>
                             <i className="fa-solid fa-border-top-left"></i>
                             <p>Change orientation</p>
                             <Switch
                                 checked={!isHorizontal && true}
                                 className="switch"
                                 size="small"
-                                onClick={handleChangeOrientation}
                             />
                         </div>
-                        <div>
+                        <div onClick={handleChangeTheme}>
                             <i className="fa-solid fa-moon"></i>
                             <p>Change theme</p>
                             <Switch
                                 checked={darkMode && true}
                                 className="switch"
                                 size="small"
-                                onClick={handleChangeTheme}
                             />
                         </div>
                     </div>

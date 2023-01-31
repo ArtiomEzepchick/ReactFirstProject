@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef, useCallback, useContext } from "react"
-import { nanoid } from "nanoid"
 import classNames from 'classnames'
 import TextArea from "../TextArea/TextArea"
 import Button from "../Button/Button"
@@ -11,7 +10,7 @@ import Modal from "../Modal/Modal"
 import MODAL_TYPES from "../Modal/modalTypes"
 import { REDUCER_TYPES } from "../../reducers/contextReducer/contextReducer"
 import { closeModal } from "../../helpers/functions/closeModal"
-import { urls } from "../../helpers/requests/requests"
+import { urls, sendPost, deleteDefinitePost } from "../../helpers/requests/requests"
 import './styles.css'
 
 const Chat = () => {
@@ -63,20 +62,7 @@ const Chat = () => {
         try {
             setIsLoading(true)
 
-            const response = await fetch(urls.posts, {
-                method: 'POST',
-                body: JSON.stringify({
-                    nickname,
-                    message,
-                    time: new Date().toLocaleString(),
-                    id: nanoid()
-                }),
-                headers: {
-                    'Content-type': 'application/json; charset=UTF-8',
-                },
-            })
-
-            const data = await response.json()
+            const data = await sendPost(nickname, message)
 
             setPosts((posts) => [...posts, data])
             setMessage('')
@@ -88,15 +74,12 @@ const Chat = () => {
         }
     }
 
-    const deletePost = async (id) => {
+    const deletePost = async id => {
         try {
             setIsLoading(true)
-            const response = await fetch(`${urls.posts}/${id}`, { method: 'DELETE' })
-
-            if (response.status === 200) {
-                setIsLoading(false)
-                setPosts(posts.filter((post) => post.id !== id))
-            }
+            await deleteDefinitePost(id)
+            setIsLoading(false)
+            setPosts(posts.filter((post) => post.id !== id))
         } catch {
             throw new Error('Failed to delete post')
         } finally {
@@ -106,16 +89,17 @@ const Chat = () => {
 
     const handleReturnToEdit = () => {
         closeModal(setIsModalOpen)
-
-        if (!message.trim()) {
-            messageRef.current.focus()
-        }
+        if (!message.trim()) messageRef.current.focus()
     }
 
     const handleSubmit = async e => {
         e.preventDefault()
 
-        await addPost(nickname, message)
+        try {
+            await addPost(nickname, message)
+        } catch {
+            throw new Error('Failed to submit post')
+        }
     }
 
     return (

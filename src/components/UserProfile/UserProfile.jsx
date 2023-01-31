@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useContext } from "react"
 import classNames from "classnames"
 import Loader from "../Loader/Loader"
-import { getUser, urls } from "../../helpers/requests/requests"
+import { getUser, updateUser } from "../../helpers/requests/requests"
 import { UserContext } from "../../contexts/userContext/userContext"
 import { userProfileData } from "../../helpers/formHelpers/formInputsData"
 import Input from "../Input/Input"
@@ -25,7 +25,7 @@ const UserProfile = () => {
     const [userProfileForm, setUserProfileForm] = useState(initialUserProfileState)
     const [isLoading, setIsLoading] = useState(false)
     const [copiedUserProfile, setCopiedUserProfile] = useState()
-    const [additionalUserInfo, setAdditionalUserInfo] = useState({}) 
+    const [additionalUserInfo, setAdditionalUserInfo] = useState({})
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [isInputDisabled, setIsInputDisabled] = useState(true)
     const { state: { nickname }, dispatch: dispatchNickname } = useContext(UserContext)
@@ -105,7 +105,6 @@ const UserProfile = () => {
 
     const handleChangeButtonClick = e => {
         e.preventDefault()
-
         setIsInputDisabled(!isInputDisabled)
     }
 
@@ -145,39 +144,32 @@ const UserProfile = () => {
             return
         }
 
-        setIsLoading(true)
+        try {
+            setIsLoading(true)
+            await updateUser(additionalUserInfo.id, userProfileForm)
+            localStorage.setItem('nickname', userProfileForm.nickname)
+            clearErrors()
+            setIsLoading(false)
+            setIsInputDisabled(!isInputDisabled)
+            setIsModalOpen(true)
 
-        await fetch(`${urls.users}/${additionalUserInfo.id}`, {
-            method: "PATCH",
-            body: JSON.stringify({
-                name: userProfileForm.name,
-                nickname: userProfileForm.nickname,
-                password: userProfileForm.password,
-                email: userProfileForm.email
-            }),
-            headers: {
-                "Content-type": "application/json; charset=UTF-8",
-            },
-        })
+            dispatchNickname({ type: REDUCER_TYPES.SET_NICKNAME, payload: userProfileForm.nickname })
+            dispatchModal({
+                type: REDUCER_TYPES.CHANGE_MODAL, payload: {
+                    modalType: MODAL_TYPES.SUCCESS,
+                    headerText: "Success!",
+                    contentText: "You changed your data"
+                }
+            })
 
-        localStorage.setItem('nickname', userProfileForm.nickname)
-        clearErrors()
-        setIsLoading(false)
-        setIsInputDisabled(!isInputDisabled)
-        setIsModalOpen(true)
-
-        dispatchNickname({ type: REDUCER_TYPES.SET_NICKNAME, payload: userProfileForm.nickname })
-        dispatchModal({
-            type: REDUCER_TYPES.CHANGE_MODAL, payload: {
-                modalType: MODAL_TYPES.SUCCESS,
-                headerText: "Success!",
-                contentText: "You changed your data"
-            }
-        })
-
-        setTimeout(() => {
-            closeModal(setIsModalOpen)
-        }, 2000)
+            setTimeout(() => {
+                closeModal(setIsModalOpen)
+            }, 2000)
+        } catch {
+            throw new Error('Failed to update user')
+        } finally {
+            setIsLoading(false)
+        }
     }
 
     return (

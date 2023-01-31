@@ -19,6 +19,7 @@ const Button = ({ children, className, icon, isLoading, type, handleClick = null
 
 Button.propTypes = {
     className: PropTypes.string,
+    icon: PropTypes.object,
     isLoading: PropTypes.bool,
     type: PropTypes.string,
     handleClick: PropTypes.func,

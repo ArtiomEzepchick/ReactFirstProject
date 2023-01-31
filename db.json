@@ -1,29 +1,13 @@
 {
   "posts": [
     {
-      "nickname": "Artiom",
-      "message": "Everything is ok",
-      "time": "31.01.2023, 20:14:51",
-      "id": "ICZx4D-0_1wAn1QsdMQv4"
+      "nickname": "Letsgo",
+      "message": "Well, hello!",
+      "time": "31.01.2023, 21:36:27",
+      "id": "Fg2I9xyBL4BEluhqg-4uF"
     }
   ],
   "users": [
-    {
-      "name": "Vanya",
-      "nickname": "Boost",
-      "password": "11111111",
-      "email": "no@gmail.com",
-      "registerDate": "31.01.2023",
-      "id": "2hwmNDJQLJaDvFi8IjOyo"
-    },
-    {
-      "name": "Artstiom",
-      "nickname": "Artiom",
-      "password": "11111111",
-      "email": "tyomarulez@gmail.com",
-      "registerDate": "31.01.2023",
-      "id": "TgGVQjM4Hgi6SNqHL58Em"
-    },
     {
       "name": "On",
       "nickname": "Back",
@@ -31,6 +15,22 @@
       "email": "tyomaruslez@gmail.com",
       "registerDate": "31.01.2023",
       "id": "L1fG9SdlYj7aCDpxD4MBm"
+    },
+    {
+      "name": "Ivan",
+      "nickname": "Ivanov",
+      "password": "11111111",
+      "email": "ivanov@mail.ru",
+      "registerDate": "31.01.2023",
+      "id": "rR66gn4A9sENXYuI4N1WH"
+    },
+    {
+      "name": "Okay",
+      "nickname": "Letsgo",
+      "password": "11111111",
+      "email": "tyomarsuslez@gmail.com",
+      "registerDate": "31.01.2023",
+      "id": "oxLJXhT1h-kKO_T388cjx"
     }
   ]
 }

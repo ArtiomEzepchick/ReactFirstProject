@@ -38,7 +38,6 @@ const ReduxForm = () => {
 
     const handleSubmit = e => {
         e.preventDefault()
-
         dispatch(asyncSubmit())
     }
 
