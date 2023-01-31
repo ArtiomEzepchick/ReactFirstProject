@@ -48,7 +48,7 @@ export const useFormValidator = ({ registerForm, loginForm, userProfileForm }, s
     }) => {
         let isValid = true
         let newErrors = { ...errors }
-        let currentValidators
+        let currentValidators = null
 
         if (forceTouchErrors) {
             newErrors = touchErrors(errors)

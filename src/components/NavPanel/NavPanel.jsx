@@ -53,7 +53,7 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
     } = useContext(ModalContext)
 
     const {
-        state: { currentUser: { nickname: profileNickname }}, dispatch: dispatchNickname
+        state: { nickname: profileNickname }, dispatch: dispatchNickname
     } = useContext(UserContext)
 
     const isUserLoggedIn = localStorage.getItem("nickname")
@@ -147,7 +147,6 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
 
             localStorage.setItem("nickname", registerForm.nickname)
             localStorage.setItem("id", registerForm.id)
-
             setIsLoading(false)
 
             setTimeout(() => {

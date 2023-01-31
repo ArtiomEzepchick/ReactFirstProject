@@ -1,12 +1,5 @@
 {
-  "posts": [
-    {
-      "nickname": "Weng",
-      "message": "Okay",
-      "time": "20.01.2023, 17:38:44",
-      "id": "8A1icia8Nm_6fNkEFt2nM"
-    }
-  ],
+  "posts": [],
   "users": [
     {
       "name": "Vanya",

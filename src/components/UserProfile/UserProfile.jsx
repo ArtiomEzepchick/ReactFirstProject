@@ -28,7 +28,7 @@ const UserProfile = () => {
     const [additionalUserInfo, setAdditionalUserInfo] = useState({}) 
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [isInputDisabled, setIsInputDisabled] = useState(true)
-    const { state: { currentUser: { nickname } }, dispatch: dispatchNickname } = useContext(UserContext)
+    const { state: { nickname }, dispatch: dispatchNickname } = useContext(UserContext)
     const {
         errors,
         FORM_TYPES,
