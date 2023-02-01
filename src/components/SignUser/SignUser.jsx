@@ -33,6 +33,7 @@ const SignUser = ({
                         errors[name].dirty && errors[name].error && 'form-field-error',
                         isInputDisabled && 'blocked'
                     )}
+                    maxLength={name === 'nickname' && '20'}
                     isInputDisabled={isInputDisabled}
                     type={type}
                     labelText={labelText}

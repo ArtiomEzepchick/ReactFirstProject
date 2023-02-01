@@ -4,7 +4,7 @@ import classNames from "classnames"
 import { useScrollLock } from "../../hooks/useScrollLock"
 import PropTypes from 'prop-types'
 import Overlay from "../Overlay/Overlay"
-import MODAL_TYPES from "./modalTypes"
+import { MODAL_TYPES } from "./modalTypes"
 import { OrientationContext } from "../../contexts/orientationContext/OrientationContext"
 import { ThemeContext } from "../../contexts/themeContext/ThemeContext"
 import './styles.css'

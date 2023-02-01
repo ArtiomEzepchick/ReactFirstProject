@@ -7,9 +7,9 @@ import { ModalContext } from "../../contexts/modalContext/ModalContext"
 import { UserContext } from "../../contexts/userContext/userContext"
 import { ThemeContext } from "../../contexts/themeContext/ThemeContext"
 import Modal from "../Modal/Modal"
-import MODAL_TYPES from "../Modal/modalTypes"
+import { MODAL_TYPES } from "../Modal/modalTypes"
 import { REDUCER_TYPES } from "../../reducers/contextReducer/contextReducer"
-import { closeModal } from "../../helpers/functions/closeModal"
+import { closeModal } from "../Modal/closeModal"
 import { urls, sendPost, deleteDefinitePost } from "../../helpers/requests/requests"
 import './styles.css'
 

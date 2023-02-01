@@ -1,7 +1,7 @@
 import React, { useReducer, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Provider } from 'react-redux';
-import routes from "./helpers/routes/routes";
+import { routes } from "./helpers/routes/routes";
 import { initialState, reducers } from "./reducers/contextReducer/contextReducer";
 import { ThemeContext } from "./contexts/themeContext/ThemeContext";
 import { OrientationContext } from "./contexts/orientationContext/OrientationContext";
