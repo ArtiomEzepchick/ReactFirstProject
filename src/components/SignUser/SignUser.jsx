@@ -18,18 +18,13 @@ const SignUser = ({
     handleCloseModal,
     handleSubmit
 }) => {
-    const closeModal = (e) => {
+    const closeModal = e => {
         e.preventDefault()
         handleCloseModal()
     }
 
-    const handleFormSubmit = async (e) => {
-        e.preventDefault()
-        await handleSubmit()
-    }
-
     return (
-        <form className={classNames('form-main-container', isLoading && 'blocked')} onSubmit={handleFormSubmit}>
+        <form className={classNames('form-main-container', isLoading && 'blocked')} onSubmit={e => e.preventDefault()}>
             {inputs.map(({ type, labelText, name }, index) => {
                 return (<Input
                     key={labelText + index}
@@ -54,8 +49,8 @@ const SignUser = ({
                 </Input>)
             })}
             <div className={"form-actions"}>
-                <Button handleClick={closeModal}>Close</Button>
-                <Button type='submit' handleClick={handleSubmit}>{submitButtonText}</Button>
+                <Button handleMouseDown={closeModal}>Close</Button>
+                <Button type='submit' handleMouseDown={handleSubmit}>{submitButtonText}</Button>
             </div>
         </form>
     )

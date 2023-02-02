@@ -170,6 +170,7 @@ h2 {
 .settings-container
 .switches-container  
 div {
+    cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;

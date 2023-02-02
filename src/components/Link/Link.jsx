@@ -3,7 +3,7 @@ import { Button } from "antd";
 import { NavLink } from "react-router-dom";
 import PropTypes from 'prop-types'
 
-export const Link = ({ href, label }) => {
+const Link = ({ href, label }) => {
     return (
         <React.Fragment>
             <Button className='action-button' size='large'>
@@ -22,3 +22,5 @@ Link.propTypes = {
     href: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired
 }
+
+export default Link

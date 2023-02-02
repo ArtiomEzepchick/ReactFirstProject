@@ -6,10 +6,7 @@ export const initialState = {
         headerText: '',
         contentText: '',
     },
-    currentUser: {
-        nickname: '',
-        id: ''
-    }
+    nickname: ''
 }
 
 export const REDUCER_TYPES = {
@@ -77,9 +74,7 @@ export const reducers = ((state, action) => {
         case REDUCER_TYPES.SET_NICKNAME:
             return {
                 ...state,
-                currentUser: {
-                    nickname: action.payload
-                }
+                nickname: action.payload
             }
         default:
             return state

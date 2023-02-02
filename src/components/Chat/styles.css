@@ -94,6 +94,11 @@
     border-radius: 12px;
     padding: 1rem;
     margin-bottom: 1rem;
+    transition: box-shadow 0.2s ease-in;
+}
+
+.post-card:hover {
+    box-shadow: 4px 4px 37px 0px #4e4e4e52;
 }
 
 .post-card
@@ -103,11 +108,38 @@
     color: var(--color-purple);
 }
 
+.post-card
+.post-time {
+    font-size: 0.8rem;
+    color: #a0a0a0;
+}
+
+.post-card
+.post-date {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+}
+
 .post-user-name,
 .post-message {
     word-wrap: break-word;
 }
 
+.post-card
 .delete-button {
-    align-self: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.2s ease-in-out;
+}
+
+.post-card:hover
+.delete-button.visible {
+    visibility: visible;
+    opacity: 1;
+}
+
+.show-more-button {
+    width: 12rem;
 }

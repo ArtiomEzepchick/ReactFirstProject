@@ -48,7 +48,7 @@ export const useFormValidator = ({ registerForm, loginForm, userProfileForm }, s
     }) => {
         let isValid = true
         let newErrors = { ...errors }
-        let currentValidators
+        let currentValidators = null
 
         if (forceTouchErrors) {
             newErrors = touchErrors(errors)
@@ -57,20 +57,26 @@ export const useFormValidator = ({ registerForm, loginForm, userProfileForm }, s
         const checkFields = async (form, field, validators) => {
             for (let key in form) {
                 if (newErrors[key].dirty && (field ? field === key : true)) {
-                    setIsLoading(true)
+                    try {
+                        setIsLoading(true)
 
-                    const message = await validators({ 
-                        fieldName: key, 
-                        field: form[key], 
-                        emailForPasswordCheck: key === 'password' && form.email, 
-                        previousNickname, 
-                        previousEmail
-                    })
-
-                    setIsLoading(false)
-                    newErrors[key].error = !!message
-                    newErrors[key].message = message
-                    if (!!message) isValid = false
+                        const message = await validators({ 
+                            fieldName: key, 
+                            field: form[key], 
+                            emailForPasswordCheck: key === 'password' && form.email, 
+                            previousNickname, 
+                            previousEmail
+                        })
+    
+                        setIsLoading(false)
+                        newErrors[key].error = !!message
+                        newErrors[key].message = message
+                        if (!!message) isValid = false
+                    } catch {
+                        throw new Error('Failed to check field')
+                    } finally {
+                        setIsLoading(false)
+                    }
                 }
             }
         }
@@ -98,10 +104,6 @@ export const useFormValidator = ({ registerForm, loginForm, userProfileForm }, s
             }
         }
 
-        if (type === REGISTER) {
-            return await validateForm({ form: registerForm, field, errors: updatedErrors })
-        }
-
         if (type === LOGIN) {
             return await validateForm({ form: loginForm, field, errors: updatedErrors, type: LOGIN })
         }
@@ -109,6 +111,8 @@ export const useFormValidator = ({ registerForm, loginForm, userProfileForm }, s
         if (type === PROFILE) {
             return await validateForm({ form: userProfileForm, field, errors: updatedErrors, type: PROFILE })
         }
+
+        return await validateForm({ form: registerForm, field, errors: updatedErrors })
     }
 
     const handleBlur = async (e, type = REGISTER) => {

@@ -1,17 +1,16 @@
 import React, { useState, useEffect, useRef, useCallback, useContext } from "react"
-import { nanoid } from "nanoid"
 import classNames from 'classnames'
 import TextArea from "../TextArea/TextArea"
 import Button from "../Button/Button"
 import Loader from "../Loader/Loader"
+import Modal from "../Modal/Modal"
 import { ModalContext } from "../../contexts/modalContext/ModalContext"
 import { UserContext } from "../../contexts/userContext/userContext"
 import { ThemeContext } from "../../contexts/themeContext/ThemeContext"
-import Modal from "../Modal/Modal"
-import MODAL_TYPES from "../Modal/modalTypes"
+import { MODAL_TYPES } from "../Modal/modalTypes"
 import { REDUCER_TYPES } from "../../reducers/contextReducer/contextReducer"
-import { closeModal } from "../../helpers/functions/closeModal"
-import { urls } from "../../helpers/requests/requests"
+import { closeModal } from "../Modal/closeModal"
+import { sendPost, getAllPosts, getPostsFromDefinitePage, deleteDefinitePost } from "../../helpers/requests/requests"
 import './styles.css'
 
 const Chat = () => {
@@ -19,11 +18,13 @@ const Chat = () => {
     const [message, setMessage] = useState('')
     const [isLoading, setIsLoading] = useState(false)
     const [posts, setPosts] = useState([])
+    const [postsNextPage, setPostsNextPage] = useState(2)
+    const [postsCount, setPostsCount] = useState(0)
     const messageRef = useRef(null)
-    const { state: { currentUser: { nickname } } } = useContext(UserContext)
+    const { state: { nickname: profileNickname } } = useContext(UserContext)
     const { state: { darkMode } } = useContext(ThemeContext)
     const {
-        state: {modalSettings: { modalType, headerText, contentText } },
+        state: { modalSettings: { modalType, headerText, contentText } },
         dispatch: dispatchModal
     } = useContext(ModalContext)
 
@@ -31,10 +32,11 @@ const Chat = () => {
         try {
             setIsLoading(true)
 
-            const response = await fetch(urls.posts)
-            const data = await response.json()
+            const allPosts = await getAllPosts()
+            setPostsCount(allPosts.length)
 
-            setPosts(data)
+            const postsFirstPage = await getPostsFromDefinitePage(1)
+            setPosts(postsFirstPage)
             setIsLoading(false)
         } catch {
             throw new Error('Failed to get posts')
@@ -63,22 +65,12 @@ const Chat = () => {
         try {
             setIsLoading(true)
 
-            const response = await fetch(urls.posts, {
-                method: 'POST',
-                body: JSON.stringify({
-                    nickname,
-                    message,
-                    time: new Date().toLocaleString(),
-                    id: nanoid()
-                }),
-                headers: {
-                    'Content-type': 'application/json; charset=UTF-8',
-                },
-            })
+            const userData = await sendPost(nickname, message)
+            const allPosts = await getAllPosts()
 
-            const data = await response.json()
+            if (posts.length === allPosts.length - 1) setPosts((posts) => [...posts, userData])
 
-            setPosts((posts) => [...posts, data])
+            setPostsCount(allPosts.length)
             setMessage('')
             setIsLoading(false)
         } catch {
@@ -88,15 +80,21 @@ const Chat = () => {
         }
     }
 
-    const deletePost = async (id) => {
+    const deletePost = async id => {
         try {
             setIsLoading(true)
-            const response = await fetch(`${urls.posts}/${id}`, { method: 'DELETE' })
 
-            if (response.status === 200) {
-                setIsLoading(false)
-                setPosts(posts.filter((post) => post.id !== id))
-            }
+            const nextPagePosts = await getPostsFromDefinitePage(postsNextPage)
+
+            await deleteDefinitePost(id)
+
+            const allPosts = await getAllPosts()
+            setPostsCount(allPosts.length)
+
+            if (posts.length - 1 === allPosts.length) return setPosts(posts.filter((post) => post.id !== id))
+
+            setPosts(posts.concat(nextPagePosts[0]).filter((post) => post.id !== id))
+            setIsLoading(false)
         } catch {
             throw new Error('Failed to delete post')
         } finally {
@@ -106,16 +104,33 @@ const Chat = () => {
 
     const handleReturnToEdit = () => {
         closeModal(setIsModalOpen)
+        if (!message.trim()) messageRef.current.focus()
+    }
 
-        if (!message.trim()) {
-            messageRef.current.focus()
+    const handleSubmit = async e => {
+        e.preventDefault()
+
+        try {
+            await addPost(profileNickname, message)
+        } catch {
+            throw new Error('Failed to submit post')
         }
     }
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
+    const handleShowMorePosts = async () => {
+        try {
+            setIsLoading(true)
 
-        await addPost(nickname, message)
+            const nextPagePostsData = await getPostsFromDefinitePage(postsNextPage)
+
+            setPosts(posts.concat(nextPagePostsData))
+            setPostsNextPage(postsNextPage + 1)
+            setIsLoading(false)
+        } catch {
+            throw new Error('Failed to get posts')
+        } finally {
+            setIsLoading(false)
+        }
     }
 
     return (
@@ -123,39 +138,52 @@ const Chat = () => {
             <div className="add-post-container">
                 <h2 className="highlight-blue">Create post</h2>
                 <hr />
-                {nickname
+                {profileNickname
                     ? <form onSubmit={handleSubmit}>
                         <TextArea
                             className="textarea-content"
-                            placeholder={`What's on your mind, ${nickname}?`}
+                            placeholder={`What's on your mind, ${profileNickname}?`}
                             ref={messageRef}
                             value={message}
-                            handleChange={(e) => setMessage(e.target.value)}
+                            handleChange={e => setMessage(e.target.value)}
                         />
                         <Button isLoading={isLoading} type='submit'>Send post</Button>
                     </form>
                     : <p style={{ textAlign: 'center' }}>You must be logged in to send messages</p>
                 }
             </div>
-            <div>
+            <div style={{ height: 'max-content' }}>
                 {isLoading && <Loader />}
                 <div className={classNames("posts-container", isLoading && "blocked")}>
-                    <h2 className="highlight-purple">Published posts</h2>
+                    <h2 className="highlight-purple">Published posts {postsCount ? `(${postsCount})` : null}</h2>
                     <hr />
                     {!isLoading && !posts.length
                         ? <p style={{ textAlign: 'center' }}>No posts in here. You'll be the first!</p>
-                        : posts.map(({ id, nickname, message, time }) => {
+                        : posts.map(({ id, nickname, message, time, date }) => {
                             return (
-                                <div className="post-card" key={id}>
+                                <div key={id} className="post-card">
                                     <i className="fa-solid fa-circle-user"></i>
                                     <h3 className="post-user-name">{nickname}</h3>
-                                    <p className="post-message">{message}</p>
-                                    <p className="post-time">Posted: {time}</p>
-                                    <Button className='delete-button' handleClick={() => deletePost(id)}>Delete</Button>
+                                    <p className="post-message">
+                                        <span className="post-time">{time}</span> {message}
+                                    </p>
+                                    <p className="post-date">
+                                        Posted: {date}
+                                        {profileNickname === nickname &&
+                                            <Button
+                                                className={classNames('delete-button', profileNickname === nickname && 'visible')}
+                                                handleClick={() => deletePost(id)}>
+                                                Delete
+                                            </Button>
+                                        }
+                                    </p>
                                 </div>
                             )
                         })
                     }
+                    {posts.length !== postsCount && <div className="flex-all-centered">
+                        <Button className='show-more-button' handleClick={handleShowMorePosts}>Show more</Button>
+                    </div>}
                 </div>
             </div>
             <Modal
@@ -166,9 +194,9 @@ const Chat = () => {
                 isModalOpen={isModalOpen}
                 handleCloseModal={handleReturnToEdit}
             >
-                {modalType !== MODAL_TYPES.SUCCESS && <div className={"modal-actions"}>
+                <div className={"modal-actions"}>
                     <Button handleClick={handleReturnToEdit}>Return to edit</Button>
-                </div>}
+                </div>
             </Modal>
         </div>
     )

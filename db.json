@@ -1,26 +1,143 @@
 {
   "posts": [
     {
-      "nickname": "Weng",
-      "message": "Okay",
-      "time": "20.01.2023, 17:38:44",
-      "id": "8A1icia8Nm_6fNkEFt2nM"
+      "nickname": "Artstiom",
+      "message": "1",
+      "time": "17:29",
+      "date": "01.02.2023",
+      "id": "Nwt76DZrKh22Cnn9H_u_e"
+    },
+    {
+      "nickname": "Artstiom",
+      "message": "2",
+      "time": "13:44",
+      "date": "02.02.2023",
+      "id": "wP0fi691tKVP0yreyOYj-"
+    },
+    {
+      "nickname": "Artstiom",
+      "message": "3",
+      "time": "13:45",
+      "date": "02.02.2023",
+      "id": "3-eDHgJ6orAN518x1caqg"
+    },
+    {
+      "nickname": "Artstiom",
+      "message": "4",
+      "time": "13:45",
+      "date": "02.02.2023",
+      "id": "X1bockpZm06bD_roLy5PQ"
+    },
+    {
+      "nickname": "Artstiom",
+      "message": "5",
+      "time": "13:45",
+      "date": "02.02.2023",
+      "id": "X1bockpZm0dassa6bD_roLy5PQ"
+    },
+    {
+      "nickname": "Artstiom",
+      "message": "6",
+      "time": "13:46",
+      "date": "02.02.2023",
+      "id": "dyoGESTc7fay79yL8fhRc"
+    },
+    {
+      "nickname": "Artstiom",
+      "message": "7",
+      "time": "13:46",
+      "date": "02.02.2023",
+      "id": "7eVFv4QntaSYxwxPOTu3h"
+    },
+    {
+      "nickname": "Artstiom",
+      "message": "8",
+      "time": "13:47",
+      "date": "02.02.2023",
+      "id": "lAABLoySTBsY9xE5ohHPr"
+    },
+    {
+      "nickname": "Artstiom",
+      "message": "9",
+      "time": "13:47",
+      "date": "02.02.2023",
+      "id": "0CSMlIlzlsfu_I3YYV9zk"
+    },
+    {
+      "nickname": "Artstiom",
+      "message": "10",
+      "time": "14:01",
+      "date": "02.02.2023",
+      "id": "LlUyQrelDggXKi3YnEsed"
+    },
+    {
+      "nickname": "Artstiom",
+      "message": "11",
+      "time": "14:01",
+      "date": "02.02.2023",
+      "id": "8JybstU8hfLBb9kIimqXm"
+    },
+    {
+      "nickname": "Artstiom",
+      "message": "12",
+      "time": "14:01",
+      "date": "02.02.2023",
+      "id": "2fSseYpH2lHpq8NbzauUC"
+    },
+    {
+      "nickname": "Artstiom",
+      "message": "13",
+      "time": "14:01",
+      "date": "02.02.2023",
+      "id": "_3pn7hefvRXinmwMhwMKs"
+    },
+    {
+      "nickname": "Artstiom",
+      "message": "14",
+      "time": "14:01",
+      "date": "02.02.2023",
+      "id": "7KzMUPta3QsnU9Nv9AMEv"
+    },
+    {
+      "nickname": "Artstiom",
+      "message": "15",
+      "time": "14:01",
+      "date": "02.02.2023",
+      "id": "WU1JiIGxqLZcZ0694pLlD"
     }
   ],
   "users": [
     {
-      "name": "John",
-      "nickname": "Smith",
+      "name": "Artstiom",
+      "nickname": "Artstiom",
       "password": "11111111",
-      "email": "no@gmail.com",
-      "id": "A_XNutoQ-yjcD_Ajsh62O"
+      "email": "tyomarulez@gmail.com",
+      "registerDate": "01.02.2023",
+      "id": "y8hLFmoBpUCrKpqE3JEtq"
     },
     {
-      "name": "Artstiom",
-      "nickname": "Kios",
+      "name": "Denis",
+      "nickname": "Okay",
       "password": "11111111",
-      "email": "no@gmail.coms",
-      "id": "iMUuFkoy5DEkVz3yQ7E75"
+      "email": "tyomaruslez@gmail.com",
+      "registerDate": "01.02.2023",
+      "id": "Biwifj5TNxcTbsPmwP0sU"
+    },
+    {
+      "name": "Alexandra",
+      "nickname": "Kio",
+      "password": "11111111",
+      "email": "tyomsarulez@gmail.com",
+      "registerDate": "01.02.2023",
+      "id": "5CALYBkbEUPhTxJd4Bvun"
+    },
+    {
+      "name": "Henry",
+      "nickname": "Artstiom",
+      "password": "11111111",
+      "email": "tyosdsmarulez@gmail.com",
+      "registerDate": "01.02.2023",
+      "id": "_NwvcYMsk5bbITIkaIM2N"
     }
   ]
 }

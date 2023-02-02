@@ -1,10 +1,10 @@
-import paths from "../paths/paths";
 import HomePage from "../../pages/Home/HomePage";
 import ReduxPage from "../../pages/Redux/ReduxPage";
 import PostsPage from "../../pages/Posts/PostsPage";
 import UserProfilePage from "../../pages/UserProfile/UserProfilePage";
+import { paths } from "../paths/paths";
 
-const routes = [
+export const routes = [
     {
         path: paths.home,
         component: <HomePage />
@@ -22,5 +22,3 @@ const routes = [
         component: <UserProfilePage />
     }
 ]
-
-export default routes

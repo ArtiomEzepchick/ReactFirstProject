@@ -1,6 +1,6 @@
-import paths from "../paths/paths";
+import { paths } from "../paths/paths";
 
-const links = [
+export const links = [
     {
         label: "Home", 
         href: paths.home
@@ -14,5 +14,3 @@ const links = [
         href: paths.posts
     },
 ]
-
-export default links
