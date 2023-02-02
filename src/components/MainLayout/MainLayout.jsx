@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import classNames from "classnames";
+import ScrollToTop from "react-scroll-to-top";
 import { Layout } from 'antd'
 import { ThemeContext } from "../../contexts/themeContext/ThemeContext";
 import { OrientationContext } from '../../contexts/orientationContext/OrientationContext';
@@ -50,6 +51,12 @@ const MainLayout = ({ children }) => {
                     </a>
                 </div>
             </Footer>
+            <ScrollToTop
+                className='scroll-to-top-button'
+                smooth={true}
+                top={100}
+                component={<i className="fa-solid fa-arrow-up"></i>}
+            />
         </React.Fragment>
     )
 }
