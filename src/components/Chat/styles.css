@@ -94,6 +94,11 @@
     border-radius: 12px;
     padding: 1rem;
     margin-bottom: 1rem;
+    transition: box-shadow 0.2s ease-in;
+}
+
+.post-card:hover {
+    box-shadow: 4px 4px 37px 0px #4e4e4e52;
 }
 
 .post-card
@@ -111,6 +116,9 @@
 
 .post-card
 .post-date {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     font-size: 0.8rem;
 }
 
@@ -121,18 +129,15 @@
 
 .post-card
 .delete-button {
-    display: none;
     visibility: hidden;
     opacity: 0;
-    align-self: center;
-    transition: opacity 0.2s ease-in;
+    transition: all 0.2s ease-in-out;
 }
 
 .post-card:hover
-.delete-button {
-    display: block;
-    opacity: 1;
+.delete-button.visible {
     visibility: visible;
+    opacity: 1;
 }
 
 .show-more-button {

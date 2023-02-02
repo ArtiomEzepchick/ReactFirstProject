@@ -1,6 +1,6 @@
 import { nanoid } from "nanoid"
 
-export const urls = {
+const urls = {
     posts: 'http://localhost:3001/posts',
     users: 'http://localhost:3001/users'
 }
@@ -36,6 +36,37 @@ export const postUser = async form => {
     }
 }
 
+export const updateUser = async (id, form) => {
+    const { name, nickname, email, password } = form
+    
+    try {
+        await fetch(`${urls.users}/${id}`, {
+            method: "PATCH",
+            body: JSON.stringify({
+                name,
+                nickname,
+                password,
+                email,
+            }),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8",
+            },
+        })
+    } catch {
+        throw new Error("Failed to update user's info")
+    }
+}
+
+export const getAllPosts = async () => {
+    const response = await fetch(urls.posts)
+    return await response.json()
+}
+
+export const getPostsFromDefinitePage = async page => {
+    const response = await fetch(`${urls.posts}?_page=${page}&_limit=3`)
+    return await response.json()
+}
+
 export const sendPost = async (nickname, message) => {
     try {
         const response = await fetch(urls.posts, {
@@ -63,26 +94,5 @@ export const deleteDefinitePost = async id => {
         await fetch(`${urls.posts}/${id}`, { method: 'DELETE' })
     } catch {
         throw new Error('Failed to delete post')
-    }
-}
-
-export const updateUser = async (id, form) => {
-    const { name, nickname, email, password } = form
-    
-    try {
-        await fetch(`${urls.users}/${id}`, {
-            method: "PATCH",
-            body: JSON.stringify({
-                name,
-                nickname,
-                password,
-                email,
-            }),
-            headers: {
-                "Content-type": "application/json; charset=UTF-8",
-            },
-        })
-    } catch {
-        throw new Error("Failed to update user's info")
     }
 }

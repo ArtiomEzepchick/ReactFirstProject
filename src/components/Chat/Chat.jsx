@@ -10,7 +10,7 @@ import { ThemeContext } from "../../contexts/themeContext/ThemeContext"
 import { MODAL_TYPES } from "../Modal/modalTypes"
 import { REDUCER_TYPES } from "../../reducers/contextReducer/contextReducer"
 import { closeModal } from "../Modal/closeModal"
-import { urls, sendPost, deleteDefinitePost } from "../../helpers/requests/requests"
+import { sendPost, getAllPosts, getPostsFromDefinitePage, deleteDefinitePost } from "../../helpers/requests/requests"
 import './styles.css'
 
 const Chat = () => {
@@ -32,13 +32,11 @@ const Chat = () => {
         try {
             setIsLoading(true)
 
-            const getAllPosts = await fetch(urls.posts)
-            const allPosts = await getAllPosts.json()
+            const allPosts = await getAllPosts()
             setPostsCount(allPosts.length)
 
-            const response = await fetch(`${urls.posts}?_page=1&_limit=3`)
-            const data = await response.json()
-            setPosts(data)
+            const postsFirstPage = await getPostsFromDefinitePage(1)
+            setPosts(postsFirstPage)
             setIsLoading(false)
         } catch {
             throw new Error('Failed to get posts')
@@ -68,12 +66,11 @@ const Chat = () => {
             setIsLoading(true)
 
             const userData = await sendPost(nickname, message)
-            const getAllPosts = await fetch(urls.posts)
-            const allPostsData = await getAllPosts.json()
+            const allPosts = await getAllPosts()
 
-            if (posts.length < 3 || posts.length === allPostsData.length - 1) setPosts((posts) => [...posts, userData])
+            if (posts.length === allPosts.length - 1) setPosts((posts) => [...posts, userData])
 
-            setPostsCount(allPostsData.length)
+            setPostsCount(allPosts.length)
             setMessage('')
             setIsLoading(false)
         } catch {
@@ -87,18 +84,16 @@ const Chat = () => {
         try {
             setIsLoading(true)
 
-            const getCurrentPagePosts = await fetch(`${urls.posts}?_page=${postsNextPage}&_limit=3`)
-            const currentPostsData = await getCurrentPagePosts.json()
+            const nextPagePosts = await getPostsFromDefinitePage(postsNextPage)
 
             await deleteDefinitePost(id)
 
-            const getAllPosts = await fetch(urls.posts)
-            const allPostsData = await getAllPosts.json()
-            setPostsCount(allPostsData.length)
+            const allPosts = await getAllPosts()
+            setPostsCount(allPosts.length)
 
-            if (posts.length - 1 === allPostsData.length) return setPosts(posts.filter((post) => post.id !== id))
-    
-            setPosts(posts.concat(currentPostsData[0]).filter((post) => post.id !== id))
+            if (posts.length - 1 === allPosts.length) return setPosts(posts.filter((post) => post.id !== id))
+
+            setPosts(posts.concat(nextPagePosts[0]).filter((post) => post.id !== id))
             setIsLoading(false)
         } catch {
             throw new Error('Failed to delete post')
@@ -126,8 +121,7 @@ const Chat = () => {
         try {
             setIsLoading(true)
 
-            const getNextPagePosts = await fetch(`${urls.posts}?_page=${postsNextPage}&_limit=3`)
-            const nextPagePostsData = await getNextPagePosts.json()
+            const nextPagePostsData = await getPostsFromDefinitePage(postsNextPage)
 
             setPosts(posts.concat(nextPagePostsData))
             setPostsNextPage(postsNextPage + 1)
@@ -158,7 +152,7 @@ const Chat = () => {
                     : <p style={{ textAlign: 'center' }}>You must be logged in to send messages</p>
                 }
             </div>
-            <div>
+            <div style={{ height: 'max-content' }}>
                 {isLoading && <Loader />}
                 <div className={classNames("posts-container", isLoading && "blocked")}>
                     <h2 className="highlight-purple">Published posts {postsCount ? `(${postsCount})` : null}</h2>
@@ -167,15 +161,22 @@ const Chat = () => {
                         ? <p style={{ textAlign: 'center' }}>No posts in here. You'll be the first!</p>
                         : posts.map(({ id, nickname, message, time, date }) => {
                             return (
-                                <div className="post-card" key={id}>
+                                <div key={id} className="post-card">
                                     <i className="fa-solid fa-circle-user"></i>
                                     <h3 className="post-user-name">{nickname}</h3>
                                     <p className="post-message">
                                         <span className="post-time">{time}</span> {message}
                                     </p>
-                                    <p className="post-date">Posted: {date}</p>
-                                    {profileNickname === nickname &&
-                                        <Button className='delete-button' handleClick={() => deletePost(id)}>Delete</Button>}
+                                    <p className="post-date">
+                                        Posted: {date}
+                                        {profileNickname === nickname &&
+                                            <Button
+                                                className={classNames('delete-button', profileNickname === nickname && 'visible')}
+                                                handleClick={() => deletePost(id)}>
+                                                Delete
+                                            </Button>
+                                        }
+                                    </p>
                                 </div>
                             )
                         })

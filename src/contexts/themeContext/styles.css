@@ -64,6 +64,11 @@
     border: 1px solid #ffffff;
 }
 
+.site-layout.dark .post-card,
+.site-layout.dark .post-card * {
+    background-color: #161616;
+}
+
 .ant-layout-footer.dark {
     background-color: #161616;
 }

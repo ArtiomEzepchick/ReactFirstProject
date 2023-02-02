@@ -47,7 +47,7 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
     } = useFormValidator({ registerForm, loginForm }, setIsLoading)
 
     const {
-        state: { modalSettings: { modalType, headerText, contentText }},
+        state: { modalSettings: { modalType, headerText, contentText } },
         dispatch: dispatchModal
     } = useContext(ModalContext)
 

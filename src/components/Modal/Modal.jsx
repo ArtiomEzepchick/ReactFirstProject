@@ -17,7 +17,7 @@ const Modal = ({
     handleCloseModal,
 }) => {
     const modalRef = useRef(null)
-    const { state: { darkMode }} = useContext(ThemeContext)
+    const { state: { darkMode } } = useContext(ThemeContext)
     const { lockScroll, unlockScroll } = useScrollLock()
 
     useEffect(() => {
