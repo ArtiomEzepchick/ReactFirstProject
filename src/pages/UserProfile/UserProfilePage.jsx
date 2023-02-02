@@ -4,11 +4,7 @@ import Loader from '../../components/Loader/Loader'
 
 const UserProfile = lazy(() =>
     import("../../components/UserProfile/UserProfile").then((component) => {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve(component)
-            }, 1000)
-        })
+        return new Promise((resolve) => setTimeout(() => resolve(component), 1000))
     })
 )
 

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react"
+import React, { useContext, useEffect, useState, useCallback } from "react"
 import { useNavigate } from "react-router-dom"
 import { Switch } from "antd"
 import PropTypes from "prop-types"
@@ -55,13 +55,31 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
         state: { nickname: profileNickname }, dispatch: dispatchNickname
     } = useContext(UserContext)
 
-    const isUserLoggedIn = localStorage.getItem("nickname")
+    const localStorageNickname = localStorage.getItem('nickname')
+
+    const checkIsUserExist = useCallback(async () => {
+        try {
+            if (localStorageNickname) {
+                const response = await getUser("nickname", localStorageNickname)
+                const user = await response.json()
+                
+                if (!user.length) {
+                    localStorage.removeItem('nickname')
+                    localStorage.removeItem('id')
+                    return
+                }
+
+                dispatchNickname({ type: REDUCER_TYPES.SET_NICKNAME, payload: user[0].nickname })
+                localStorage.setItem("id", user[0].id)
+            }
+        } catch {
+            throw new Error("Failed to check nickname")
+        }
+    }, [localStorageNickname, dispatchNickname])
 
     useEffect(() => {
-        if (isUserLoggedIn) {
-            dispatchNickname({ type: REDUCER_TYPES.SET_NICKNAME, payload: isUserLoggedIn })
-        }
-    }, [isUserLoggedIn, dispatchNickname])
+        checkIsUserExist()
+    }, [checkIsUserExist])
 
     useEffect(() => {
         const handleOutsideSettingsClick = e => {
@@ -103,9 +121,7 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
             }
         })
 
-        setTimeout(() => {
-            setIsModalOpen(true)
-        })
+        setTimeout(() => setIsModalOpen(true))
     }
 
     const openLoginModal = () => {
@@ -142,9 +158,7 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
                 })
             }, 1000)
 
-            setTimeout(() => {
-                closeModal(setIsModalOpen)
-            }, 2500)
+            setTimeout(() => closeModal(setIsModalOpen), 2500)
         } catch {
             throw new Error("Failed to register user")
         } finally {
@@ -228,9 +242,7 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
             })
         }, 1000)
 
-        setTimeout(() => {
-            closeModal(setIsModalOpen)
-        }, 2500)
+        setTimeout(() => closeModal(setIsModalOpen), 2500)
     }
 
     const handleOpenUsersProfile = () => {
@@ -336,7 +348,7 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
                     </div>
                 </div>
             </nav>
-            {isLoading && <Loader />}
+            {isLoading && <Loader isModalOpen={isModalOpen} />}
             <Modal
                 headerText={headerText}
                 contentText={contentText}

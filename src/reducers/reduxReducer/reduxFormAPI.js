@@ -1,5 +1,1 @@
-export const submitForm = () => {
-  return new Promise((res) =>
-    setTimeout(() => res(), 3000)
-  )
-}
+export const submitForm = () => new Promise((res) => setTimeout(() => res(), 3000))

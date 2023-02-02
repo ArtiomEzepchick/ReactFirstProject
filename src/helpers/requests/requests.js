@@ -43,7 +43,8 @@ export const sendPost = async (nickname, message) => {
             body: JSON.stringify({
                 nickname,
                 message,
-                time: new Date().toLocaleString(),
+                time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+                date: new Date().toLocaleDateString(),
                 id: nanoid()
             }),
             headers: {

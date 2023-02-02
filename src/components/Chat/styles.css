@@ -103,11 +103,38 @@
     color: var(--color-purple);
 }
 
+.post-card
+.post-time {
+    font-size: 0.8rem;
+    color: #a0a0a0;
+}
+
+.post-card
+.post-date {
+    font-size: 0.8rem;
+}
+
 .post-user-name,
 .post-message {
     word-wrap: break-word;
 }
 
+.post-card
 .delete-button {
+    display: none;
+    visibility: hidden;
+    opacity: 0;
     align-self: center;
+    transition: opacity 0.2s ease-in;
+}
+
+.post-card:hover
+.delete-button {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+}
+
+.show-more-button {
+    width: 12rem;
 }

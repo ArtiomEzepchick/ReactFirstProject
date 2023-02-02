@@ -3,10 +3,10 @@ import classNames from 'classnames'
 import TextArea from "../TextArea/TextArea"
 import Button from "../Button/Button"
 import Loader from "../Loader/Loader"
+import Modal from "../Modal/Modal"
 import { ModalContext } from "../../contexts/modalContext/ModalContext"
 import { UserContext } from "../../contexts/userContext/userContext"
 import { ThemeContext } from "../../contexts/themeContext/ThemeContext"
-import Modal from "../Modal/Modal"
 import { MODAL_TYPES } from "../Modal/modalTypes"
 import { REDUCER_TYPES } from "../../reducers/contextReducer/contextReducer"
 import { closeModal } from "../Modal/closeModal"
@@ -18,11 +18,13 @@ const Chat = () => {
     const [message, setMessage] = useState('')
     const [isLoading, setIsLoading] = useState(false)
     const [posts, setPosts] = useState([])
+    const [postsNextPage, setPostsNextPage] = useState(2)
+    const [postsCount, setPostsCount] = useState(0)
     const messageRef = useRef(null)
-    const { state: { nickname } } = useContext(UserContext)
+    const { state: { nickname: profileNickname } } = useContext(UserContext)
     const { state: { darkMode } } = useContext(ThemeContext)
     const {
-        state: {modalSettings: { modalType, headerText, contentText } },
+        state: { modalSettings: { modalType, headerText, contentText } },
         dispatch: dispatchModal
     } = useContext(ModalContext)
 
@@ -30,9 +32,12 @@ const Chat = () => {
         try {
             setIsLoading(true)
 
-            const response = await fetch(urls.posts)
-            const data = await response.json()
+            const getAllPosts = await fetch(urls.posts)
+            const allPosts = await getAllPosts.json()
+            setPostsCount(allPosts.length)
 
+            const response = await fetch(`${urls.posts}?_page=1&_limit=3`)
+            const data = await response.json()
             setPosts(data)
             setIsLoading(false)
         } catch {
@@ -62,9 +67,13 @@ const Chat = () => {
         try {
             setIsLoading(true)
 
-            const data = await sendPost(nickname, message)
+            const userData = await sendPost(nickname, message)
+            const getAllPosts = await fetch(urls.posts)
+            const allPostsData = await getAllPosts.json()
 
-            setPosts((posts) => [...posts, data])
+            if (posts.length < 3 || posts.length === allPostsData.length - 1) setPosts((posts) => [...posts, userData])
+
+            setPostsCount(allPostsData.length)
             setMessage('')
             setIsLoading(false)
         } catch {
@@ -77,9 +86,20 @@ const Chat = () => {
     const deletePost = async id => {
         try {
             setIsLoading(true)
+
+            const getCurrentPagePosts = await fetch(`${urls.posts}?_page=${postsNextPage}&_limit=3`)
+            const currentPostsData = await getCurrentPagePosts.json()
+
             await deleteDefinitePost(id)
+
+            const getAllPosts = await fetch(urls.posts)
+            const allPostsData = await getAllPosts.json()
+            setPostsCount(allPostsData.length)
+
+            if (posts.length - 1 === allPostsData.length) return setPosts(posts.filter((post) => post.id !== id))
+    
+            setPosts(posts.concat(currentPostsData[0]).filter((post) => post.id !== id))
             setIsLoading(false)
-            setPosts(posts.filter((post) => post.id !== id))
         } catch {
             throw new Error('Failed to delete post')
         } finally {
@@ -96,9 +116,26 @@ const Chat = () => {
         e.preventDefault()
 
         try {
-            await addPost(nickname, message)
+            await addPost(profileNickname, message)
         } catch {
             throw new Error('Failed to submit post')
+        }
+    }
+
+    const handleShowMorePosts = async () => {
+        try {
+            setIsLoading(true)
+
+            const getNextPagePosts = await fetch(`${urls.posts}?_page=${postsNextPage}&_limit=3`)
+            const nextPagePostsData = await getNextPagePosts.json()
+
+            setPosts(posts.concat(nextPagePostsData))
+            setPostsNextPage(postsNextPage + 1)
+            setIsLoading(false)
+        } catch {
+            throw new Error('Failed to get posts')
+        } finally {
+            setIsLoading(false)
         }
     }
 
@@ -107,11 +144,11 @@ const Chat = () => {
             <div className="add-post-container">
                 <h2 className="highlight-blue">Create post</h2>
                 <hr />
-                {nickname
+                {profileNickname
                     ? <form onSubmit={handleSubmit}>
                         <TextArea
                             className="textarea-content"
-                            placeholder={`What's on your mind, ${nickname}?`}
+                            placeholder={`What's on your mind, ${profileNickname}?`}
                             ref={messageRef}
                             value={message}
                             handleChange={e => setMessage(e.target.value)}
@@ -124,22 +161,28 @@ const Chat = () => {
             <div>
                 {isLoading && <Loader />}
                 <div className={classNames("posts-container", isLoading && "blocked")}>
-                    <h2 className="highlight-purple">Published posts {posts.length ? `(${posts.length})` : null}</h2>
+                    <h2 className="highlight-purple">Published posts {postsCount ? `(${postsCount})` : null}</h2>
                     <hr />
                     {!isLoading && !posts.length
                         ? <p style={{ textAlign: 'center' }}>No posts in here. You'll be the first!</p>
-                        : posts.map(({ id, nickname, message, time }) => {
+                        : posts.map(({ id, nickname, message, time, date }) => {
                             return (
                                 <div className="post-card" key={id}>
                                     <i className="fa-solid fa-circle-user"></i>
                                     <h3 className="post-user-name">{nickname}</h3>
-                                    <p className="post-message">{message}</p>
-                                    <p className="post-time">Posted: {time}</p>
-                                    <Button className='delete-button' handleClick={() => deletePost(id)}>Delete</Button>
+                                    <p className="post-message">
+                                        <span className="post-time">{time}</span> {message}
+                                    </p>
+                                    <p className="post-date">Posted: {date}</p>
+                                    {profileNickname === nickname &&
+                                        <Button className='delete-button' handleClick={() => deletePost(id)}>Delete</Button>}
                                 </div>
                             )
                         })
                     }
+                    {posts.length !== postsCount && <div className="flex-all-centered">
+                        <Button className='show-more-button' handleClick={handleShowMorePosts}>Show more</Button>
+                    </div>}
                 </div>
             </div>
             <Modal
@@ -150,9 +193,9 @@ const Chat = () => {
                 isModalOpen={isModalOpen}
                 handleCloseModal={handleReturnToEdit}
             >
-                {modalType !== MODAL_TYPES.SUCCESS && <div className={"modal-actions"}>
+                <div className={"modal-actions"}>
                     <Button handleClick={handleReturnToEdit}>Return to edit</Button>
-                </div>}
+                </div>
             </Modal>
         </div>
     )

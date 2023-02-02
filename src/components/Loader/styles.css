@@ -16,7 +16,7 @@
 }
 
 .loader.moved {
-    left: 58%;
+    left: calc(50% + 5rem);
 }
 
 @keyframes rotate {

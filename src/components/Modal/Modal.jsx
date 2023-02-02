@@ -5,7 +5,6 @@ import { useScrollLock } from "../../hooks/useScrollLock"
 import PropTypes from 'prop-types'
 import Overlay from "../Overlay/Overlay"
 import { MODAL_TYPES } from "./modalTypes"
-import { OrientationContext } from "../../contexts/orientationContext/OrientationContext"
 import { ThemeContext } from "../../contexts/themeContext/ThemeContext"
 import './styles.css'
 
@@ -19,7 +18,6 @@ const Modal = ({
 }) => {
     const modalRef = useRef(null)
     const { state: { darkMode }} = useContext(ThemeContext)
-    const { state: { isHorizontal }} = useContext(OrientationContext)
     const { lockScroll, unlockScroll } = useScrollLock()
 
     useEffect(() => {
@@ -46,7 +44,7 @@ const Modal = ({
                 <div className={classNames('modal-container')}>
                     <div
                         data-type={modalType}
-                        className={classNames("modal-window", "flex-all-centered", !isHorizontal && 'moved')}
+                        className={classNames("modal-window", "flex-all-centered")}
                         ref={modalRef}
                     >
                         <div>

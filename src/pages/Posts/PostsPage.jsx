@@ -4,11 +4,7 @@ import Loader from '../../components/Loader/Loader'
 
 const Posts = lazy(() =>
     import("../../components/Posts/Posts").then((component) => {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve(component)
-            }, 1000)
-        })
+        return new Promise((resolve) => setTimeout(() => resolve(component), 1000))
     })
 )
 

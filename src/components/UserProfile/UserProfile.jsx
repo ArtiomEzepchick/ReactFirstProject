@@ -162,9 +162,7 @@ const UserProfile = () => {
                 }
             })
 
-            setTimeout(() => {
-                closeModal(setIsModalOpen)
-            }, 2000)
+            setTimeout(() => closeModal(setIsModalOpen), 2000)
         } catch {
             throw new Error('Failed to update user')
         } finally {
