@@ -2,10 +2,18 @@ import React, { forwardRef } from "react"
 import PropTypes from 'prop-types'
 
 const TextArea = forwardRef(({ 
-    className, placeholder, value, name, handleChange 
+    autoFocus,
+    className, 
+    defaultValue, 
+    placeholder, 
+    value, 
+    name, 
+    handleChange 
 }, ref) => {
     return (
         <textarea
+            autoFocus={autoFocus}
+            defaultValue={defaultValue}
             name={name}
             ref={ref}
             className={className}
@@ -17,6 +25,7 @@ const TextArea = forwardRef(({
 })
 
 TextArea.propTypes = {
+    autoFocus: PropTypes.bool,
     className: PropTypes.string,
     name: PropTypes.string,
     placeholder: PropTypes.string,

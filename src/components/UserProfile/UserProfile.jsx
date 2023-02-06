@@ -174,7 +174,7 @@ const UserProfile = () => {
         <section className="user-profile-section">
             {nickname
                 ? <React.Fragment>
-                    <i className="fa-solid fa-circle-user"></i>
+                    <i className="fa-solid fa-circle-user highlight-purple"></i>
                     <h1>{nickname}'s profile</h1>
                     <h2>Registered: {additionalUserInfo.registerDate}</h2>
                     {isLoading && <Loader />}

@@ -65,8 +65,13 @@
 }
 
 .site-layout.dark .post-card,
-.site-layout.dark .post-card * {
-    background-color: #161616;
+.site-layout.dark .post-card *,
+.site-layout.dark .fa-circle-user {
+    color: #ffffff;
+}
+
+.site-layout.dark .delete-button {
+    border: none;
 }
 
 .ant-layout-footer.dark {

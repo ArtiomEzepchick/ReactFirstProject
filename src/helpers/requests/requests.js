@@ -1,6 +1,6 @@
 import { nanoid } from "nanoid"
 
-const urls = {
+export const urls = {
     posts: 'http://localhost:3001/posts',
     users: 'http://localhost:3001/users'
 }

@@ -305,7 +305,7 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
                         <div className="user-actions">
                             <i className="fa-solid fa-circle-user"></i>
                             <h2>Hello, {profileNickname}!</h2>
-                            <Button icon={<i className="fa-solid fa-gear"></i>} handleClick={handleOpenUsersProfile}>
+                            <Button icon={<i className="fa-solid fa-user-pen"></i>} handleClick={handleOpenUsersProfile}>
                                 Profile
                             </Button>
                             <Button icon={<i className="fa-solid fa-right-from-bracket"></i>} handleClick={handleLogOut}>
