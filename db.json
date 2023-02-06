@@ -1,14 +1,7 @@
 {
   "posts": [
     {
-      "nickname": "Artstiom",
-      "message": "1",
-      "time": "17:29",
-      "date": "01.02.2023",
-      "id": "Nwt76DZrKh22Cnn9H_u_e"
-    },
-    {
-      "nickname": "Artstiom",
+      "nickname": "Vanya",
       "message": "2",
       "time": "13:44",
       "date": "02.02.2023",
@@ -16,14 +9,14 @@
     },
     {
       "nickname": "Artstiom",
-      "message": "3",
+      "message": "loremposa kdposakokd aposk dposakd posakdp osakd opsakd posakd psoakd sapokd spaokd psaokd posakd opsak dposakd posa dopas dksapok dsaop kdosap kdoaps kdsapk dospa kdpsoa kdopsa kdposa kdopakdpo aksopd ksaop dksaop dkospa kdaspod kasop dksapo askd sadm loremposa kdposakokd aposk dposakd posakdp osakd opsakd posakd psoakd sapokd spaokd psaokd posakd opsak dposakd posa dopas dksapok dsaop kdosap kdoaps kdsapk dospa kdpsoa kdopsa kdposa kdopakdpo aksopd ksaop dksaop dkospa kdaspod kasop dksapo askd sadmloremposa kdposakokd aposk dposakd posakdp osakd opsakd posakd psoakd sapokd spaokd psaokd posakd opsak dposakd posa dopas dksapok dsaop kdosap kdoaps kdsapk dospa kdpsoa kdopsa kdposa kdopakdpo aksopd ksaop dksaop dkospa kdaspod kasop dksapo askd sadm",
       "time": "13:45",
       "date": "02.02.2023",
       "id": "3-eDHgJ6orAN518x1caqg"
     },
     {
       "nickname": "Artstiom",
-      "message": "4",
+      "message": "3",
       "time": "13:45",
       "date": "02.02.2023",
       "id": "X1bockpZm06bD_roLy5PQ"
@@ -36,14 +29,14 @@
       "id": "X1bockpZm0dassa6bD_roLy5PQ"
     },
     {
-      "nickname": "Artstiom",
+      "nickname": "Vanya",
       "message": "6",
       "time": "13:46",
       "date": "02.02.2023",
       "id": "dyoGESTc7fay79yL8fhRc"
     },
     {
-      "nickname": "Artstiom",
+      "nickname": "Vanya",
       "message": "7",
       "time": "13:46",
       "date": "02.02.2023",
@@ -64,7 +57,7 @@
       "id": "0CSMlIlzlsfu_I3YYV9zk"
     },
     {
-      "nickname": "Artstiom",
+      "nickname": "Vanya",
       "message": "10",
       "time": "14:01",
       "date": "02.02.2023",
@@ -76,13 +69,6 @@
       "time": "14:01",
       "date": "02.02.2023",
       "id": "8JybstU8hfLBb9kIimqXm"
-    },
-    {
-      "nickname": "Artstiom",
-      "message": "12",
-      "time": "14:01",
-      "date": "02.02.2023",
-      "id": "2fSseYpH2lHpq8NbzauUC"
     },
     {
       "nickname": "Artstiom",
@@ -104,6 +90,13 @@
       "time": "14:01",
       "date": "02.02.2023",
       "id": "WU1JiIGxqLZcZ0694pLlD"
+    },
+    {
+      "nickname": "Artstiom",
+      "message": "okay",
+      "time": "16:07",
+      "date": "06.02.2023",
+      "id": "3va1M3CjYsIs_rzHVqenh"
     }
   ],
   "users": [
@@ -130,14 +123,6 @@
       "email": "tyomsarulez@gmail.com",
       "registerDate": "01.02.2023",
       "id": "5CALYBkbEUPhTxJd4Bvun"
-    },
-    {
-      "name": "Henry",
-      "nickname": "Artstiom",
-      "password": "11111111",
-      "email": "tyosdsmarulez@gmail.com",
-      "registerDate": "01.02.2023",
-      "id": "_NwvcYMsk5bbITIkaIM2N"
     }
   ]
 }

@@ -3,7 +3,15 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import './styles.css'
 
-const Button = ({ children, className, icon, isLoading, type, handleClick = null, handleMouseDown = null }) => {
+const Button = ({ 
+    children, 
+    className, 
+    icon, 
+    isLoading, 
+    type, 
+    handleClick = null, 
+    handleMouseDown = null 
+}) => {
     return (
         <button
             className={classNames('button', isLoading && "blocked", className)}

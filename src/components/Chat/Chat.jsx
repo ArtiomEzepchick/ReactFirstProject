@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef, useCallback, useContext } from "react"
-import classNames from 'classnames'
+import React, { useEffect, useRef, useCallback, useContext, useReducer } from "react"
+import classNames from "classnames"
 import TextArea from "../TextArea/TextArea"
 import Button from "../Button/Button"
 import Loader from "../Loader/Loader"
@@ -7,20 +7,41 @@ import Modal from "../Modal/Modal"
 import { ModalContext } from "../../contexts/modalContext/ModalContext"
 import { UserContext } from "../../contexts/userContext/userContext"
 import { ThemeContext } from "../../contexts/themeContext/ThemeContext"
+import { CHAT_ACTION_TYPES, chatReducer, initialValues } from "../../reducers/chatReducer/chatReducer"
 import { MODAL_TYPES } from "../Modal/modalTypes"
 import { REDUCER_TYPES } from "../../reducers/contextReducer/contextReducer"
-import { closeModal } from "../Modal/closeModal"
-import { sendPost, getAllPosts, getPostsFromDefinitePage, deleteDefinitePost } from "../../helpers/requests/requests"
-import './styles.css'
+import { sendPost, getAllPosts, getPostsFromDefinitePage, deleteDefinitePost, changePost } from "../../helpers/requests/requests"
+import "./styles.css"
+
+const {
+    SET_MODAL_OPEN,
+    SET_LOADING,
+    SET_EDIT_MODE,
+    SET_POSTS,
+    SET_POSTS_NEXT_PAGE,
+    SET_POSTS_COUNT,
+    SET_MESSAGE,
+    SET_SAVED_MESSAGE,
+    SET_CHANGED_MESSAGE,
+    SET_CURRENT_POST_ID
+} = CHAT_ACTION_TYPES
 
 const Chat = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false)
-    const [message, setMessage] = useState('')
-    const [isLoading, setIsLoading] = useState(false)
-    const [posts, setPosts] = useState([])
-    const [postsNextPage, setPostsNextPage] = useState(2)
-    const [postsCount, setPostsCount] = useState(0)
+    const [state, dispatch] = useReducer(chatReducer, initialValues)
+    const {
+        isModalOpen,
+        isLoading,
+        isEditMode,
+        posts,
+        postsNextPage,
+        postsCount,
+        message,
+        changedMessage,
+        currentPostId,
+        savedMessage,
+    } = state
     const messageRef = useRef(null)
+    const textAreaRef = useRef(null)
     const { state: { nickname: profileNickname } } = useContext(UserContext)
     const { state: { darkMode } } = useContext(ThemeContext)
     const {
@@ -28,20 +49,30 @@ const Chat = () => {
         dispatch: dispatchModal
     } = useContext(ModalContext)
 
+    const resizeTextArea = () => {
+        if (isEditMode && textAreaRef.current) {
+            textAreaRef.current.style.height = "auto"
+            textAreaRef.current.style.height = textAreaRef.current.scrollHeight + "px"
+            textAreaRef.current.focus()
+        }
+    }
+
+    useEffect(resizeTextArea, [isEditMode, changedMessage])
+
     const fetchPosts = useCallback(async () => {
         try {
-            setIsLoading(true)
+            dispatch({ type: SET_LOADING, payload: true })
 
             const allPosts = await getAllPosts()
-            setPostsCount(allPosts.length)
+            dispatch({ type: SET_POSTS_COUNT, payload: allPosts.length })
 
             const postsFirstPage = await getPostsFromDefinitePage(1)
-            setPosts(postsFirstPage)
-            setIsLoading(false)
+            dispatch({ type: SET_POSTS, payload: postsFirstPage })
+            dispatch({ type: SET_LOADING, payload: false })
         } catch {
-            throw new Error('Failed to get posts')
+            throw new Error("Failed to get posts")
         } finally {
-            setIsLoading(false)
+            dispatch({ type: SET_LOADING, payload: false })
         }
     }, [])
 
@@ -51,59 +82,71 @@ const Chat = () => {
 
     const addPost = async (nickname, message) => {
         if (!message.trim()) {
-            setIsModalOpen(true)
+            dispatch({ type: SET_MODAL_OPEN, payload: true })
 
             return dispatchModal({
                 type: REDUCER_TYPES.CHANGE_MODAL, payload: {
                     modalType: MODAL_TYPES.ALERT,
-                    headerText: 'Message field is empty',
-                    contentText: 'You need to type something'
+                    headerText: "Message field is empty",
+                    contentText: "You need to type something"
                 }
             })
         }
 
         try {
-            setIsLoading(true)
+            dispatch({ type: SET_LOADING, payload: true })
 
             const userData = await sendPost(nickname, message)
             const allPosts = await getAllPosts()
 
-            if (posts.length === allPosts.length - 1) setPosts((posts) => [...posts, userData])
+            if (posts.length === allPosts.length - 1) dispatch({ type: SET_POSTS, payload: [...posts, userData] })
 
-            setPostsCount(allPosts.length)
-            setMessage('')
-            setIsLoading(false)
+            dispatch({ type: SET_POSTS_COUNT, payload: allPosts.length })
+            dispatch({ type: SET_MESSAGE, payload: "" })
+            dispatch({ type: SET_LOADING, payload: false })
         } catch {
-            throw new Error('Failed to add post')
+            throw new Error("Failed to add post")
         } finally {
-            setIsLoading(false)
+            dispatch({ type: SET_LOADING, payload: false })
         }
     }
 
     const deletePost = async id => {
         try {
-            setIsLoading(true)
+            dispatch({ type: SET_LOADING, payload: true })
 
             const nextPagePosts = await getPostsFromDefinitePage(postsNextPage)
 
             await deleteDefinitePost(id)
 
             const allPosts = await getAllPosts()
-            setPostsCount(allPosts.length)
+            dispatch({ type: SET_POSTS_COUNT, payload: allPosts.length })
 
-            if (posts.length - 1 === allPosts.length) return setPosts(posts.filter((post) => post.id !== id))
+            if (posts.length - 1 === allPosts.length) return dispatch({ type: SET_POSTS, payload: posts.filter((post) => post.id !== id) })
 
-            setPosts(posts.concat(nextPagePosts[0]).filter((post) => post.id !== id))
-            setIsLoading(false)
+            dispatch({ type: SET_POSTS, payload: posts.concat(nextPagePosts[0]).filter((post) => post.id !== id) })
+            dispatch({ type: SET_LOADING, payload: false })
         } catch {
-            throw new Error('Failed to delete post')
+            throw new Error("Failed to delete post")
         } finally {
-            setIsLoading(false)
+            dispatch({ type: SET_LOADING, payload: false })
         }
     }
 
     const handleReturnToEdit = () => {
-        closeModal(setIsModalOpen)
+        const overlay = document.querySelector(".overlay")
+
+        if (overlay) {
+            if (overlay.classList.contains("show")) {
+                overlay.classList.add("hidden")
+
+                setTimeout(() => {
+                    overlay.classList.remove("show")
+                    dispatch({ type: SET_MODAL_OPEN, payload: false })
+                }, 500)
+            }
+        }
+
         if (!message.trim()) messageRef.current.focus()
     }
 
@@ -113,29 +156,61 @@ const Chat = () => {
         try {
             await addPost(profileNickname, message)
         } catch {
-            throw new Error('Failed to submit post')
+            throw new Error("Failed to submit post")
         }
     }
 
     const handleShowMorePosts = async () => {
         try {
-            setIsLoading(true)
+            dispatch({ type: SET_LOADING, payload: true })
 
             const nextPagePostsData = await getPostsFromDefinitePage(postsNextPage)
 
-            setPosts(posts.concat(nextPagePostsData))
-            setPostsNextPage(postsNextPage + 1)
-            setIsLoading(false)
+            dispatch({ type: SET_POSTS, payload: posts.concat(nextPagePostsData) })
+            dispatch({ type: SET_POSTS_NEXT_PAGE, payload: postsNextPage + 1 })
+            dispatch({ type: SET_LOADING, payload: false })
         } catch {
-            throw new Error('Failed to get posts')
+            throw new Error("Failed to get posts")
         } finally {
-            setIsLoading(false)
+            dispatch({ type: SET_LOADING, payload: false })
+        }
+    }
+
+    const handleEditPost = (id, message) => {
+        dispatch({ type: SET_EDIT_MODE, payload: true })
+        dispatch({ type: SET_SAVED_MESSAGE, payload: message })
+        dispatch({ type: SET_CHANGED_MESSAGE, payload: message })
+        dispatch({ type: SET_CURRENT_POST_ID, payload: id })
+    }
+
+    const handleCancelEditPost = () => {
+        dispatch({ type: SET_CHANGED_MESSAGE, payload: savedMessage })
+        dispatch({ type: SET_EDIT_MODE, payload: false })
+    }
+
+    const handleSubmitChangedPost = async (id, currentMessage, prevMessage) => {
+        if (currentMessage === prevMessage) {
+            dispatch({ type: SET_CHANGED_MESSAGE, payload: savedMessage })
+            dispatch({ type: SET_EDIT_MODE, payload: false })
+            return
+        }
+
+        try {
+            dispatch({ type: SET_LOADING, payload: true })
+            await changePost(id, message)
+            dispatch({ type: SET_LOADING, payload: false })
+            dispatch({ type: SET_CHANGED_MESSAGE, payload: message })
+            dispatch({ type: SET_EDIT_MODE, payload: false })
+        } catch {
+            throw new Error('Failed to update post')
+        } finally {
+            dispatch({ type: SET_LOADING, payload: false })
         }
     }
 
     return (
         <div className="manage-posts-container">
-            <div className="add-post-container">
+            <section className="add-post-container">
                 <h2 className="highlight-blue">Create post</h2>
                 <hr />
                 {profileNickname
@@ -145,47 +220,83 @@ const Chat = () => {
                             placeholder={`What's on your mind, ${profileNickname}?`}
                             ref={messageRef}
                             value={message}
-                            handleChange={e => setMessage(e.target.value)}
+                            handleChange={e => dispatch({ type: SET_MESSAGE, payload: e.target.value })}
                         />
-                        <Button isLoading={isLoading} type='submit'>Send post</Button>
+                        <Button isLoading={isLoading} type="submit">Send post</Button>
                     </form>
-                    : <p style={{ textAlign: 'center' }}>You must be logged in to send messages</p>
+                    : <p style={{ textAlign: "center" }}>You must be logged in to send messages</p>
                 }
-            </div>
-            <div style={{ height: 'max-content' }}>
+            </section>
+            <section style={{ height: "max-content" }}>
                 {isLoading && <Loader />}
                 <div className={classNames("posts-container", isLoading && "blocked")}>
                     <h2 className="highlight-purple">Published posts {postsCount ? `(${postsCount})` : null}</h2>
                     <hr />
                     {!isLoading && !posts.length
-                        ? <p style={{ textAlign: 'center' }}>No posts in here. You'll be the first!</p>
+                        ? <p style={{ textAlign: "center" }}>No posts in here. You"ll be the first!</p>
                         : posts.map(({ id, nickname, message, time, date }) => {
                             return (
-                                <div key={id} className="post-card">
-                                    <i className="fa-solid fa-circle-user"></i>
+                                <div key={id} className={classNames("post-card", profileNickname === nickname && "current-user")}>
+                                    <i className={classNames("fa-solid fa-circle-user", profileNickname === nickname && "current-user")}></i>
                                     <h3 className="post-user-name">{nickname}</h3>
-                                    <p className="post-message">
-                                        <span className="post-time">{time}</span> {message}
-                                    </p>
-                                    <p className="post-date">
-                                        Posted: {date}
-                                        {profileNickname === nickname &&
-                                            <Button
-                                                className={classNames('delete-button', profileNickname === nickname && 'visible')}
-                                                handleClick={() => deletePost(id)}>
-                                                Delete
-                                            </Button>
+                                    <p className="post-time">{time} | {date}</p>
+                                    <p className={classNames("post-message", isEditMode && id === currentPostId && "padding-decreased")}>
+                                        {isEditMode && profileNickname === nickname && id === currentPostId
+                                            ? <TextArea
+                                                className="post-edit-area"
+                                                ref={textAreaRef}
+                                                defaultValue={message}
+                                                handleChange={e => dispatch({ type: SET_CHANGED_MESSAGE, payload: e.target.value })}
+                                                handleBlur={handleCancelEditPost}
+                                            />
+                                            : <React.Fragment>
+                                                {message}
+                                            </React.Fragment>
                                         }
                                     </p>
+                                    {profileNickname === nickname &&
+                                        <div className={classNames("post-actions-container", profileNickname === nickname && "visible")}>
+                                            {isEditMode && id === currentPostId && <Button
+                                                className="post-action-button"
+                                                icon={<i className="fa-solid fa-ban"></i>}
+                                                handleClick={handleCancelEditPost}
+                                            >
+                                                Cancel
+                                            </Button>}
+                                            <Button
+                                                className="post-action-button"
+                                                icon={isEditMode && id === currentPostId
+                                                    ? <i className="fa-regular fa-paper-plane"></i>
+                                                    : <i className="fa-regular fa-pen-to-square"></i>
+                                                }
+                                                handleClick={isEditMode && id === currentPostId
+                                                    ? () => handleSubmitChangedPost(id, changedMessage, savedMessage)
+                                                    : () => handleEditPost(id, message)
+                                                }
+                                            >
+                                                {isEditMode && id === currentPostId ? "Submit" : "Edit"}
+                                            </Button>
+                                            {isEditMode && id === currentPostId
+                                                ? null
+                                                : <Button
+                                                    className="post-delete-button"
+                                                    icon={<i className="fa-regular fa-circle-xmark"></i>}
+                                                    handleClick={() => deletePost(id)}>
+                                                </Button>
+                                            }
+                                        </div>
+                                    }
                                 </div>
                             )
                         })
                     }
                     {posts.length !== postsCount && <div className="flex-all-centered">
-                        <Button className='show-more-button' handleClick={handleShowMorePosts}>Show more</Button>
+                        <Button className="show-more-button" handleClick={handleShowMorePosts}>
+                            Show more ({postsCount - posts.length})
+                        </Button>
                     </div>}
                 </div>
-            </div>
+            </section>
             <Modal
                 darkMode={darkMode}
                 headerText={headerText}

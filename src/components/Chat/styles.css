@@ -88,34 +88,50 @@
 }
 
 .post-card {
+    position: relative;
     display: flex;
     flex-direction: column;
     border: 1px solid var(--color-purple);
     border-radius: 12px;
-    padding: 1rem;
+    padding: 1rem 1rem 0.5rem 1rem;
     margin-bottom: 1rem;
     transition: box-shadow 0.2s ease-in;
 }
 
-.post-card:hover {
+.post-card.current-user:hover {
     box-shadow: 4px 4px 37px 0px #4e4e4e52;
 }
 
-.post-card
-.fa-circle-user {
+.post-card p {
+    margin-bottom: 0;
+}
+
+.post-card .fa-circle-user {
     font-size: 3.5rem;
     text-align: center;
+    color: #000000;
+}
+
+.post-card .fa-circle-user.current-user {
     color: var(--color-purple);
 }
 
-.post-card
-.post-time {
+.post-card .post-message {
+    min-height: 56px;
+    padding: 0.27rem 0.2rem 0.46rem 0.25rem;
+}
+
+.post-card .post-message.padding-decreased {
+    padding: 0;
+}
+
+.post-card .post-time {
     font-size: 0.8rem;
     color: #a0a0a0;
 }
 
-.post-card
-.post-date {
+.post-card .post-date {
+    height: 2.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -127,17 +143,49 @@
     word-wrap: break-word;
 }
 
-.post-card
-.delete-button {
+.post-card .post-actions-container {
+    display: flex;
+    gap: 8.7rem;
+    max-height: 0;
     visibility: hidden;
     opacity: 0;
     transition: all 0.2s ease-in-out;
 }
 
-.post-card:hover
-.delete-button.visible {
+.post-card:hover .post-actions-container.visible {
+    max-height: 40px;
     visibility: visible;
     opacity: 1;
+}
+
+.post-edit-area {
+    width: 100%;
+    padding: 0.2rem;
+    height: auto;
+    resize: none;
+    overflow-y: hidden;
+}
+
+.post-card
+.post-actions-container
+.post-action-button {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.post-delete-button {
+    position: absolute;
+    top: 0;
+    right: 3%;
+    width: auto;
+    height: auto;
+    border: none;
+    font-size: 2rem;
+}
+
+.post-delete-button:hover {
+    border: none;
 }
 
 .show-more-button {
