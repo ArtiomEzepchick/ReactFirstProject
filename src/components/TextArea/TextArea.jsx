@@ -8,7 +8,8 @@ const TextArea = forwardRef(({
     placeholder, 
     value, 
     name, 
-    handleChange 
+    handleChange,
+    handleBlur
 }, ref) => {
     return (
         <textarea
@@ -19,6 +20,7 @@ const TextArea = forwardRef(({
             className={className}
             value={value}
             onChange={handleChange}
+            onBlur={handleBlur}
             placeholder={placeholder}
         />
     )
