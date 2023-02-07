@@ -37,14 +37,21 @@
     padding: 2rem;
 }
 
-.modal-window[data-type='register-form'] 
-h1 + p {
-    text-align: center;
-}
-
 .modal-window[data-type='login-form'] {
     width: 25rem;
     height: max-content;
     background-color: #f7fdff;
     padding: 2rem;
+}
+
+.modal-window[data-type='notification'] {
+    width: 30rem;
+    height: max-content;
+    background-color: #f0fbffea;
+    padding: 2rem;
+}
+
+.modal-window[data-type='register-form'] h1 + p,
+.modal-window[data-type='notification'] h1 + p {
+    text-align: center;
 }

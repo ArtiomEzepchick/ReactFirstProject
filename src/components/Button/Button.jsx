@@ -10,7 +10,7 @@ const Button = ({
     isLoading, 
     type, 
     handleClick = null, 
-    handleMouseDown = null 
+    handleMouseDown = null
 }) => {
     return (
         <button

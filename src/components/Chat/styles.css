@@ -102,6 +102,10 @@
     box-shadow: 4px 4px 37px 0px #4e4e4e52;
 }
 
+.post-card.current-user.locked-hover {
+    box-shadow: 4px 4px 37px 0px #4e4e4e52;
+}
+
 .post-card p {
     margin-bottom: 0;
 }
@@ -141,6 +145,13 @@
 .post-user-name,
 .post-message {
     word-wrap: break-word;
+}
+
+.post-card.current-user.locked-hover .post-actions-container {
+    max-height: 40px;
+    visibility: visible;
+    opacity: 1;
+    transition: none;
 }
 
 .post-card .post-actions-container {

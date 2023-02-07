@@ -9,19 +9,21 @@ const TextArea = forwardRef(({
     value, 
     name, 
     handleChange,
-    handleBlur
+    handleBlur,
+    handleFocus
 }, ref) => {
     return (
         <textarea
             autoFocus={autoFocus}
+            className={className}
             defaultValue={defaultValue}
             name={name}
             ref={ref}
-            className={className}
             value={value}
+            placeholder={placeholder}
             onChange={handleChange}
             onBlur={handleBlur}
-            placeholder={placeholder}
+            onFocus={handleFocus}
         />
     )
 })
@@ -32,7 +34,9 @@ TextArea.propTypes = {
     name: PropTypes.string,
     placeholder: PropTypes.string,
     value: PropTypes.string,
-    handleChange: PropTypes.func
+    handleChange: PropTypes.func,
+    handleBlur: PropTypes.func,
+    handleFocus: PropTypes.func
 }
 
 export default TextArea

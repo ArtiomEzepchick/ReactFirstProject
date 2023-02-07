@@ -51,7 +51,7 @@ const Modal = ({
                             <h1>{headerText}</h1>
                             <p>{contentText}</p>
                         </div>
-                        {modalType !== MODAL_TYPES.SUCCESS && children}
+                        {modalType !== MODAL_TYPES.SUCCESS && modalType !== MODAL_TYPES.NOTIFICATION && children}
                     </div>
                 </div>
             </Overlay>,

@@ -210,8 +210,7 @@ const UserProfile = () => {
                             </div>}
                     </form>
                 </React.Fragment>
-
-                : <h1 className="unsigned-message flex-all-centered highlight-blue">You must be logged in to change your data</h1>
+                : <h1 className="unsigned-message flex-all-centered highlight-purple">You must be logged in to change your data</h1>
             }
             <Modal
                 headerText={headerText}

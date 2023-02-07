@@ -97,9 +97,9 @@ export const changePost = async (id, message) => {
         await fetch(`${urls.posts}/${id}`, {
             method: "PATCH",
             body: JSON.stringify({
-                message,
-                time: getCurrentTime(),
-                date: getCurrentDate()
+                message: message.trim(),
+                updateTime: `${getCurrentTime()} ${getCurrentDate()}`,
+                changed: true
             }),
             headers: {
                 "Content-type": "application/json; charset=UTF-8",
