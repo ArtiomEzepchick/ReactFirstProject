@@ -3,12 +3,14 @@ import { useNavigate } from "react-router-dom"
 import { Switch } from "antd"
 import PropTypes from "prop-types"
 import classNames from "classnames"
-import { useFormValidator } from "../../hooks/useFormValidator"
+
 import Modal from "../Modal/Modal"
 import Loader from "../Loader/Loader"
 import SignUser from "../SignUser/SignUser"
 import Link from "../Link/Link"
 import Button from "../Button/Button"
+
+import { useFormValidator } from "../../hooks/useFormValidator"
 import { links } from "../../helpers/links/links"
 import { UserContext } from "../../contexts/userContext/userContext"
 import { ModalContext } from "../../contexts/modalContext/ModalContext"
@@ -55,7 +57,7 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
         state: { nickname: profileNickname }, dispatch: dispatchNickname
     } = useContext(UserContext)
 
-    const localStorageNickname = localStorage.getItem('nickname')
+    const localStorageNickname = localStorage.getItem("nickname")
 
     const checkIsUserExist = useCallback(async () => {
         try {
@@ -64,8 +66,8 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
                 const user = await response.json()
                 
                 if (!user.length) {
-                    localStorage.removeItem('nickname')
-                    localStorage.removeItem('id')
+                    localStorage.removeItem("nickname")
+                    localStorage.removeItem("id")
                     return
                 }
 
@@ -201,7 +203,7 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
 
             await registerUser()
         } catch {
-            throw new Error('Failed to validate and register user')
+            throw new Error("Failed to validate and register user")
         }
     }
 
@@ -221,7 +223,7 @@ const NavPanel = ({ darkMode, isHorizontal, handleChangeTheme, handleChangeOrien
             closeModal(setIsModalOpen)
             setIsLoading(false)
         } catch {
-            throw new Error('Failed to validate and log in user')
+            throw new Error("Failed to validate and log in user")
         }
     }
 

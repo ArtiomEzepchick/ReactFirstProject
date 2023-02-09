@@ -1,12 +1,14 @@
 import React, { useRef, useEffect, useContext } from "react"
 import * as ReactDOM from "react-dom"
 import classNames from "classnames"
-import { useScrollLock } from "../../hooks/useScrollLock"
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types"
+
 import Overlay from "../Overlay/Overlay"
+
+import { useScrollLock } from "../../hooks/useScrollLock"
 import { MODAL_TYPES } from "./modalTypes"
 import { ThemeContext } from "../../contexts/themeContext/ThemeContext"
-import './styles.css'
+import "./styles.css"
 
 const Modal = ({
     headerText,
@@ -33,15 +35,15 @@ const Modal = ({
             }
         }
 
-        document.addEventListener('mousedown', handleClickOutside)
+        document.addEventListener("mousedown", handleClickOutside)
 
-        return () => document.removeEventListener('mousedown', handleClickOutside)
+        return () => document.removeEventListener("mousedown", handleClickOutside)
     }, [modalRef, modalType, handleCloseModal, isModalOpen, lockScroll, unlockScroll])
 
     return (
         isModalOpen && ReactDOM.createPortal(
             <Overlay isModalOpen={isModalOpen} darkMode={darkMode}>
-                <div className={classNames('modal-container')}>
+                <div className={classNames("modal-container")}>
                     <div
                         data-type={modalType}
                         className={classNames("modal-window", "flex-all-centered")}
@@ -55,7 +57,7 @@ const Modal = ({
                     </div>
                 </div>
             </Overlay>,
-            document.getElementById('modal'))
+            document.getElementById("modal"))
     )
 }
 

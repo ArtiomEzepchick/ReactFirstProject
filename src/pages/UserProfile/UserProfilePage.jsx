@@ -1,6 +1,6 @@
-import React, { lazy, Suspense } from 'react'
-import MainLayout from '../../components/MainLayout/MainLayout'
-import Loader from '../../components/Loader/Loader'
+import React, { lazy, Suspense } from "react"
+import MainLayout from "../../components/MainLayout/MainLayout"
+import Loader from "../../components/Loader/Loader"
 
 const UserProfile = lazy(() =>
     import("../../components/UserProfile/UserProfile").then((component) => {

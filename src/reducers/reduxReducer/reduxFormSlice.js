@@ -1,22 +1,22 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { submitForm } from './reduxFormAPI'
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { submitForm } from "./reduxFormAPI"
 
 export const initialState = {
-  name: '',
-  surname: '',
-  password: '',
-  email: '',
-  tel: '+',
+  name: "",
+  surname: "",
+  password: "",
+  email: "",
+  tel: "+",
   age: 0,
-  carBrands: 'mitsubishi',
-  commentsField: '',
+  carBrands: "mitsubishi",
+  commentsField: "",
   count: 0,
   isLoading: false,
   isLoaded: false,
 }
 
 export const asyncSubmit = createAsyncThunk(
-  'form/submitForm',
+  "form/submitForm",
   async () => {
     const response = await submitForm()
     return response
@@ -24,7 +24,7 @@ export const asyncSubmit = createAsyncThunk(
 )
 
 export const formSlice = createSlice({
-  name: 'form',
+  name: "form",
   initialState,
   reducers: {
     incrementCounter: (state) => {

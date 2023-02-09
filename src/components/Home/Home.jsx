@@ -1,14 +1,16 @@
-import React, { useReducer, useEffect, useRef } from 'react'
-import Accordion from '../Accordion/Accordion'
-import FormForStateManagers from '../FormForStateManagers/FormForStateManagers'
-import Button from '../Button/Button'
-import ResultsData from '../ResultsData/ResultsData'
-import Loader from '../Loader/Loader'
-import { useWindowSize } from '../../hooks/useWindowSize'
-import { STANDARD_FORM_ACTION_TYPES, standardFormReducer, initialValues } from '../../reducers/standardFormReducer/standardFormReducer'
-import { generateResultData } from '../../helpers/formHelpers/formStateManagersData'
-import { accordionHomePageData } from '../../helpers/accordionData/accordionData'
-import './styles.css'
+import React, { useReducer, useEffect, useRef } from "react"
+
+import Accordion from "../Accordion/Accordion"
+import FormForStateManagers from "../FormForStateManagers/FormForStateManagers"
+import Button from "../Button/Button"
+import ResultsData from "../ResultsData/ResultsData"
+import Loader from "../Loader/Loader"
+
+import { useWindowSize } from "../../hooks/useWindowSize"
+import { STANDARD_FORM_ACTION_TYPES, standardFormReducer, initialValues } from "../../reducers/standardFormReducer/standardFormReducer"
+import { generateResultData } from "../../helpers/formHelpers/formStateManagersData"
+import { accordionHomePageData } from "../../helpers/accordionData/accordionData"
+import "./styles.css"
 
 const {
     INCREMENT_COUNTER,
@@ -61,8 +63,8 @@ const Home = () => {
 
     return (
         <div>
-            <h1 style={{ marginTop: '1rem' }}>
-                Welcome to <span className='highlight-blue'>Artsiom Ezepchik's</span> React project
+            <h1 style={{ marginTop: "1rem" }}>
+                Welcome to <span className="highlight-blue">Artsiom Ezepchik's</span> React project
             </h1>
             <hr />
             <div className="accordion-container">
@@ -75,7 +77,7 @@ const Home = () => {
                 ))}
             </div>
             <hr />
-            <div className='main-container'>
+            <div className="main-container">
                 <FormForStateManagers
                     state={state}
                     prevCountRef={prevCountRef}
@@ -85,16 +87,16 @@ const Home = () => {
                     handleDecreaseCounter={handleDecreaseCounter}
                 />
 
-                {state.isLoading ?
-                    <Loader /> :
-                    <ResultsData
+                {state.isLoading 
+                ? <Loader /> 
+                : <ResultsData
                         isLoaded={state.isLoaded}
                         data={resultData}
                         counterValue={state.count}
                     />
                 }
 
-                <Button className='reset-button' handleClick={handleReset}>Reset</Button>
+                <Button className="reset-button" handleClick={handleReset}>Reset</Button>
             </div>
         </div>
     )

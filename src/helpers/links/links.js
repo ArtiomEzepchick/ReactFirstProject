@@ -1,4 +1,4 @@
-import { paths } from "../paths/paths";
+import { paths } from "../paths/paths"
 
 export const links = [
     {

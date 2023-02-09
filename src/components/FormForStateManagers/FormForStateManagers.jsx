@@ -1,11 +1,13 @@
 import React, { useEffect } from "react"
+import PropTypes from "prop-types"
+
 import Input from "../Input/Input"
 import Button from "../Button/Button"
 import TextArea from "../TextArea/TextArea"
 import Select from "../Select/Select"
-import { inputs, options } from '../../helpers/formHelpers/formStateManagersData'
-import PropTypes from 'prop-types'
-import './styles.css'
+
+import { inputs, options } from "../../helpers/formHelpers/formStateManagersData"
+import "./styles.css"
 
 const FormForStateManagers = ({
     state,
@@ -21,7 +23,7 @@ const FormForStateManagers = ({
 
     const CounterBlock = () => {
         return (
-            <div className='form-counter-actions'>
+            <div className="form-counter-actions">
                 <h4>Change Counter</h4>
                 <p>Current value: {state.count}</p>
                 <Button
@@ -45,11 +47,11 @@ const FormForStateManagers = ({
     }
 
     return (
-        <form className='form' onSubmit={handleSubmit}>
+        <form className="form" onSubmit={handleSubmit}>
             <h3>Please enter some info here</h3>
             {inputs.map(({ type, labelText, name }, index) => {
                 return <Input
-                    className='form-input-container'
+                    className="form-input-container"
                     key={labelText + index}
                     type={type}
                     labelText={labelText}
@@ -59,8 +61,8 @@ const FormForStateManagers = ({
                 />
             })}
             <Select
-                className='form-select-container'
-                name='carBrands'
+                className="form-select-container"
+                name="carBrands"
                 value={state.carBrands}
                 handleChange={handleChange}
             >
@@ -69,9 +71,9 @@ const FormForStateManagers = ({
                 })}
             </Select>
             <TextArea
-                className='form-textarea'
-                name='commentsField'
-                placeholder='Comment here...'
+                className="form-textarea"
+                name="commentsField"
+                placeholder="Comment here..."
                 value={state.commentsField}
                 handleChange={handleChange}
             />

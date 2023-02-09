@@ -1,7 +1,7 @@
 import React from "react"
-import PropTypes from 'prop-types'
-import classNames from 'classnames'
-import './styles.css'
+import PropTypes from "prop-types"
+import classNames from "classnames"
+import "./styles.css"
 
 const Button = ({ 
     children, 
@@ -14,7 +14,7 @@ const Button = ({
 }) => {
     return (
         <button
-            className={classNames('button', isLoading && "blocked", className)}
+            className={classNames("button", isLoading && "blocked", className)}
             onClick={handleClick}
             onMouseDown={handleMouseDown}
             type={type}

@@ -1,49 +1,49 @@
 export const inputs = [{
-    type: 'text',
-    labelText: 'Name',
-    name: 'name',
+    type: "text",
+    labelText: "Name",
+    name: "name",
 },
 {
-    type: 'text',
-    labelText: 'Surname',
-    name: 'surname',
+    type: "text",
+    labelText: "Surname",
+    name: "surname",
 },
 {
-    type: 'password',
-    labelText: 'Password',
-    name: 'password',
+    type: "password",
+    labelText: "Password",
+    name: "password",
 },
 {
-    type: 'email',
-    labelText: 'E-mail',
-    name: 'email',
+    type: "email",
+    labelText: "E-mail",
+    name: "email",
 },
 {
-    type: 'tel',
-    labelText: 'Tel.',
-    name: 'tel',
+    type: "tel",
+    labelText: "Tel.",
+    name: "tel",
 },
 {
-    type: 'number',
-    labelText: 'Age',
-    name: 'age',
+    type: "number",
+    labelText: "Age",
+    name: "age",
 }]
 
 export const options = [{
-    value: 'Mitsubishi',
-    label: 'Mitsubishi'
+    value: "Mitsubishi",
+    label: "Mitsubishi"
 },
 {
-    value: 'Nissan',
-    label: 'Nissan'
+    value: "Nissan",
+    label: "Nissan"
 },
 {
-    value: 'BMW',
-    label: 'BMW'
+    value: "BMW",
+    label: "BMW"
 },
 {
-    value: 'Mercedes',
-    label: 'Mercedes'
+    value: "Mercedes",
+    label: "Mercedes"
 }]
 
 export const generateResultData = (values, additionalData) => {
@@ -57,8 +57,8 @@ export const generateResultData = (values, additionalData) => {
 
     return [
         ...data, 
-        { label: 'Previous count is', value: prevCount }, 
-        { label: 'Current screen width', value: width }, 
-        { label: 'Current screen height', value: height }
+        { label: "Previous count is", value: prevCount }, 
+        { label: "Current screen width", value: width }, 
+        { label: "Current screen height", value: height }
     ]
 }

@@ -1,13 +1,13 @@
 export const CHAT_ACTION_TYPES = {
-    SET_MODAL_OPEN: 'SET_MODAL_OPEN',
-    SET_LOADING: 'SET_LOADING',
-    SET_EDIT_MODE: 'SET_EDIT_MODE',
-    SET_POSTS: 'SET_POSTS',
-    SET_POSTS_NEXT_PAGE: 'SET_POSTS_NEXT_PAGE',
-    SET_POSTS_COUNT: 'SET_POSTS_COUNT',
-    SET_MESSAGE: 'SET_MESSAGE',
-    SET_CHANGED_MESSAGE: 'SET_CHANGED_MESSAGE',
-    SET_CURRENT_POST_ID: 'SET_CURRENT_POST_ID'
+    SET_MODAL_OPEN: "SET_MODAL_OPEN",
+    SET_LOADING: "SET_LOADING",
+    SET_EDIT_MODE: "SET_EDIT_MODE",
+    SET_POSTS: "SET_POSTS",
+    SET_POSTS_NEXT_PAGE: "SET_POSTS_NEXT_PAGE",
+    SET_POSTS_COUNT: "SET_POSTS_COUNT",
+    SET_MESSAGE: "SET_MESSAGE",
+    SET_CHANGED_MESSAGE: "SET_CHANGED_MESSAGE",
+    SET_CURRENT_POST_ID: "SET_CURRENT_POST_ID"
 }
 
 const {
@@ -29,10 +29,10 @@ export const initialValues = {
     posts: [],
     postsNextPage: 2,
     postsCount: 0,
-    message: '',
-    savedMessage: '',
-    changedMessage: '',
-    currentPostId: '',
+    message: "",
+    savedMessage: "",
+    changedMessage: "",
+    currentPostId: "",
 }
 
 export const chatReducer = (state, action) => {

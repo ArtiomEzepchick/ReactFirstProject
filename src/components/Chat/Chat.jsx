@@ -1,14 +1,16 @@
 import React, { useEffect, useRef, useCallback, useContext, useReducer } from "react"
 import classNames from "classnames"
+
 import TextArea from "../TextArea/TextArea"
 import Button from "../Button/Button"
 import Loader from "../Loader/Loader"
 import Modal from "../Modal/Modal"
+
 import { ModalContext } from "../../contexts/modalContext/ModalContext"
 import { UserContext } from "../../contexts/userContext/userContext"
 import { ThemeContext } from "../../contexts/themeContext/ThemeContext"
-import { CHAT_ACTION_TYPES, chatReducer, initialValues } from "../../reducers/chatReducer/chatReducer"
 import { MODAL_TYPES } from "../Modal/modalTypes"
+import { CHAT_ACTION_TYPES, chatReducer, initialValues } from "../../reducers/chatReducer/chatReducer"
 import { REDUCER_TYPES } from "../../reducers/contextReducer/contextReducer"
 import { sendPost, getAllPosts, getPostsFromDefinitePage, deleteDefinitePost, changePost } from "../../helpers/requests/requests"
 import "./styles.css"
@@ -155,9 +157,9 @@ const Chat = () => {
     }
 
     const handleFocusCreatePost = () => {
-        const lockedPostCard = document.querySelector('.locked-hover')
+        const lockedPostCard = document.querySelector(".locked-hover")
 
-        if (lockedPostCard) lockedPostCard.classList.remove('locked-hover')
+        if (lockedPostCard) lockedPostCard.classList.remove("locked-hover")
 
         dispatch({ type: SET_CHANGED_MESSAGE, payload: savedMessage })
         dispatch({ type: SET_EDIT_MODE, payload: false })
@@ -196,25 +198,25 @@ const Chat = () => {
     }
 
     const handleFocusChangePost = e => {
-        const closestPostCard = e.target.closest('.post-card')
-        closestPostCard.classList.add('locked-hover')
+        const closestPostCard = e.target.closest(".post-card")
+        closestPostCard.classList.add("locked-hover")
     }
 
     const handleCancelEditPost = e => {
-        const closestPostCard = e.target.closest('.post-card')
-        closestPostCard.classList.remove('locked-hover')
+        const closestPostCard = e.target.closest(".post-card")
+        closestPostCard.classList.remove("locked-hover")
 
         dispatch({ type: SET_CHANGED_MESSAGE, payload: savedMessage })
         dispatch({ type: SET_EDIT_MODE, payload: false })
     }
 
     const handleSubmitChangedPost = async (e, id, currentMessage, prevMessage) => {
-        const closestPostCard = e.target.closest('.post-card')
+        const closestPostCard = e.target.closest(".post-card")
 
         if (currentMessage === prevMessage) {
             dispatch({ type: SET_CHANGED_MESSAGE, payload: savedMessage })
             dispatch({ type: SET_EDIT_MODE, payload: false })
-            closestPostCard.classList.remove('locked-hover')
+            closestPostCard.classList.remove("locked-hover")
             return
         }
 
@@ -292,7 +294,7 @@ const Chat = () => {
                                 <div key={id} className={classNames("post-card", profileNickname === nickname && "current-user")}>
                                     <i className={classNames("fa-solid fa-circle-user", profileNickname === nickname && "current-user")}></i>
                                     <h3 className="post-user-name">{nickname}</h3>
-                                    <p className="post-time">{time} | {date} {changed && '(changed)'}</p>
+                                    <p className="post-time">{time} | {date} {changed && "(changed)"}</p>
                                     <p className={classNames("post-message", isEditMode && id === currentPostId && "padding-decreased")}>
                                         {isEditMode && profileNickname === nickname && id === currentPostId
                                             ? <TextArea
@@ -350,7 +352,7 @@ const Chat = () => {
                             )
                         })
                     }
-                    {posts.length !== postsCount && <div className="flex-all-centered">
+                    {posts.length !== postsCount && !isLoading && <div className="flex-all-centered">
                         <Button className="show-more-button" handleClick={handleShowMorePosts}>
                             Show more ({postsCount - posts.length})
                         </Button>

@@ -2,115 +2,58 @@
   "posts": [
     {
       "nickname": "Vanya",
-      "message": "2",
+      "message": "Hi all!",
       "time": "13:44",
       "date": "02.02.2023",
       "id": "wP0fi691tKVP0yreyOYj-"
     },
     {
-      "nickname": "Artstiom",
-      "message": "Nope",
-      "time": "13:45",
+      "nickname": "Artiom",
+      "message": "Good day, Vanya!",
+      "time": "13:46",
       "date": "02.02.2023",
       "id": "3-eDHgJ6orAN518x1caqg",
       "updateTime": "16:41 08.02.2023",
       "changed": true
     },
     {
-      "nickname": "Artstiom",
-      "message": "Lets",
-      "time": "13:45",
-      "date": "02.02.2023",
-      "id": "X1bockpZm06bD_roLy5PQ"
-    },
-    {
       "nickname": "Vanya",
-      "message": "6",
-      "time": "13:46",
-      "date": "02.02.2023",
-      "id": "dyoGESTc7fay79yL8fhRc"
-    },
-    {
-      "nickname": "Vanya",
-      "message": "7",
-      "time": "13:46",
-      "date": "02.02.2023",
-      "id": "7eVFv4QntaSYxwxPOTu3h"
-    },
-    {
-      "nickname": "Artstiom",
-      "message": "8",
+      "message": "How are you, Artiom?",
       "time": "13:47",
       "date": "02.02.2023",
-      "id": "lAABLoySTBsY9xE5ohHPr"
+      "id": "wP0fi691tKVsdsaP0yreyOYj-"
     },
     {
-      "nickname": "Artstiom",
-      "message": "9",
-      "time": "13:47",
+      "nickname": "Artiom",
+      "message": "I'm fine. And you?",
+      "time": "13:50",
       "date": "02.02.2023",
-      "id": "0CSMlIlzlsfu_I3YYV9zk"
+      "id": "wP0fi691tKVsdsaP0312dasyreyOYj-"
     },
     {
       "nickname": "Vanya",
-      "message": "10",
-      "time": "14:01",
+      "message": "Me too. Thanks for asking.",
+      "time": "13:52",
       "date": "02.02.2023",
-      "id": "LlUyQrelDggXKi3YnEsed"
-    },
-    {
-      "nickname": "Artstiom",
-      "message": "11",
-      "time": "14:01",
-      "date": "02.02.2023",
-      "id": "8JybstU8hfLBb9kIimqXm"
-    },
-    {
-      "nickname": "Artstiom",
-      "message": "13",
-      "time": "14:01",
-      "date": "02.02.2023",
-      "id": "_3pn7hefvRXinmwMhwMKs"
-    },
-    {
-      "nickname": "Artstiom",
-      "message": "14",
-      "time": "14:01",
-      "date": "02.02.2023",
-      "id": "7KzMUPta3QsnU9Nv9AMEv"
-    },
-    {
-      "nickname": "Artstiom",
-      "message": "15",
-      "time": "14:01",
-      "date": "02.02.2023",
-      "id": "WU1JiIGxqLZcZ0694pLlD"
+      "id": "P0fi691dsadtKVsdsaP0312dasyreyOYj-"
     }
   ],
   "users": [
     {
-      "name": "Artstiom",
-      "nickname": "Artstiom",
+      "name": "Vanya",
+      "nickname": "Vanya",
       "password": "11111111",
-      "email": "tyomarulez@gmail.com",
-      "registerDate": "01.02.2023",
-      "id": "y8hLFmoBpUCrKpqE3JEtq"
-    },
-    {
-      "name": "Denis",
-      "nickname": "Okay",
-      "password": "11111111",
-      "email": "tyomaruslez@gmail.com",
+      "email": "ok@gmail.com",
       "registerDate": "01.02.2023",
       "id": "Biwifj5TNxcTbsPmwP0sU"
     },
     {
-      "name": "Alexandra",
-      "nickname": "Kio",
+      "name": "Artiom",
+      "nickname": "Artiom",
       "password": "11111111",
-      "email": "tyomsarulez@gmail.com",
+      "email": "artiom@gmail.com",
       "registerDate": "01.02.2023",
-      "id": "5CALYBkbEUPhTxJd4Bvun"
+      "id": "y8hLFmoBpUCrKpqE3JEtq"
     }
   ]
 }
