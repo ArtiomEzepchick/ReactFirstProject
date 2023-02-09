@@ -21,7 +21,6 @@ const {
     SET_POSTS_NEXT_PAGE,
     SET_POSTS_COUNT,
     SET_MESSAGE,
-    SET_SAVED_MESSAGE,
     SET_CHANGED_MESSAGE,
     SET_CURRENT_POST_ID
 } = CHAT_ACTION_TYPES
@@ -192,12 +191,7 @@ const Chat = () => {
 
     const handleEditPost = (id, message) => {
         dispatch({ type: SET_EDIT_MODE, payload: true })
-
-        if (!savedMessage) {
-            dispatch({ type: SET_SAVED_MESSAGE, payload: message })
-        }
-
-        dispatch({ type: SET_CHANGED_MESSAGE, payload: savedMessage })
+        dispatch({ type: SET_CHANGED_MESSAGE, payload: message })
         dispatch({ type: SET_CURRENT_POST_ID, payload: id })
     }
 
@@ -215,9 +209,12 @@ const Chat = () => {
     }
 
     const handleSubmitChangedPost = async (e, id, currentMessage, prevMessage) => {
+        const closestPostCard = e.target.closest('.post-card')
+
         if (currentMessage === prevMessage) {
             dispatch({ type: SET_CHANGED_MESSAGE, payload: savedMessage })
             dispatch({ type: SET_EDIT_MODE, payload: false })
+            closestPostCard.classList.remove('locked-hover')
             return
         }
 
@@ -295,7 +292,7 @@ const Chat = () => {
                                 <div key={id} className={classNames("post-card", profileNickname === nickname && "current-user")}>
                                     <i className={classNames("fa-solid fa-circle-user", profileNickname === nickname && "current-user")}></i>
                                     <h3 className="post-user-name">{nickname}</h3>
-                                    <p className="post-time">{time} | {date} {changed ? '(changed)' : ''}</p>
+                                    <p className="post-time">{time} | {date} {changed && '(changed)'}</p>
                                     <p className={classNames("post-message", isEditMode && id === currentPostId && "padding-decreased")}>
                                         {isEditMode && profileNickname === nickname && id === currentPostId
                                             ? <TextArea
@@ -325,7 +322,7 @@ const Chat = () => {
                                                     <Button
                                                         className="post-action-button"
                                                         icon={<i className="fa-regular fa-paper-plane"></i>}
-                                                        handleMouseDown={e => handleSubmitChangedPost(e, id, changedMessage, savedMessage)}
+                                                        handleMouseDown={e => handleSubmitChangedPost(e, id, changedMessage, message)}
                                                     >
                                                         Submit
                                                     </Button>
@@ -372,7 +369,7 @@ const Chat = () => {
                 }
             >
                 <div className={"modal-actions"}>
-                    <Button handleClick={handleReturnToEdit}>Return to edit</Button>
+                    <Button handleClick={handleReturnToEdit}>Return</Button>
                 </div>
             </Modal>
         </div>

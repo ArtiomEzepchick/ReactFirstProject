@@ -6,7 +6,6 @@ export const CHAT_ACTION_TYPES = {
     SET_POSTS_NEXT_PAGE: 'SET_POSTS_NEXT_PAGE',
     SET_POSTS_COUNT: 'SET_POSTS_COUNT',
     SET_MESSAGE: 'SET_MESSAGE',
-    SET_SAVED_MESSAGE: 'SET_SAVED_MESSAGE',
     SET_CHANGED_MESSAGE: 'SET_CHANGED_MESSAGE',
     SET_CURRENT_POST_ID: 'SET_CURRENT_POST_ID'
 }
@@ -19,7 +18,6 @@ const {
     SET_POSTS_NEXT_PAGE,
     SET_POSTS_COUNT,
     SET_MESSAGE,
-    SET_SAVED_MESSAGE,
     SET_CHANGED_MESSAGE,
     SET_CURRENT_POST_ID
 } = CHAT_ACTION_TYPES
@@ -83,11 +81,6 @@ export const chatReducer = (state, action) => {
             return {
                 ...state,
                 currentPostId: action.payload
-            }
-        case SET_SAVED_MESSAGE:
-            return {
-                ...state,
-                savedMessage: action.payload
             }
         default:
             throw new Error()

@@ -13,11 +13,12 @@ const { Content, Footer } = Layout
 const MainLayout = ({ children }) => {
     const {
         state: { darkMode },
-        dispatch
+        dispatch: dispatchTheme
     } = useContext(ThemeContext)
 
     const {
         state: { isHorizontal },
+        dispatch: dispatchOrientation
     } = useContext(OrientationContext)
 
     return (
@@ -25,8 +26,8 @@ const MainLayout = ({ children }) => {
             <NavPanel
                 isHorizontal={isHorizontal}
                 darkMode={darkMode}
-                handleChangeOrientation={() => dispatch({ type: REDUCER_TYPES.TOGGLE_ORIENTATION })}
-                handleChangeTheme={() => dispatch({ type: REDUCER_TYPES.TOGGLE_THEME })}
+                handleChangeOrientation={() => dispatchOrientation({ type: REDUCER_TYPES.TOGGLE_ORIENTATION })}
+                handleChangeTheme={() => dispatchTheme({ type: REDUCER_TYPES.TOGGLE_THEME })}
             />
 
             <Content className={classNames("site-layout", !isHorizontal && 'vertical', darkMode && 'dark')} >

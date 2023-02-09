@@ -5,10 +5,14 @@
 
 .accordion-title {
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
     cursor: pointer;
     background-color: var(--color-aqua);
+}
+
+.accordion-title * {
+    font-size: 0.9rem;
+    margin-bottom: 0;
 }
 
 .accordion-title:hover {

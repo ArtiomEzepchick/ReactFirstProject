@@ -22,7 +22,7 @@ const FormForStateManagers = ({
     const CounterBlock = () => {
         return (
             <div className='form-counter-actions'>
-                <h3>Change Counter</h3>
+                <h4>Change Counter</h4>
                 <p>Current value: {state.count}</p>
                 <Button
                     handleClick={e => {
@@ -46,7 +46,7 @@ const FormForStateManagers = ({
 
     return (
         <form className='form' onSubmit={handleSubmit}>
-            <h2>Please enter some info here</h2>
+            <h3>Please enter some info here</h3>
             {inputs.map(({ type, labelText, name }, index) => {
                 return <Input
                     className='form-input-container'
