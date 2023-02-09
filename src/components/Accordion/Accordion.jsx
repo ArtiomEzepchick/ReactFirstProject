@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
-import PropTypes from 'prop-types'
-import './styles.css'
+import React, { useState, useEffect, useRef } from "react"
+import PropTypes from "prop-types"
+import "./styles.css"
 
 const Accordion = ({ title, content }) => {
   const [isActive, setIsActive] = useState(false)
@@ -12,27 +12,24 @@ const Accordion = ({ title, content }) => {
         setIsActive(false)
       }
     }
-  
-    document.addEventListener('click', onClick);
-    return () => document.removeEventListener('click', onClick);
-  }, [accordionRef]);
+
+    document.addEventListener("click", onClick)
+    return () => document.removeEventListener("click", onClick)
+  }, [accordionRef])
 
   return (
-    <div className="accordion-item" ref={accordionRef}>
-      <div className="accordion-title" onClick={() => setIsActive(!isActive)}>
-        <div>{title}</div>
-        <div>{isActive ? '-' : '+'}</div>
-      </div>
-      {isActive && <div className="accordion-content">
-        <ul>
-        {content.map((item, index) => {
-          return <li key={index}>{item.text}</li>
-        })}
-        </ul>
-        </div>}
-    </div>
-  );
-};
+    <section className="accordion-item" ref={accordionRef}>
+      <section className="accordion-title" onClick={() => setIsActive(!isActive)}>
+        <h2>{title}</h2>
+        <p>{isActive ? "-" : "+"}</p>
+      </section>
+      {isActive &&
+        <ul className="accordion-content">
+          {content.map((item, index) => <li key={index}>{item.text}</li>)}
+        </ul>}
+    </section>
+  )
+}
 
 Accordion.propTypes = {
   title: PropTypes.string,

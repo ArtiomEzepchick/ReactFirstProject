@@ -6,10 +6,10 @@ const regExps = {
 }
 
 const fieldNames = {
-    name: 'name',
-    nickname: 'nickname',
-    email: 'email',
-    password: 'password'
+    name: "name",
+    nickname: "nickname",
+    email: "email",
+    password: "password"
 }
 
 const { name, nickname, email, password } = fieldNames
@@ -61,7 +61,7 @@ const emailLoginValidator = async (email) => {
     if (!email) return "Email is required"
 
     try {
-        const response = await getUser('email', email)
+        const response = await getUser("email", email)
         const user = await response.json()
 
         return !user.length ? "Wrong email" : ""
@@ -74,7 +74,7 @@ const passwordLoginValidator = async (password, email) => {
     if (!password) return "Password is required"
     
     try {
-        const response = await getUser('email', email)
+        const response = await getUser("email", email)
         const user = await response.json()
 
         if (user.length) {

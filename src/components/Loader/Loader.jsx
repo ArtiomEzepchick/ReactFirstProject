@@ -1,14 +1,15 @@
 import React, { useContext } from "react"
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types"
 import classNames from "classnames"
+
 import { OrientationContext } from "../../contexts/orientationContext/OrientationContext"
-import './styles.css'
+import "./styles.css"
 
 const Loader = ({ isModalOpen }) => {
     const { state: { isHorizontal } } = useContext(OrientationContext)
 
     return (
-        <div className={classNames("loader", !isHorizontal && !isModalOpen && 'moved')}></div>
+        <div className={classNames("loader", !isHorizontal && !isModalOpen && "moved")}></div>
     )
 }
 

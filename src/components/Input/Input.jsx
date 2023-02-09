@@ -1,11 +1,12 @@
 import React, { forwardRef } from "react"
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types"
 
 const Input = forwardRef(({
     className,
     children,
     inputFieldClassName,
     isInputDisabled = false,
+    isRequared = false,
     labelText,
     name,
     placeholder,
@@ -18,7 +19,7 @@ const Input = forwardRef(({
     return (
         <div className={className}>
             <label>
-                <span>{labelText}</span>
+                <span>{labelText} {isRequared && <span style={{ color: "red" }}>*</span>}</span>
                 <input
                     className={inputFieldClassName}
                     disabled={isInputDisabled}
@@ -41,6 +42,7 @@ Input.propTypes = {
     className: PropTypes.string,
     inputFieldClassName: PropTypes.string,
     isInputDisabled: PropTypes.bool,
+    isRequared: PropTypes.bool,
     labelText: PropTypes.string,
     name: PropTypes.string,
     placeholder: PropTypes.string,

@@ -1,14 +1,13 @@
 export const CHAT_ACTION_TYPES = {
-    SET_MODAL_OPEN: 'SET_MODAL_OPEN',
-    SET_LOADING: 'SET_LOADING',
-    SET_EDIT_MODE: 'SET_EDIT_MODE',
-    SET_POSTS: 'SET_POSTS',
-    SET_POSTS_NEXT_PAGE: 'SET_POSTS_NEXT_PAGE',
-    SET_POSTS_COUNT: 'SET_POSTS_COUNT',
-    SET_MESSAGE: 'SET_MESSAGE',
-    SET_SAVED_MESSAGE: 'SET_SAVED_MESSAGE',
-    SET_CHANGED_MESSAGE: 'SET_CHANGED_MESSAGE',
-    SET_CURRENT_POST_ID: 'SET_CURRENT_POST_ID'
+    SET_MODAL_OPEN: "SET_MODAL_OPEN",
+    SET_LOADING: "SET_LOADING",
+    SET_EDIT_MODE: "SET_EDIT_MODE",
+    SET_POSTS: "SET_POSTS",
+    SET_POSTS_NEXT_PAGE: "SET_POSTS_NEXT_PAGE",
+    SET_POSTS_COUNT: "SET_POSTS_COUNT",
+    SET_MESSAGE: "SET_MESSAGE",
+    SET_CHANGED_MESSAGE: "SET_CHANGED_MESSAGE",
+    SET_CURRENT_POST_ID: "SET_CURRENT_POST_ID"
 }
 
 const {
@@ -19,7 +18,6 @@ const {
     SET_POSTS_NEXT_PAGE,
     SET_POSTS_COUNT,
     SET_MESSAGE,
-    SET_SAVED_MESSAGE,
     SET_CHANGED_MESSAGE,
     SET_CURRENT_POST_ID
 } = CHAT_ACTION_TYPES
@@ -31,10 +29,10 @@ export const initialValues = {
     posts: [],
     postsNextPage: 2,
     postsCount: 0,
-    message: '',
-    savedMessage: '',
-    changedMessage: '',
-    currentPostId: '',
+    message: "",
+    savedMessage: "",
+    changedMessage: "",
+    currentPostId: "",
 }
 
 export const chatReducer = (state, action) => {
@@ -83,11 +81,6 @@ export const chatReducer = (state, action) => {
             return {
                 ...state,
                 currentPostId: action.payload
-            }
-        case SET_SAVED_MESSAGE:
-            return {
-                ...state,
-                savedMessage: action.payload
             }
         default:
             throw new Error()

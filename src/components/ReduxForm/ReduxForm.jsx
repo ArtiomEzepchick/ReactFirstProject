@@ -1,21 +1,23 @@
-import React, { useEffect, useRef } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import Accordion from '../Accordion/Accordion'
-import FormForStateManagers from '../FormForStateManagers/FormForStateManagers'
-import Button from '../Button/Button'
-import ResultsData from '../ResultsData/ResultsData'
-import Loader from '../Loader/Loader'
-import { useWindowSize } from '../../hooks/useWindowSize'
+import React, { useEffect, useRef } from "react"
+import { useSelector, useDispatch } from "react-redux"
+
+import Accordion from "../Accordion/Accordion"
+import FormForStateManagers from "../FormForStateManagers/FormForStateManagers"
+import Button from "../Button/Button"
+import ResultsData from "../ResultsData/ResultsData"
+import Loader from "../Loader/Loader"
+
+import { useWindowSize } from "../../hooks/useWindowSize"
 import {
     asyncSubmit,
     changeFormValue,
     incrementCounter,
     decrementCounter,
     clearForm
-} from '../../reducers/reduxReducer/reduxFormSlice'
-import { generateResultData } from '../../helpers/formHelpers/formStateManagersData'
-import { accordionReduxPageData } from '../../helpers/accordionData/accordionData'
-import './styles.css'
+} from "../../reducers/reduxReducer/reduxFormSlice"
+import { generateResultData } from "../../helpers/formHelpers/formStateManagersData"
+import { accordionReduxPageData } from "../../helpers/accordionData/accordionData"
+import "./styles.css"
 
 const ReduxForm = () => {
     const dispatch = useDispatch()
@@ -43,8 +45,8 @@ const ReduxForm = () => {
 
     return (
         <div>
-            <h1 style={{ marginTop: '1rem' }}>
-                Form using <span className='highlight-turk'>Redux Toolkit</span>
+            <h1 style={{ marginTop: "1rem" }}>
+                Form using <span className="highlight-turk">Redux Toolkit</span>
             </h1>
             <hr />
             <div className="accordion-container">
@@ -57,7 +59,7 @@ const ReduxForm = () => {
                 ))}
             </div>
             <hr />
-            <div className='main-container'>
+            <div className="main-container">
                 <FormForStateManagers
                     state={formData}
                     prevCountRef={prevCountRef}
@@ -76,7 +78,7 @@ const ReduxForm = () => {
                     />
                 }
 
-                <Button className='reset-button' handleClick={() => dispatch(clearForm())}>Reset</Button>
+                <Button className="reset-button" handleClick={() => dispatch(clearForm())}>Reset</Button>
             </div>
         </div>
     )

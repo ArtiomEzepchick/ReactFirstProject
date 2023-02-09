@@ -2,36 +2,36 @@ export const initialState = {
     isHorizontal: true,
     darkMode: false,
     modalSettings: {
-        modalType: '',
-        headerText: '',
-        contentText: '',
+        modalType: "",
+        headerText: "",
+        contentText: "",
     },
-    nickname: ''
+    nickname: ""
 }
 
 export const REDUCER_TYPES = {
-    TOGGLE_THEME: 'TOGGLE_THEME',
-    SET_DARK_THEME: 'SET_DARK_THEME',
-    TOGGLE_ORIENTATION: 'TOGGLE_ORIENTATION',
-    SET_ORIENTATION: 'SET_ORIENTATION',
-    CHANGE_MODAL: 'CHANGE_MODAL',
-    SET_NICKNAME: 'SET_NICKNAME'
+    TOGGLE_THEME: "TOGGLE_THEME",
+    SET_DARK_THEME: "SET_DARK_THEME",
+    TOGGLE_ORIENTATION: "TOGGLE_ORIENTATION",
+    SET_ORIENTATION: "SET_ORIENTATION",
+    CHANGE_MODAL: "CHANGE_MODAL",
+    SET_NICKNAME: "SET_NICKNAME"
 }
 
 export const reducers = ((state, action) => {
     switch (action.type) {
         case REDUCER_TYPES.TOGGLE_THEME:
-            const currentTheme = localStorage.getItem('theme')
+            const currentTheme = localStorage.getItem("theme")
 
-            if (currentTheme === 'light') {
-                localStorage.setItem('theme', 'dark')
+            if (currentTheme === "light") {
+                localStorage.setItem("theme", "dark")
 
                 return {
                     ...state,
                     darkMode: !state.darkMode
                 }
             } else {
-                localStorage.setItem('theme', 'light')
+                localStorage.setItem("theme", "light")
 
                 return {
                     ...state,
@@ -44,17 +44,17 @@ export const reducers = ((state, action) => {
                 darkMode: true
             }
         case REDUCER_TYPES.TOGGLE_ORIENTATION:
-            const currentNavOrientation = localStorage.getItem('navOrientation')
+            const currentNavOrientation = localStorage.getItem("navOrientation")
 
-            if (currentNavOrientation === 'horizontal') {
-                localStorage.setItem('navOrientation', 'leftSide')
+            if (currentNavOrientation === "horizontal") {
+                localStorage.setItem("navOrientation", "leftSide")
 
                 return {
                     ...state,
                     isHorizontal: !state.isHorizontal
                 }
             } else {
-                localStorage.setItem('navOrientation', 'horizontal')
+                localStorage.setItem("navOrientation", "horizontal")
 
                 return {
                     ...state,

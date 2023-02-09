@@ -8,7 +8,7 @@ export const accordionHomePageData = [
         ]
     },
     {
-        title: 'What React features were used on this page?',
+        title: "What React features were used on this page?",
         content: [
             { text: "useReducer, useState, useEffect, useRef hooks" },
             { text: "useWindowSize custom hook" },
@@ -16,14 +16,14 @@ export const accordionHomePageData = [
         ]
     },
     {
-        title: 'What else about this project?',
+        title: "What else about this project?",
         content: [
             { text: "All pages support theme change and navigation panel reorientation (React.createContext and useContext hook)" },
             { text: "Used dynamic imports (React.lazy, React.Suspense and Loader-component) to simulate code-splitting" },
             { text: "Project is made of functional components" },
-            { text: 'Used React Router, Portals'},
+            { text: "Used React Router, Portals"},
             { text: "All components have propTypes check (where its needed)" },
-            { text: 'Consumed 3rd-party libraries as Ant.d, coolors, classNames, nanoid, JSON server' },
+            { text: "Consumed 3rd-party libraries as Ant.d, coolors, classNames, nanoid, JSON server" },
         ]
     }
 ]
@@ -36,7 +36,7 @@ export const accordionReduxPageData = [
         ]
     },
     {
-        title: 'What Redux Tooklit features were used on this page?',
+        title: "What Redux TLK features were used on this page?",
         content: [
             { text: "configureStore" },
             { text: "createSlice" },
@@ -47,7 +47,7 @@ export const accordionReduxPageData = [
     },
 ]
 
-export const accordionMorePageData = [
+export const accordionPostsPageData = [
     {
         title: "What's here?",
         content: [
@@ -55,7 +55,7 @@ export const accordionMorePageData = [
         ]
     },
     {
-        title: 'What features were used on this page?',
+        title: "What features were used on this page?",
         content: [
             { text: "GET, POST, DELETE methods with fetch" },
             { text: "useCallback" },

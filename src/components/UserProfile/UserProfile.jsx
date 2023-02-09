@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useCallback, useContext } from "react"
 import classNames from "classnames"
+
 import Loader from "../Loader/Loader"
-import { getUser, updateUser } from "../../helpers/requests/requests"
-import { UserContext } from "../../contexts/userContext/userContext"
-import { userProfileData } from "../../helpers/formHelpers/formInputsData"
 import Input from "../Input/Input"
 import Button from "../Button/Button"
 import Modal from "../Modal/Modal"
+
+import { getUser, updateUser } from "../../helpers/requests/requests"
+import { UserContext } from "../../contexts/userContext/userContext"
+import { userProfileData } from "../../helpers/formHelpers/formInputsData"
 import { ModalContext } from "../../contexts/modalContext/ModalContext"
 import { MODAL_TYPES } from "../Modal/modalTypes"
 import { closeModal } from "../Modal/closeModal"
@@ -49,11 +51,11 @@ const UserProfile = () => {
                 const userProfile = {}
                 setIsLoading(true)
 
-                const response = await getUser('nickname', nickname)
+                const response = await getUser("nickname", nickname)
                 const data = await response.json()
 
                 for (let key in data[0]) {
-                    if (key !== 'id' && key !== 'registerDate') {
+                    if (key !== "id" && key !== "registerDate") {
                         userProfile[key] = data[0][key]
                     }
                 }
@@ -67,7 +69,7 @@ const UserProfile = () => {
                 setIsLoading(false)
             }
         } catch {
-            throw new Error('Failed to get user')
+            throw new Error("Failed to get user")
         } finally {
             setIsLoading(false)
         }
@@ -147,7 +149,7 @@ const UserProfile = () => {
         try {
             setIsLoading(true)
             await updateUser(additionalUserInfo.id, userProfileForm)
-            localStorage.setItem('nickname', userProfileForm.nickname)
+            localStorage.setItem("nickname", userProfileForm.nickname)
             clearErrors()
             setIsLoading(false)
             setIsInputDisabled(!isInputDisabled)
@@ -164,7 +166,7 @@ const UserProfile = () => {
 
             setTimeout(() => closeModal(setIsModalOpen), 2000)
         } catch {
-            throw new Error('Failed to update user')
+            throw new Error("Failed to update user")
         } finally {
             setIsLoading(false)
         }
@@ -178,14 +180,14 @@ const UserProfile = () => {
                     <h1>{nickname}'s profile</h1>
                     <h2>Registered: {additionalUserInfo.registerDate}</h2>
                     {isLoading && <Loader />}
-                    <form className={classNames('form-main-container', isLoading && 'blocked')}>
+                    <form className={classNames("form-main-container", isLoading && "blocked")}>
                         {userProfileData.map(({ type, labelText, name }, index) => {
                             return (<Input
                                 key={labelText + index}
-                                className={classNames('form-input-container')}
+                                className={classNames("form-input-container")}
                                 inputFieldClassName={classNames(
-                                    errors[name].dirty && errors[name].error && 'form-field-error',
-                                    isInputDisabled && 'blocked'
+                                    errors[name].dirty && errors[name].error && "form-field-error",
+                                    isInputDisabled && "blocked"
                                 )}
                                 isInputDisabled={isInputDisabled}
                                 type={type}
@@ -197,7 +199,7 @@ const UserProfile = () => {
                                 handleFocus={e => handleFocus(e, FORM_TYPES.PROFILE)}
                             >
                                 {errors[name].dirty && errors[name].error
-                                    ? <p className='form-field-error-message'>{errors[name].message}</p>
+                                    ? <p className="form-field-error-message">{errors[name].message}</p>
                                     : null
                                 }
                             </Input>)
@@ -210,8 +212,7 @@ const UserProfile = () => {
                             </div>}
                     </form>
                 </React.Fragment>
-
-                : <h1 className="unsigned-message flex-all-centered highlight-blue">You must be logged in to change your data</h1>
+                : <h1 className="unsigned-message flex-all-centered highlight-purple">You must be logged in to change your data</h1>
             }
             <Modal
                 headerText={headerText}

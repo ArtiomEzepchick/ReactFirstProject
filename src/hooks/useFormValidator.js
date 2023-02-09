@@ -20,9 +20,9 @@ export const useFormValidator = ({ registerForm, loginForm, userProfileForm }, s
     const initialErrorsState = {}
 
     const FORM_TYPES = {
-        REGISTER: 'REGISTER',
-        LOGIN: 'LOGIN',
-        PROFILE: 'PROFILE'
+        REGISTER: "REGISTER",
+        LOGIN: "LOGIN",
+        PROFILE: "PROFILE"
     }
 
     const { REGISTER, LOGIN, PROFILE } = FORM_TYPES
@@ -63,7 +63,7 @@ export const useFormValidator = ({ registerForm, loginForm, userProfileForm }, s
                         const message = await validators({ 
                             fieldName: key, 
                             field: form[key], 
-                            emailForPasswordCheck: key === 'password' && form.email, 
+                            emailForPasswordCheck: key === "password" && form.email, 
                             previousNickname, 
                             previousEmail
                         })
@@ -73,7 +73,7 @@ export const useFormValidator = ({ registerForm, loginForm, userProfileForm }, s
                         newErrors[key].message = message
                         if (!!message) isValid = false
                     } catch {
-                        throw new Error('Failed to check field')
+                        throw new Error("Failed to check field")
                     } finally {
                         setIsLoading(false)
                     }

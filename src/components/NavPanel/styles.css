@@ -59,6 +59,7 @@
 .fa-circle-user {
     opacity: 1;
     font-size: 1.9rem;
+    cursor: pointer;
 }
 
 .layout-header
@@ -113,6 +114,7 @@ h2 {
     opacity: 1;
     font-size: 3rem;
     color: var(--color-purple);
+    cursor: auto;
 }
 
 .layout-header
@@ -128,6 +130,7 @@ h2 {
     font-size: 2rem;
     opacity: 1;
     margin-right: 4rem;
+    cursor: pointer;
 }
 
 .layout-header

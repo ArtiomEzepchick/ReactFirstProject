@@ -1,10 +1,10 @@
 export const STANDARD_FORM_ACTION_TYPES = {
-    INCREMENT_COUNTER: 'INCREMENT_COUNTER',
-    DECREMENT_COUNTER: 'DECREMENT_COUNTER',
-    CHANGE_VALUE: 'CHANGE_VALUE',
-    SET_LOADING: 'SET_LOADING',
-    SET_LOADED: 'SET_LOADED',
-    RESET: 'RESET'
+    INCREMENT_COUNTER: "INCREMENT_COUNTER",
+    DECREMENT_COUNTER: "DECREMENT_COUNTER",
+    CHANGE_VALUE: "CHANGE_VALUE",
+    SET_LOADING: "SET_LOADING",
+    SET_LOADED: "SET_LOADED",
+    RESET: "RESET"
 }
 
 const {
@@ -17,14 +17,14 @@ const {
 } = STANDARD_FORM_ACTION_TYPES
 
 export const initialValues = {
-    name: '',
-    surname: '',
-    password: '',
-    email: '',
-    tel: '+',
+    name: "",
+    surname: "",
+    password: "",
+    email: "",
+    tel: "+",
     age: 0,
-    carBrands: 'mitsubishi',
-    commentsField: '',
+    carBrands: "mitsubishi",
+    commentsField: "",
     count: 0,
     isLoading: false,
     isLoaded: false,

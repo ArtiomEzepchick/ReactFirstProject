@@ -1,15 +1,16 @@
 import React from "react"
-import { Button } from "antd";
-import { NavLink } from "react-router-dom";
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types"
+
+import { Button } from "antd"
+import { NavLink } from "react-router-dom"
 
 const Link = ({ href, label }) => {
     return (
         <React.Fragment>
-            <Button className='action-button' size='large'>
+            <Button className="action-button" size="large">
                 <NavLink
                     to={href}
-                    className={({ isActive }) => isActive ? 'active-page' : ''}
+                    className={({ isActive }) => isActive ? "active-page" : ""}
                 >
                     {label}
                 </NavLink>

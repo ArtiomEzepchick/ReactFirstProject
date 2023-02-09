@@ -1,18 +1,18 @@
 import React from "react"
-import PropTypes from 'prop-types'
-import './styles.css'
+import PropTypes from "prop-types"
+import "./styles.css"
 
 const areEqual = (prevProps, nextProps) => {
     const prevCountValue = prevProps.counterValue
     const nextCountValue = nextProps.counterValue
 
-    return nextProps.label === 'Previous count is' && prevCountValue === nextCountValue
+    return nextProps.label === "Previous count is" && prevCountValue === nextCountValue
 }
 
 const Paragraph = React.memo(({ value, label }) => {
     const upperCasedLabel = label[0].toUpperCase() + label.slice(1)
 
-    if (label !== 'isLoading' && label !== 'isLoaded') {
+    if (label !== "isLoading" && label !== "isLoaded") {
         return (
             <p>
                 <span>{upperCasedLabel}:
@@ -34,7 +34,7 @@ const ResultsData = ({ data, counterValue, isLoaded }) => {
     if (!isLoaded) return null
 
     return (
-        <div className='results-container'>
+        <div className="results-container">
             <h2>Results</h2>
             {data.map(({ label, value }) => {
                 return (
