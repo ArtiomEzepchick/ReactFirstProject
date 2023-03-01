@@ -1,5 +1,5 @@
 .accordion-item {
-    width: 25rem;
+    width: 80%;
     height: max-content;
 }
 
@@ -17,6 +17,10 @@
 
 .accordion-title:hover {
     background-color: #40c3dd84;
+}
+
+.accordion-title-active {
+    background-color: #47d1ed84;
 }
 
 .accordion-title,

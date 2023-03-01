@@ -62,12 +62,12 @@ const Home = () => {
     }
 
     return (
-        <div>
+        <React.Fragment>
             <h1 style={{ marginTop: "1rem" }}>
                 Welcome to <span className="highlight-blue">Artsiom Ezepchik's</span> React project
             </h1>
             <hr />
-            <div className="accordion-container">
+            <section className="accordion-container">
                 {accordionHomePageData.map(({ title, content }) => (
                     <Accordion
                         key={title}
@@ -75,9 +75,9 @@ const Home = () => {
                         content={content}
                     />
                 ))}
-            </div>
+            </section>
             <hr />
-            <div className="main-container">
+            <section className="main-container">
                 <FormForStateManagers
                     state={state}
                     prevCountRef={prevCountRef}
@@ -97,8 +97,8 @@ const Home = () => {
                 }
 
                 <Button className="reset-button" handleClick={handleReset}>Reset</Button>
-            </div>
-        </div>
+            </section>
+        </React.Fragment>
     )
 }
 

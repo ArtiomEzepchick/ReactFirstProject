@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react"
+import classNames from "classnames"
 import PropTypes from "prop-types"
 import "./styles.css"
 
@@ -19,7 +20,7 @@ const Accordion = ({ title, content }) => {
 
   return (
     <section className="accordion-item" ref={accordionRef}>
-      <section className="accordion-title" onClick={() => setIsActive(!isActive)}>
+      <section className={classNames("accordion-title", isActive && "accordion-title-active")} onClick={() => setIsActive(!isActive)}>
         <h2>{title}</h2>
         <p>{isActive ? "-" : "+"}</p>
       </section>

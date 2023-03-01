@@ -44,12 +44,12 @@ const ReduxForm = () => {
     }
 
     return (
-        <div>
+        <React.Fragment>
             <h1 style={{ marginTop: "1rem" }}>
                 Form using <span className="highlight-turk">Redux Toolkit</span>
             </h1>
             <hr />
-            <div className="accordion-container">
+            <section className="accordion-container">
                 {accordionReduxPageData.map(({ title, content }) => (
                     <Accordion
                         key={title}
@@ -57,9 +57,9 @@ const ReduxForm = () => {
                         content={content}
                     />
                 ))}
-            </div>
+            </section>
             <hr />
-            <div className="main-container">
+            <section className="main-container">
                 <FormForStateManagers
                     state={formData}
                     prevCountRef={prevCountRef}
@@ -79,8 +79,8 @@ const ReduxForm = () => {
                 }
 
                 <Button className="reset-button" handleClick={() => dispatch(clearForm())}>Reset</Button>
-            </div>
-        </div>
+            </section>
+        </React.Fragment>
     )
 }
 
