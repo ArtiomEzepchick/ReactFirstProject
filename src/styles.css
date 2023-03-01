@@ -45,6 +45,15 @@ hr {
   border: none;
 }
 
+.accordion-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  width: 100%;
+  gap: 1rem;
+}
+
 .blocked {
   opacity: 0.4;
   pointer-events: none;
