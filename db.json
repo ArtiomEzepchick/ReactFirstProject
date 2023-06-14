@@ -28,7 +28,9 @@
       "message": "I'm fine. And you?",
       "time": "13:50",
       "date": "02.02.2023",
-      "id": "wP0fi691tKVsdsaP0312dasyreyOYj-"
+      "id": "wP0fi691tKVsdsaP0312dasyreyOYj-",
+      "updateTime": "21:17 13.06.2023",
+      "changed": true
     },
     {
       "nickname": "Vanya",
@@ -54,6 +56,14 @@
       "email": "artiom@gmail.com",
       "registerDate": "01.02.2023",
       "id": "y8hLFmoBpUCrKpqE3JEtq"
+    },
+    {
+      "name": "Artstiom",
+      "nickname": "BroSEF",
+      "password": "258102as",
+      "email": "artioms@gmail.com",
+      "registerDate": "26.05.2023",
+      "id": "jp57o5WJDJi2cnl6GzXAJ"
     }
   ]
 }

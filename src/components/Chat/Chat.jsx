@@ -342,8 +342,8 @@ const Chat = () => {
                                                     <Button
                                                         className="post-delete-button"
                                                         icon={<i className="fa-regular fa-circle-xmark"></i>}
-                                                        handleClick={() => deletePost(id)}>
-                                                    </Button>
+                                                        handleClick={() => deletePost(id)}
+                                                    />
                                                 </React.Fragment>
                                             }
                                         </div>
@@ -352,8 +352,12 @@ const Chat = () => {
                             )
                         })
                     }
-                    {posts.length !== postsCount && !isLoading && <div className="flex-all-centered">
-                        <Button className="show-more-button" handleClick={handleShowMorePosts}>
+                    {posts.length !== postsCount && <div className="flex-all-centered">
+                        <Button
+                            className="show-more-button"
+                            handleClick={handleShowMorePosts}
+                            isLoading={isLoading}
+                        >
                             Show more ({postsCount - posts.length})
                         </Button>
                     </div>}
